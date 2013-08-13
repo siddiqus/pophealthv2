@@ -1,0 +1,19 @@
+language: ruby
+rvm:
+  - 1.9.3
+script: ./.travis/execute.sh
+
+services:
+  - mongodb
+
+notifications:
+  email:
+    recipients:
+      - healthcare-ci@googlegroups.com
+    on_failure: change
+
+branches: 
+  only:
+    - master
+    - develop
+

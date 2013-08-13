@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta http-equiv="content-script-type" content="text/javascript">
+	
+  <title>popHealth : An Open Source Quality Measure Reference Implementation</title>
+  <link rel="shortcut icon" href="/favicon.ico"/>
+  <%# stylesheet_link_tag :all %>
+
+  <% unless request.xhr?%>
+  <%= stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
+  <%end%>
+  
+  <%= csrf_meta_tag %>
+  <%= yield :head %>
+  <% if APP_CONFIG['idle_timeout_enabled'] %>
+  <script type="text/javascript" charset="utf-8">
+
+    $(function() {
+      $(document).idleTimeout({
+         inactivity: <%=APP_CONFIG['idle_timeout']%>,
+         noconfirm: <%=APP_CONFIG['idle_timeout_noconfirm']%>,
+         sessionAlive: false,
+         alive_url: '/',
+         redirect_url: '<%= destroy_user_session_path %>',
+         logout_url: '<%=Rails.configuration.relative_url_root%>/logout.html'
+       });
+    });
+
+  </script>
+  <% end %>
+
+	<% if @definition %>
+	<script type="text/javascript" charset="utf-8">
+		currentMeasure = "<%= @definition['id'] %>";
+		subMeasure = "<%= @definition['sub_id'] %>";
+		
+	</script>
+	<% end %>
+	
+	<script type="text/javascript" charset="utf-8">
+	  rootContext = "<%= Rails.configuration.relative_url_root %>";
+	</script>
+</head>
+<body>
+  
+<div id="container" class="container-fluid">
+  <% unless request.xhr?%>
+    <%= render :partial => 'shared/header' %>
+  <% end %>
+  <div class="row-fluid">
+    <%= yield %>
+  </div>  
+  
+  </div>
+</div><!-- end #container -->
+</body>
+</html>

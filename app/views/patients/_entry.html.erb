@@ -1,0 +1,6 @@
+<div>
+  <%= entry.description %>
+  <% if (entry.time.present?) %>
+    <time datetime="<%= display_time(entry.time) %>"><%= display_time(entry.time) %></time>
+  <% end %>
+</div>
