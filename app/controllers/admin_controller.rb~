@@ -19,6 +19,10 @@ class AdminController < ApplicationController
     PatientCache.all.delete
     redirect_to action: 'patients'
   end
+	def remove_providers
+    Provider.all.delete
+    redirect_to action: 'patients'
+  end
 
   def upload_patients
 

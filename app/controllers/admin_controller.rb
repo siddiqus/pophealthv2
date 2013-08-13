@@ -19,6 +19,8 @@ class AdminController < ApplicationController
     PatientCache.all.delete
     redirect_to action: 'patients'
   end
+	
+	# added for button functionality
 	def remove_providers
     Provider.all.delete
     redirect_to action: 'patients'

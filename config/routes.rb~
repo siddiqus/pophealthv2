@@ -13,7 +13,7 @@ PopHealth::Application.routes.draw do
   delete "admin/remove_patients"
   delete "admin/remove_caches"
 	delete "admin/remove_providers"
-	delete "measures/remove"
+	delete "measures/remove_selections"
 
   get "logs/index"
   

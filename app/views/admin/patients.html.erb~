@@ -38,7 +38,7 @@
     
     <tr><td>providers loaded: </td>
       <td>
-        <%= @provider_count%> providers
+        <%= Provider.count%> providers
 
       </td>
       <td>

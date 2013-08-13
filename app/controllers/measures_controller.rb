@@ -98,6 +98,7 @@ class MeasuresController < ApplicationController
     render :text => 'Removed'
   end
   
+	# ADDED FOR CLEAR SELECTION BUTTON
 	def remove_selections
     SelectedMeasure.remove_all(current_user.username)
     redirect_to root_path

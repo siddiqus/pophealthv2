@@ -12,8 +12,8 @@ PopHealth::Application.routes.draw do
   put "admin/upload_patients"
   delete "admin/remove_patients"
   delete "admin/remove_caches"
-	delete "admin/remove_providers"
-	delete "measures/remove_selections"
+	delete "admin/remove_providers" #added for button
+	delete "measures/remove_selections" #added for button
 
   get "logs/index"
   
