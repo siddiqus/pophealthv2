@@ -1,0 +1,1 @@
+rake bundle:import[/home/pophealth/bundle-latest.zip] RAILS_ENV=development
