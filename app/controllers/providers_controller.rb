@@ -8,7 +8,8 @@ class ProvidersController < ApplicationController
   add_breadcrumb 'providers', :providers_url
   
   def index
-    @providers = Provider.alphabetical.page(params[:page]).per(20)
+    # @providers = Provider.alphabetical.page(params[:page]).per(60)
+    @providers = Provider.userfilter(current_user).alphabetical.page(params[:page]).per(20) # added from bstrezze
     
     respond_to do |wants|
       wants.html {}
@@ -40,7 +41,8 @@ class ProvidersController < ApplicationController
   
   def create
     @provider = Provider.create(params[:provider])
-    @providers = Provider.alphabetical.page(params[:page]).per(20)
+    # @providers = Provider.alphabetical.page(params[:page]).per(20)
+    @providers = Provider.userfilter(current_user).alphabetical.page(params[:page]).per(20) # added from bstrezze
 
     respond_to do |wants|
       wants.json {
@@ -54,6 +56,7 @@ class ProvidersController < ApplicationController
   
   def update
     @provider.update_attributes!(params[:provider])
+    @providers = Provider.userfilter(current_user).alphabetical.page(params[:page]).per(20) # added from bstrezze
     
     respond_to do |wants|
       wants.html { render :action => "show" }
