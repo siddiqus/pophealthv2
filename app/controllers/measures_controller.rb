@@ -25,7 +25,12 @@ class MeasuresController < ApplicationController
   add_breadcrumb 'patients', '', only: %w{patients}
   
   def index
-    @categories = Measure.categories
+		# @categories = Measure.categories
+		# added from bstrezze
+    @categories = Measure.non_core_measures
+    @core_measures = Measure.core_measures
+    @core_alt_measures = Measure.core_alternate_measures
+    @alt_measures = Measure.alternate_measures.group_by { |m| m['category'] }
   end
 
   def show
