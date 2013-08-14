@@ -337,20 +337,12 @@ class MeasuresController < ApplicationController
         if APP_CONFIG['disable_provider_filters']
           @teams = Team.userfilter(current_user).alphabetical
           @page = params[:page]
-        else
-					# added from bstrezze
-         	# begin
-         	#   @providers_by_team = @providers.group_by { |pv| pv.team.try(:name) || "Other" }
-         	#   @providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
-         	# end
-					
+        else				
 					other = Team.new(name: "Other")
           @providers_by_team = @providers.group_by { |pv| pv.team || other }
           @providers_by_team[other] ||= []
-          # @providers_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
         end
       end
-
 
       @races = Race.ordered
       @ethnicities = Ethnicity.ordered
