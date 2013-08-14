@@ -19,9 +19,7 @@ class AdminController < ApplicationController
     PatientCache.all.delete
     redirect_to action: 'patients'
   end
-	
-	# added for button functionality
-	def remove_providers
+  def remove_providers
     Provider.all.delete
     redirect_to action: 'patients'
   end
@@ -94,6 +92,32 @@ class AdminController < ApplicationController
     user.update_attribute(:npi, params[:npi]);
     render :text => "true"
   end
+  
+  # added from bstrezze !--
+  def edit_teams
+    @user = User.by_id(params[:id])
+
+    # Add item
+    if (params[:add_team] && params[:add_team][:team_id])
+      if (!@user.teams)
+        @user.teams = Array.new
+      end
+      
+      if @user.teams.include?(BSON::ObjectId(params[:add_team][:team_id]))
+        flash[:error] = 'Selected team has already been added.'
+      else
+        @user.teams << BSON::ObjectId(params[:add_team][:team_id])
+        @user.save
+      end
+    end
+
+    # Remove item
+    if (params[:remove_team] && params[:remove_team][:team_id])
+      @user.teams.delete_if {|item| item== BSON::ObjectId(params[:remove_team][:team_id]) }
+      @user.save
+    end
+  end
+  # --!  
 
   private
 

@@ -23,10 +23,10 @@ class RecordImporter
         
         result = RecordImporter.import(File.new(file).read, provider_map)
         
-        if (result[:status] == 'success') 
+        if (result[:status] == 'success')
           record = result[:record]
           record.save
-        else 
+        else
           assert result[:message]
         end
         
@@ -49,12 +49,12 @@ class RecordImporter
   
   def self.import(xml_data, provider_map = {})
     doc = Nokogiri::XML(xml_data)
-    
+    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     providers = []
     root_element_name = doc.root.name
     
     if root_element_name == 'ClinicalDocument'
-      doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+     # doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
 
       if doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.3.88.11.32.1']")
         patient_data = HealthDataStandards::Import::C32::PatientImporter.instance.parse_c32(doc)
