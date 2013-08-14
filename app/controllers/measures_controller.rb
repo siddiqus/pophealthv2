@@ -25,12 +25,7 @@ class MeasuresController < ApplicationController
   add_breadcrumb 'patients', '', only: %w{patients}
   
   def index
-		# @categories = Measure.categories
-		# added from bstrezze
-    @categories = Measure.non_core_measures
-    @core_measures = Measure.core_measures
-    @core_alt_measures = Measure.core_alternate_measures
-    @alt_measures = Measure.alternate_measures.group_by { |m| m['category'] }
+		@categories = Measure.categories
   end
 
   def show
@@ -77,7 +72,7 @@ class MeasuresController < ApplicationController
       
       wants.js do
         
-        @providers = Provider.page(params[:page]).per(20).alphabetical
+        @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
         @providers = @providers.any_in(team_id: params[:team]) if params[:team]
         
       end
@@ -344,21 +339,18 @@ class MeasuresController < ApplicationController
           @page = params[:page]
         else
 					# added from bstrezze
-          begin
-            @providers_by_team = @providers.group_by { |pv| pv.team.try(:name) || "Other" }
-            # Removed to enforce team display
-            # @providers_by_team['Other'] ||= []
-            # @providers_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
-            @providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
-            # Removed to enforce team display
-            # @providers_for_filter_by_team['Other'] ||= []
-            # @providers_for_filter_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
-          rescue
-            @providers_by_team = [ ]
-            @providers_for_filter_by_team = [ ]
-          end
+         	# begin
+         	#   @providers_by_team = @providers.group_by { |pv| pv.team.try(:name) || "Other" }
+         	#   @providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
+         	# end
+					
+					other = Team.new(name: "Other")
+          @providers_by_team = @providers.group_by { |pv| pv.team || other }
+          @providers_by_team[other] ||= []
+          # @providers_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
         end
       end
+
 
       @races = Race.ordered
       @ethnicities = Ethnicity.ordered
