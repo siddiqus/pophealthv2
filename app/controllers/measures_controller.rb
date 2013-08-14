@@ -98,7 +98,7 @@ class MeasuresController < ApplicationController
     render :text => 'Removed'
   end
   
-	# ADDED FOR CLEAR SELECTION BUTTON
+	# ADDED FOR CLEAR SELECTION BUTTON - ssiddiqui
 	def remove_selections
     SelectedMeasure.remove_all(current_user.username)
     redirect_to root_path
@@ -136,7 +136,8 @@ class MeasuresController < ApplicationController
       result = PatientCache.by_provider(@selected_provider, @effective_date).where(query);
     else
       authorize! :manage, :providers
-      result = PatientCache.all.where(query)
+      # added from bstrezze
+      result = PatientCache.provider_in(Provider.generateUserProviderIDList(current_user)).where(query)
     end
     @total = result.count
     @records = result.order_by(["value.#{sort}", sort_order]).skip(@skip).limit(@limit);
@@ -167,7 +168,8 @@ class MeasuresController < ApplicationController
       result = PatientCache.by_provider(@selected_provider, @effective_date).where(query);
     else
       authorize! :manage, :providers
-      result = PatientCache.all.where(query)
+			# added from bstrezze
+      result = PatientCache.provider_in(Provider.generateUserProviderIDList(current_user)).where(query)
     end
     @records = result.order_by(["value.medical_record_id", 'desc']);
     
@@ -329,15 +331,27 @@ class MeasuresController < ApplicationController
     else
       
       if can?(:read, :providers)
-        @providers = Provider.page(@page).per(20).alphabetical
+				# updated from bstrezze
+        @providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
+        @providers_for_filter = Provider.userfilter(current_user).alphabetical
         if APP_CONFIG['disable_provider_filters']
-          @teams = Team.alphabetical
+          @teams = Team.userfilter(current_user).alphabetical
           @page = params[:page]
         else
-          other = Team.new(name: "Other")
-          @providers_by_team = @providers.group_by { |pv| pv.team || other }
-          @providers_by_team[other] ||= []
-          # @providers_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
+					# added from bstrezze
+          begin
+            @providers_by_team = @providers.group_by { |pv| pv.team.try(:name) || "Other" }
+            # Removed to enforce team display
+            # @providers_by_team['Other'] ||= []
+            # @providers_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
+            @providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
+            # Removed to enforce team display
+            # @providers_for_filter_by_team['Other'] ||= []
+            # @providers_for_filter_by_team['Other'] << OpenStruct.new(full_name: 'No Providers', id: 'null')
+          rescue
+            @providers_by_team = [ ]
+            @providers_for_filter_by_team = [ ]
+          end
         end
       end
 
@@ -359,7 +373,9 @@ class MeasuresController < ApplicationController
       providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }
       
     else
-      providers = nil
+      # Changed to, with setting the filters, to filter based on the user
+      # providers = nil
+      providers = Provider.userfilter(current_user).map { |pv| pv.id.to_s } # added from bstrezze
     end
 
     races = params[:race] ? Race.selected(params[:race]).all : nil

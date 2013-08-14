@@ -49,6 +49,7 @@ class SelectedMeasure < MongoBase
     mongo['selected_measures'].find(:id => measure_id, :username => username).remove()
   end
   
+	# added by ssiddiqui
 	def self.remove_all(username)
 		while mongo['selected_measures'].find(:username => username).count() != 0 do		
 			mongo['selected_measures'].find(:username => username).remove()
