@@ -21,7 +21,7 @@ class AdminController < ApplicationController
   end
   def remove_providers
     Provider.all.delete
-    redirect_to action: 'patients'
+    redirect_to(:back) #action: 'patients'
   end
 
   def upload_patients

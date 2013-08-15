@@ -101,7 +101,7 @@ class MeasuresController < ApplicationController
 	# ADDED FOR CLEAR SELECTION BUTTON - ssiddiqui
 	def remove_selections
     SelectedMeasure.remove_all(current_user.username)
-    redirect_to root_path
+    redirect_to(:back)
   end
 
   def select

@@ -1,19 +1,19 @@
 <% content_for :head do %>
-<script type="text/javascript" charset="utf-8">
-  <% if @selected_provider %>
-    Page.npi = '<%=@selected_provider.npi%>'
-  <% end %>
-	Page.onLoad = Dashboard.onLoad;
-
-</script>
-<% end -%>
+	<script type="text/javascript" charset="utf-8">
+		<% if @selected_provider %>
+			Page.npi = '<%=@selected_provider.npi%>'
+		<% end %>
+		Page.onLoad = Dashboard.onLoad;
+	</script>
+<% end %>
   
   <div id="pageContent" class="row-fluid">
  		<div id="providerReports" class="span2">
       <%#= @categories.to_a %>
-
+		
 	  <h5>
-			<%= button_to "Clear Selections", "/measures/remove_selections", 'method' => 'delete', 'class' => 'btn btn-action'%>
+	  	<!--button added by ssiddiqui -->
+			<%= button_to "Clear Selections", "/measures/remove_selections", 'method' => 'delete', 'class' => 'btn btn-action' %>
 			Measures
     </h5>	
 		
@@ -55,7 +55,8 @@
     </div>
     <% elsif can?(:manage, :providers)%>
 		  <%= render partial: 'provider_filters' %>
-		<% end %>
+
+	<% end %>
 
 
     <h5>
