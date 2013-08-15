@@ -1,21 +1,32 @@
 <!--Added by ssiddiqui -->
 <style type='text/css'>
 	#rt{
-		margin : 0;
     margin-left : 20px;
-    padding : 0;
+	}
+	
+	#btn{
+		margin-top : 20px;
+    margin-right : 60px;
+    float: right;
 	}
 </style>
 
+<!--Added by ssiddiqui -->
+<div id="btn">
+	<%= button_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
+		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn-large btn-danger'%>
+</div>	
 
 <%= render partial: 'edit_profile', locals: {provider: Provider.new} %>
 
-<%= render partial: 'provider_list', locals: {providers: @providers} %>
+<!--Added by ssiddiqui -->
+<div id="rt">
+	<%= paginate @providers %>
+</div>
 
-<%= paginate @providers %>
+<%= render partial: 'provider_list', locals: {providers: @providers} %>
 
 <!--Added by ssiddiqui -->
 <div id="rt">
-	<%= button_to "Delete Providers", "/admin/remove_providers", 'method' => 'delete', 
-		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn btn-danger'%>
+	<%= paginate @providers %>
 </div>
