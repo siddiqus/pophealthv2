@@ -5,4 +5,6 @@
  *= require_self
  *= require_tree . 
  *= require dataTables/jquery.dataTables
+ *= require jquery.ui.core
+ *= require jquery.ui.theme
 */

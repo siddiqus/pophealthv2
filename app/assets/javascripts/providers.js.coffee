@@ -1,6 +1,8 @@
 # added by ssiddiqui
-jQuery -> $('#providerList').dataTable()
-
+jQuery -> $('#providerList').dataTable
+          sPaginationType: "full_numbers"
+					bJQueryUI: true
+					
 @Providers = {
 	updateAggregate: (current_measure, sub_id) ->
 		@isPollRequestActive = true

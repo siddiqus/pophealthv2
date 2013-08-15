@@ -43,8 +43,6 @@ PopHealth::Application.routes.draw do
 	
    
 	root :to => 'measures#index'
-
-	
   
   resources :measures do
     member { get :providers }
@@ -57,7 +55,7 @@ PopHealth::Application.routes.draw do
         put :update_all
       end
     end
-    
+   
     member do
       get :merge_list
       put :merge

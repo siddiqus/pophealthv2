@@ -1,4 +1,4 @@
-<table id="providerList">
+<table id="providerList" class="display">
  
 	<thead id="hd">
   <tr>
@@ -6,12 +6,6 @@
     <th>First Name</th>
     <th>Team</th>
     <th />
-  
-  	<!--
- 		<th><%= link_to "Last Name", :sort => "last_name" %></th>
-		<th><%= link_to "First Name", :sort => "first_name" %></th>
-		<th><%= link_to "Team", :sort => "team" %></th>
-    -->
   </tr>
   </thead>
 
@@ -19,7 +13,4 @@
 		<%= render partial: 'provider_row', collection: providers%>
 	</tbody>
 </table>
-
-<br> <br>
-<br> <br>
 
