@@ -11,7 +11,6 @@ gem 'quality-measure-engine', '2.1.0', :git => 'https://github.com/pophealth/qua
 
 gem "health-data-standards", '3.2.7', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
 
-
 gem 'nokogiri', '1.5.5' #'1.5.10'
 gem 'rubyzip', '0.9.9'
 
@@ -41,6 +40,8 @@ group :assets do
   gem 'coffee-rails', '3.2.2'
   gem 'uglifier', '2.1.2'
   gem "bootstrap-sass", '2.3.2.1'
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+
 end
 
 group :test, :develop do

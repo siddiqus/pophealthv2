@@ -1,4 +1,6 @@
 <!--Added by ssiddiqui -->
+
+
 <style type='text/css'>
 	#rt{
     margin-left : 20px;
@@ -8,6 +10,11 @@
 		margin-top : 20px;
     margin-right : 55px;
     float: right;
+	}
+	
+	#lst{
+		margin-right: 40px;
+		margin-left: 10px;	
 	}
 </style>
 
@@ -19,14 +26,10 @@
 
 <%= render partial: 'edit_profile', locals: {provider: Provider.new} %>
 
-<!--Added by ssiddiqui -->
-<div id="rt">
-	<%= paginate @providers %>
+<br> <br>
+
+<div id="lst" class="container-fluid">
+	<%= render partial: 'provider_list', locals: {providers: @providers} %>
 </div>
 
-<%= render partial: 'provider_list', locals: {providers: @providers} %>
 
-<!--Added by ssiddiqui -->
-<div id="rt">
-	<%= paginate @providers %>
-</div>

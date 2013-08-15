@@ -1,5 +1,5 @@
 # added by ssiddiqui
-jQuery -> $('#providerList').dataTable()
+jQuery -> $('#products').dataTable()
 
 @Providers = {
 	updateAggregate: (current_measure, sub_id) ->
