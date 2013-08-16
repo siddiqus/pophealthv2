@@ -9,9 +9,8 @@ end
 
 # # create a unique index for patient cache, this prevents a race condition where the same patient can be entered multiple times for a patient
 # MONGO_DB['patient_cache'].ensureIndex([['value.measure_id', Mongo::ASCENDING], ['value.sub_id', ASCENDING], ['value.effective_date', Mongo::ASCENDING], ['value.patient_id', Mongo::ASCENDING]], {'unique'=> true})
-#MONGO_DB['patient_cache'].ensureIndex()
 
-#base_fields = [['value.measure_id', Mongo::ASCENDING], ['value.sub_id', Mongo::ASCENDING], ['value.effective_date', Mongo::ASCENDING], ['value.test_id', Mongo::ASCENDING], ['value.manual_exclusion', Mongo::ASCENDING]]
+# base_fields = [['value.measure_id', Mongo::ASCENDING], ['value.sub_id', Mongo::ASCENDING], ['value.effective_date', Mongo::ASCENDING], ['value.test_id', Mongo::ASCENDING], ['value.manual_exclusion', Mongo::ASCENDING]]
 
 # %w(population denominator numerator antinumerator exclusions).each do |group|
 # MONGO_DB.collection('patient_cache').ensure_index(base_fields.clone.concat([["value.#{group}", Mongo::ASCENDING]]), {name: "#{group}_index"})

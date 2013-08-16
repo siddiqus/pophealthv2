@@ -2,6 +2,10 @@ PopHealth::Application.routes.draw do
 
   devise_for :users, :controllers => {:registrations => "registrations"}
 
+  devise_for :users do 
+  	get '/users/sign_out' => 'devise/sessions#destroy' 
+  end
+  
   get "admin/users"
   post "admin/promote"
   post "admin/demote"
@@ -13,7 +17,7 @@ PopHealth::Application.routes.draw do
   delete "admin/remove_patients"
   delete "admin/remove_caches"
 	delete "admin/remove_providers" #added for button, ssiddiqui
-
+  
 	delete "measures/remove_selections" #added for button, ssiddiqui
 	
 	match 'admin/edit_teams/:id', :to => 'admin#edit_teams', :via => [ :get, :post ] # added from bstrezze
@@ -40,11 +44,8 @@ PopHealth::Application.routes.draw do
   match 'patients', :to => 'patients#index', :via => :get
   match 'patients/show/:id', :to => 'patients#show'
   match 'patients/toggle_excluded/:id/:measure_id(/:sub_id)', :to => 'patients#toggle_excluded', :via => :post
-	
-   
+  
 	root :to => 'measures#index'
-
-	
   
   resources :measures do
     member { get :providers }
