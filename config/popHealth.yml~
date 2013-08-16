@@ -16,7 +16,7 @@ defaults: &defaults
   # add patient management link
   patient_management_enabled: true
   # title of the practice
-  practice_name: 'General Hospital'
+ # practice_name: 'General Hospital'
   disable_provider_filters: false
   ccr_system_name: popHealth
   # force the system to allow HTTP connections
@@ -28,7 +28,7 @@ defaults: &defaults
 development:
   <<: *defaults
   idle_timeout_enabled: false
-  default_user_staff_role: true
+  default_user_staff_role: false
   patient_management_enabled: true
   
 test:
