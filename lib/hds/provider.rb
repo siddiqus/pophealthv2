@@ -11,18 +11,14 @@ class Provider
   scope :selected_or_all, ->(provider_ids) { provider_ids.nil? || provider_ids.empty? ? Provider.all : Provider.selected(provider_ids) }
   
 	# added from bstrezze
-  class << self
-  
-    def userfilter(current_user)
-      if current_user.admin?
-        all
-      else
-        any_in(:team_id => current_user.teams)
-      end
-    end 
-  
-  end
-  
+  def self.userfilter(current_user)
+    if current_user.admin?
+      all
+    else
+      any_in(:team_id => current_user.teams)
+    end
+  end 
+
   belongs_to :team
   
   Specialties = {"100000000X" => "Behavioral Health and Social Service Providers",

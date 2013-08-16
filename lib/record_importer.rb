@@ -49,12 +49,12 @@ class RecordImporter
   
   def self.import(xml_data, provider_map = {})
     doc = Nokogiri::XML(xml_data)
-    doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    #doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     providers = []
     root_element_name = doc.root.name
     
     if root_element_name == 'ClinicalDocument'
-     # doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+      doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
 
       if doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.3.88.11.32.1']")
         patient_data = HealthDataStandards::Import::C32::PatientImporter.instance.parse_c32(doc)
@@ -67,11 +67,22 @@ class RecordImporter
         return {status: 'error', message: "Document templateId does not identify it as a C32 or CCDA", status_code: 400}
       end
       
-      begin
+     	begin
         providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
       rescue Exception => e
         STDERR.puts "error extracting providers"
       end
+		
+		elsif root_element_name == 'ContinuityOfCareRecord'
+      doc.root.add_namespace_definition('ccr', 'urn:astm-org:CCR')
+      patient_id_xpath = "./ccr:IDs/ccr:ID[../ccr:Type/ccr:Text=\"#{APP_CONFIG['ccr_system_name']}\"]"
+      patient_data = HealthDataStandards::Import::CCR::PatientImporter.instance.parse_ccr(doc, patient_id_xpath)
+      begin
+        providers = HealthDataStandards::Import::CCR::ProviderImporter.instance.extract_providers(doc)
+      rescue Exception => e
+        STDERR.puts "error extracting providers"
+      end
+
     # Disabling this until HDS is updated or QRDA Importer is done @SS
     # elsif root_element_name == 'ContinuityOfCareRecord'
     #   doc.root.add_namespace_definition('ccr', 'urn:astm-org:CCR')
@@ -87,6 +98,7 @@ class RecordImporter
       return {status: 'error', message: 'Unknown XML Format', status_code: 400}
     end
 
+    patient_data.measures = QME::Importer::MeasurePropertiesGenerator.instance.generate_properties(patient_data)
     record = Record.update_or_create(patient_data)
     record.provider_performances = providers
     record.save
