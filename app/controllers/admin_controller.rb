@@ -119,6 +119,21 @@ class AdminController < ApplicationController
   end
   # --!  
 
+  # added by ssiddiqui for button 
+  def delete_user
+  	@user = User.by_id(params[:id])
+  	if(User.count == 1)
+			render :text => "Cannot remove sole user. Please go back"
+  	else
+  		if(@user.admin?)
+  			render :text => "Cannot remove administrator. Please go back"
+  		else
+  			@user.destroy
+  			redirect_to(:back)
+  		end
+  	end  
+  end
+
   private
 
   def toggle_privilidges(username, role, direction)
@@ -140,4 +155,7 @@ class AdminController < ApplicationController
   def validate_authorization!
     authorize! :admin, :users
   end
+  
+
+  
 end
