@@ -6,12 +6,18 @@
     margin-left : 20px;
 	}
 	
-	#btn{
+	#btn1{
 		margin-top : 20px;
     margin-right : 55px;
     float: right;
 	}
-	
+
+	#btn2{
+		margin-top : 20px;
+		float: right;
+		margin-right: 20px;
+	}
+		
 	#lst{
 		margin-right: 40px;
 		margin-left: 10px;	
@@ -19,16 +25,15 @@
 </style>
 
 <!--Added by ssiddiqui -->
-<div id="btn">
+<div id="btn1">
 	<%= button_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
 		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn-large btn-danger'%>
 </div>	
 
-<%= render partial: 'edit_profile', locals: {provider: Provider.new} %>
-
-<br> <br>
 
 <div id="lst" class="container-fluid">
+	<%= render partial: 'edit_profile', locals: {provider: Provider.new} %>
+	<br> <br>
 	<%= render partial: 'provider_list', locals: {providers: @providers} %>
 	<br> <br>
 	<br> <br>

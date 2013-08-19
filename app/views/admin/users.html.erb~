@@ -125,16 +125,16 @@
     </td>
     <td>
       <% if user.admin? -%>
-      Yes - <a href="#" class="demote" data-role="admin" data-username="<%= user.username %>">Revoke</a>
+      Yes - <a href="#" class="demote" data-role="admin" data-username="<%= user.username %>">revoke</a>
       <% else -%>
-      No - <a href="#" class="promote" data-role="admin" data-username="<%= user.username %>">Grant</a>
+      No - <a href="#" class="promote" data-role="admin" data-username="<%= user.username %>">grant</a>
       <% end -%>
     </td>
     <td>
       <% if user.staff_role? -%>
-      Yes - <a href="#" class="demote" data-role="staff_role" data-username="<%= user.username %>">Revoke</a>
+      Yes - <a href="#" class="demote" data-role="staff_role" data-username="<%= user.username %>">revoke</a>
       <% else -%>
-      No - <a href="#" class="promote" data-role="staff_role" data-username="<%= user.username %>">Grant</a>
+      No - <a href="#" class="promote" data-role="staff_role" data-username="<%= user.username %>">grant</a>
       <% end -%>
     </td>
     <td>
@@ -145,12 +145,12 @@
       <% end -%>
     </td>
     <td>
-      <a href="#" class="<%= (user.disabled?) ? 'disable' : 'enable'%>" data-username="<%= user.username %>"><%= (user.disabled?) ? 'Disabled' : 'Enabled'%></a>
+      <a href="#" class="<%= (user.disabled?) ? 'disable' : 'enable'%>" data-username="<%= user.username %>"><%= (user.disabled?) ? 'Disabled' : 'enabled'%></a>
     <td>
-    	<%= link_to "Edit", :controller => "admin", :action => "edit_teams", :id => user._id %>
+    	<%= link_to "Edit", :controller => "admin", :action => "edit_teams", :id => user._id%>
     </td>
     <td>
-			<%= button_to "Delete User", {:controller => "admin", :action => "delete_user", :id => user._id}, 'method' => 'delete', 'class' => 'btn btn-danger' %>    
+			<%= button_to "Delete User", {:controller => "admin", :action => "delete_user", :id => user._id}, 'method' => 'delete', :confirm=>"Are you sure you want to delete this user?", 'class' => 'btn btn-danger' %>    
     </td>
     <!-- /Teams Columns -->
   </tr>

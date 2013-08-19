@@ -43,8 +43,12 @@
   <%= f.label :team_id, "Team:", 'class' => 'control-label' %>
   <div class="controls">
     <%= f.collection_select :team_id, Team.alphabetical, :id, :name, {include_blank: true} %>
-		<%= link_to "edit teams", teams_path, remote: true %>
+	
+		<% if current_user.admin? %>
+		 	<%= link_to "Edit Teams", teams_path, remote: true %>
+		<% end %>
   </div>
+
 </div>
 <div class="control-group">	
   <%= f.label :specialty, "Specialty:", 'class' => 'control-label' %>

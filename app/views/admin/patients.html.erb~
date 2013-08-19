@@ -10,7 +10,7 @@
 <% end -%>
 
 <div id="pageContent" style="padding:20px;">
-<h3>Patients</h3>
+<h1><strong>Patients</strong></h1>
 
   <table>
 
@@ -40,7 +40,7 @@
       <td>
         <%= Provider.count%> providers
 
-      </td>
+    	</td>
       <td>
         <%= button_to "Delete Providers", "/admin/remove_providers", 'method' => 'delete', 'class' => 'btn btn-danger'%>
       </td>
