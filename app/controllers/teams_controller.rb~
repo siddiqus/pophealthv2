@@ -18,11 +18,10 @@ class TeamsController < ApplicationController
     @team = Team.create(params[:team])
 
     respond_to do |wants|
-  #    wants.html { redirect_to :action => "index" }
+      wants.html { redirect_to :action => "index" }
       wants.js { render partial: "update_form"}
     end
     
-    redirect_to teams_path, remote: true
   end
   
   def update
@@ -30,10 +29,9 @@ class TeamsController < ApplicationController
     @teams = Team.alphabetical
     
     respond_to do |wants|
-#      wants.html { redirect_to :action => "index" }
+      wants.html { redirect_to :action => "index" }
       wants.js { render partial: "update_form"}
-		end
-		
+    end
 
   end
   
@@ -41,7 +39,7 @@ class TeamsController < ApplicationController
     @team.destroy
     
     respond_to do |wants|
-#      wants.html { redirect_to :action => "index" }
+      wants.html { redirect_to :action => "index" }
       wants.js { render partial: "update_form"}
     end
   end

@@ -1,13 +1,13 @@
-<table id="providerList" class="display" style='margin-left:-10px'>
+<table id="providerList" class="display">
  
-	<thead id="hd">
-  <tr>
-    <th>Last Name</th>
-    <th>First Name</th>
-    <th>Team</th>
-    <th />
-  </tr>
-  </thead>
+	<thead id="hd" align="left">
+		<tr>
+		  <th>Last Name</th>
+		  <th>First Name</th>
+		  <th>Team</th>
+		
+		</tr>
+	</thead>
 
   <tbody>
 		<%= render partial: 'provider_row', collection: providers%>

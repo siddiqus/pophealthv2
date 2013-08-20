@@ -10,7 +10,7 @@
 			User: <%= @user.first_name + " " + @user.last_name %>
 			<br /><br />
 	    	<div id=tableTeams class="table">
-				<tr><th colspan="2"><b>Current Teams:</b></th></tr>
+				<tr><th colspan="2">Current Teams:</th></tr>
 				<% if (@user.teams && @user.teams.count > 0) %>
 					<% @user.teams.each do |team| -%>
 						<tr style="vertical-align: middle;">

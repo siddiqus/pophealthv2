@@ -4,8 +4,6 @@ class Team
   field :name, type: String
   has_many :providers
   
-  validates :name, uniqueness: true
-  
   scope :alphabetical, order_by([:name, :asc])
   
 	# added from bstrezze

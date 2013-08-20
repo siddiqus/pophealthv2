@@ -22,6 +22,8 @@ class TeamsController < ApplicationController
       wants.js { render partial: "update_form"}
     end
     
+    redirect_to :back
+    
   end
   
   def update
