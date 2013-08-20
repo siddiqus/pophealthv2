@@ -1,5 +1,12 @@
 <table class='table'>
-	<td><%= team.name %></td>
-	<td><%= link_to "edit", edit_team_path(team), remote: true%></td>
-	<td><%= link_to "delete", team_path(team), method: 'delete', remote: true, confirm: "Are you sure you want to delete this team?" %></td>
+	<thead>
+		<th style="width: 60%">
+		<th />
+		<th />
+	</thead>
+	<tbody>
+		<td><%= team.name %></td>
+		<td><%= link_to "edit", edit_team_path(team), remote: true%></td>
+		<td><%= link_to "delete", team_path(team), method: 'delete', remote: true, confirm: "Are you sure you want to delete this team?" %></td>
+	</tbody>
 </table>
