@@ -13,7 +13,7 @@
 	}
 
 	#btn2{
-		margin-top : 20px;
+		margin-top : 35px;
 		float: right;
 		margin-right: 20px;
 	}
@@ -30,6 +30,12 @@
 		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn-large btn-danger'%>
 </div>	
 
+<!-- Added by ssiddiqui -->
+<div id="btn2">
+	<% if current_user.admin? %>
+	 <%= link_to "Edit Teams", teams_path, remote: true, :class => "btn-large btn-success" %>
+	<% end %>
+</div>
 
 <div id="lst" class="container-fluid">
 	<%= render partial: 'edit_profile', locals: {provider: Provider.new} %>

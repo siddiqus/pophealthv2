@@ -1,7 +1,7 @@
 <table id='teamTable'>
  <%= render partial: 'team', collection: @teams %>
 </table>
-<%= link_to "add team", new_team_path %>
-<%= link_to "go back", :back %>
-
-
+<%= link_to "new team", new_team_path %>
+<% if current_user.admin? %>
+ <%= link_to "Edit Teams", teams_path, remote: true, :class => "remote" %>
+<% end %>
