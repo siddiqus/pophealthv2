@@ -12,6 +12,4 @@
 // = require backbone/pop_health
 // = require_tree .
 // = require dataTables/jquery.dataTables
-//= require jquery.ui.all
-//= require jquery.modal
 

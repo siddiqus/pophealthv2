@@ -42,7 +42,7 @@ group :assets do
   gem "bootstrap-sass", '2.3.2.1'
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails', '4.0.4'
-  gem 'jquery-modal-rails', '0.0.3' #added by ssiddiqui
+ # gem 'jquery-modal-rails', '0.0.3' #added by ssiddiqui
 
 end
 
