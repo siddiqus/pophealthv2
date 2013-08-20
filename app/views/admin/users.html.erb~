@@ -94,7 +94,7 @@
 </script>
 <% end -%>
 
-<div id="pageContent" style="margin-left:40px; margin-right:50px">
+<div id="pageContent" style="margin-left:40px; margin-right:50px; margin-top:20px">
 	<h2><strong>Users</strong></h2>
 	<table id="patientTable" class="table">
 		<tr>

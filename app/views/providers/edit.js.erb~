@@ -2,4 +2,8 @@
 $("#providerForm").replaceWith("<%= render_js partial: 'edit_profile', locals: {provider: @provider} %>")
 $("#providerForm").effect("highlight", {color: "#ECF7F8"}, 1000);
 
+$('a[data-popup]').live('click', function(e) { 
+    window.open($(this).attr('href')); 
+    e.preventDefault(); 
+});
 
