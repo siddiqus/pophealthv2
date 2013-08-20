@@ -1,4 +1,4 @@
-<table id="providerList" class="display" data-source="<%= products_url(format: "json") %>">
+<table id="providerList" class="display" style='margin-left:-10px'>
  
 	<thead id="hd">
   <tr>

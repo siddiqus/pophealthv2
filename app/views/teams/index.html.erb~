@@ -1,0 +1,7 @@
+<table id='teamTable'>
+ <%= render partial: 'team', collection: @teams %>
+</table>
+<%= link_to "add team", new_team_path %>
+<%= link_to "go back", :back %>
+
+

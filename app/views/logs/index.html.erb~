@@ -19,7 +19,7 @@
   </script>
 <% end -%>
 
-<div id="pageContent" style="margin-left:40px; margin-right:40px">
+<div id="pageContent" style="margin-left:40px; margin-right:20px">
     <h3>Logs</h3>
     <form class="form-inline">
       <fieldset>

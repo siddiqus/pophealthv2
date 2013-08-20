@@ -1,0 +1,8 @@
+How to install v2.1.2
+
+1. download pophealth code
+2. bundle install 
+3. rake db:seed
+4. sh import_bundle
+5. sh start_job.sh
+6. rails server (different window)

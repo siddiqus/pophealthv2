@@ -1,0 +1,3 @@
+$("#providerForm").replaceWith("<%= render_js partial: 'edit_profile', locals: {provider: @provider} %>")
+$("#providerList").replaceWith("<%= render_js partial: 'provider_list', object: @providers, as: 'providers' %>");
+<% redirect_to teams_path%>
