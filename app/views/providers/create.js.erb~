@@ -1,7 +1,13 @@
 
 
 $("#providerForm").replaceWith("<%= render_js partial: 'edit_profile', locals: {provider: @provider} %>")
-$("#providerList").replaceWith("<%= render_js partial: 'provider_list', object: @providers, as: 'providers' %>");
 
+$("#providerList").replaceWith( $("#providerList").dataTable);
+s
+<!--
+$("#providerForm").replaceWith("<%= render_js partial: 'edit_profile', locals: {provider: @provider} %>")
+
+$("#providerList").replaceWith("<%= render_js partial: 'provider_list', object: @providers, as: 'providers' %>");
+-->
 
 

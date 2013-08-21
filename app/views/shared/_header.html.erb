@@ -15,11 +15,11 @@
       <div class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           <i class="icon-user"></i>
-          <%= current_user.first_name %>
+          <%= current_user.full_name %>
         </a>
         <ul class="dropdown-menu" role="menu" aria-labelledby="User">
           <% if APP_CONFIG['edit_account_enabled']%>
-            <li><%=link_to raw('<i class="icon-edit"></i> Edit'), edit_user_registration_path(current_user) %></li>
+            <li><%=link_to raw('<i class="icon-edit"></i> Edit Account'), edit_user_registration_path(current_user) %></li>
           <% end %>
           <% if APP_CONFIG['logout_enabled']%>
             <li><%= link_to raw('<i class="icon-off"></i> Logout'), destroy_user_session_path, method: 'delete' %></li>
@@ -31,10 +31,10 @@
               <i class="icon-star"></i> 
               Admin
             </a>
-            <ul  style="margin-left:0px; margin-right:20px" class="dropdown-menu" role="menu" aria-labelledby="Admin">
-              <li><%= link_to raw('<i class="icon-plus"></i> Providers'), providers_path%></li>
-      
-              <% if current_user.admin? %>
+            <ul  style="margin-left:30px;" class="dropdown-menu" role="menu" aria-labelledby="Admin">
+              
+	   	     		<li><%= link_to raw('<i class="icon-plus"></i> Providers'), providers_path%></li>           
+             	<% if current_user.admin? %>
                 <% if (APP_CONFIG['patient_management_enabled']) %>
                   <li><%= link_to raw('<i class="icon-eye-open"></i> Patients'), admin_patients_path%></li>
                 <% end %>
