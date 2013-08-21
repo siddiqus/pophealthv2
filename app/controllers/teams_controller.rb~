@@ -19,10 +19,9 @@ class TeamsController < ApplicationController
 
     respond_to do |wants|
       wants.html { redirect_to :action => "index" }
-      wants.js { render partial: "update_form"}
+    	wants.js { render partial: "update_form"}	 
     end
-    
-    redirect_to "admin/users"
+      
   end
   
   def update
@@ -36,12 +35,12 @@ class TeamsController < ApplicationController
 
   end
   
-  def destroy
+  def destroy	
     @team.destroy
     
     respond_to do |wants|
       wants.html { redirect_to :action => "index" }
-      wants.js { render partial: "update_form"}
+			wants.js { render partial: "update_form"}
     end
   end
   

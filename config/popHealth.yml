@@ -4,9 +4,9 @@ defaults: &defaults
   idle_timeout: 300000
   idle_timeout_noconfirm: 10000
   # user should have the staff role by default when created (this allows users to see data accross all providers)
-  default_user_staff_role: true
+  default_user_staff_role: false
   # user should be approved by default when created
-  default_user_approved: true
+  default_user_approved: false
   # display logout link
   logout_enabled: true
   # should the account link be displayed in the header
@@ -16,7 +16,7 @@ defaults: &defaults
   # add patient management link
   patient_management_enabled: true
   # title of the practice
-  practice_name: 'General Hospital'
+  #practice_name: 'General Hospital'
   disable_provider_filters: false
   ccr_system_name: popHealth
   # force the system to allow HTTP connections

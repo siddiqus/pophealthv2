@@ -5,6 +5,7 @@ a {
   color: $denominator;
 }
 
+
 #providerReports a {
   color:black;
 
@@ -105,6 +106,23 @@ a#brand {
   font-size:3.5em;
 }
 
+#measures {
+
+  margin-top:20px;
+
+ .headerRow {
+    
+    border-bottom: 1px solid #eee;
+    font-size: 1em;
+    text-transform: uppercase;
+    color:#888;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+ } 
+  .measure {
+      padding: 10px;
+  } 
+}
 
 .inline-fraction {
   display: inline-block;
@@ -189,6 +207,7 @@ input#measurementPeriodEndDate {
   // margin-top:1px;
   margin-left:2px;
 }
+
 
 // #dashboardPeriod, #dashboardContainer {
 //   // margin-left:0px;
