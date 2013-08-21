@@ -25,9 +25,7 @@
     <%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
   </div>
   <div class="span2">
-    <%npi_param = (@selected_provider ? "?npi=#{@selected_provider.npi}" : '')%>
-    <%= link_to 'parameters', measure_url(measure['id'], sub['sub_id'])+npi_param%> <br>
-    <%= link_to 'patients', patients_url(measure['id'], sub['sub_id'])+npi_param%>
+    <%npi_param = (@selected_provider ? "?npi=#{@selected_provider.npi}" : '')%><%= link_to 'parameters', measure_url(measure['id'], sub['sub_id'])+npi_param%><br><%= link_to 'patients', patients_url(measure['id'], sub['sub_id'])+npi_param%>
   </div>
 </div>
 

@@ -1,7 +1,8 @@
 # added by ssiddiqui
-jQuery -> $('#providerList').dataTable
-          sPaginationType: "full_numbers"
-					bJQueryUI: true
+jQuery -> 	$('#providerList').dataTable
+          	sPaginationType: "full_numbers"
+						bJQueryUI: true
+			
 					
 @Providers = {
 	updateAggregate: (current_measure, sub_id) ->
@@ -78,6 +79,8 @@ jQuery -> $('#providerList').dataTable
 			$("#loadingAggregate").hide()
 			$("div#measureMetrics").fadeTo "fast", 1.0, ->
 			
+
+				
 }
 
 class @ProvidersReport extends QualityReport

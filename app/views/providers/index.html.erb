@@ -5,7 +5,7 @@
 	}
 	
 	#btn1{
-		margin-top : 20px;
+		margin-top : 35px;
     margin-right : 55px;
     float: right;
 	}
@@ -24,19 +24,30 @@
 
 <!--Added by ssiddiqui -->
 <div id="btn1">
-	<%= button_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
+	<%= link_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
 		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn-large btn-danger'%>
 </div>	
+
+
+<div id="btn2">
+	<% if current_user.admin? %>
+		<%= link_to "Edit Teams", teams_path, remote: true, :class => "btn-large btn-success" %>
+	<% end %>
+</div>
 
 <!-- Added by ssiddiqui -->
 <div id="btn2">
 	<% if current_user.admin? %>
-	 <%= link_to "Edit Teams", teams_path, remote: true, :class => "btn-large btn-success" %>
+		<%= link_to "Add Provider", "/providers/provider_form", remote: true, :class => "" %>
 	<% end %>
 </div>
 
+
+
+
+
 <div id="lst" class="container-fluid">
-	<%= render partial: 'edit_profile', locals: {provider: Provider.new} %>
+	<%= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
 	<br> <br>
 	<%= render partial: 'provider_list', locals: {providers: @providers} %>
 	<br> <br>

@@ -6,8 +6,8 @@ class Team
   
   scope :alphabetical, order_by([:name, :asc])
   
-  validates :name, :uniqueness => true
-  
+  validate :name, :uniqueness => true
+    
 	# added from bstrezze
   def self.userfilter(current_user)
     if current_user.admin?

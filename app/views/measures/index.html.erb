@@ -107,9 +107,9 @@
           <dt>Reporting Period:</dt>
           <dd>
             <form class="form-inline">
-              <div id="measurementPeriodStartDate" style="margin-top:5px; margin-right:9px"> <%= Time.at(@period_start).utc.strftime("%m/%d/%Y") %>   - </div>
-             
-                <input id="measurementPeriodEndDate" type="text" class="input-small" value="<%= Time.at(@effective_date).utc.strftime("%m/%d/%Y") %>">
+              
+              <input id="measurementPeriodStartDate" type="text" class="input-small" value="<%= Time.at(@period_start).utc.strftime("%m/%d/%Y") %>">
+   						<input id="measurementPeriodEndDate" type="text" class="input-small" value="<%= Time.at(@effective_date).utc.strftime("%m/%d/%Y") %>">
       
               <button id="btnMeasurementPeriodChange" <% if (@selected_provider) %> data-npi="<%=@selected_provider.npi%>" <% end %> class="btn btn-small" type="submit"> 
                 <i class="icon-refresh"></i>

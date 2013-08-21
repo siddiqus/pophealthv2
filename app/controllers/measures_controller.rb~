@@ -101,7 +101,7 @@ class MeasuresController < ApplicationController
 	# ADDED FOR CLEAR SELECTION BUTTON - ssiddiqui
 	def remove_selections
     SelectedMeasure.remove_all(current_user.username)
-    redirect_to root_path
+    redirect_to(:back)
   end
 
   def select
@@ -268,7 +268,16 @@ class MeasuresController < ApplicationController
   
   
   def set_up_environment
-    @patient_count = (@selected_provider) ? @selected_provider.records(@effective_date).count : Record.count
+    # @patient_count = (@selected_provider) ? @selected_provider.records(@effective_date).count : Record.count
+    if @selected_provider
+      @patient_count = @selected_provider.records(@effective_date).count
+    else
+      begin
+        @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
+      rescue
+        @patient_count = 0
+      end
+    end
     if params[:id]
       measure = QME::QualityMeasure.new(params[:id], params[:sub_id])
       render(:file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404) unless measure
@@ -300,10 +309,9 @@ class MeasuresController < ApplicationController
       else
         measure_id = report.instance_variable_get(:@measure_id)
         sub_id = report.instance_variable_get(:@sub_id)
-        
+        filters = report.instance_variable_get(:@parameter_values)['filters']
         key = "#{measure_id}#{sub_id}"
         uuid = (uuids.nil? || uuids[key].nil?) ? report.calculate : uuids[key]
-        filters = report.instance_variable_get(:@parameter_values)['filters']
         job = {uuid: uuid, status: report.status(uuid)['status'], measure_id: measure_id, sub_id: sub_id, filters: filters}
 
         memo[:jobs][key] = job

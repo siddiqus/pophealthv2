@@ -123,7 +123,7 @@ class User
   def self.by_email(email)
     where(email: email).first
   end
-	
+  	
 	# added from bstrezze
   def self.by_id(id)
     where(_id: id).first

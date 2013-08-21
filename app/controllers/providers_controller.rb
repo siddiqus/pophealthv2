@@ -7,6 +7,13 @@ class ProvidersController < ApplicationController
   
   add_breadcrumb 'Providers', :providers_url
   
+  def provider_form
+   respond_to do |wants|
+     	wants.js{}
+      wants.html {}
+    end
+  end
+  
   def index
     # @providers = Provider.alphabetical.page(params[:page]).per(60)
     @providers = Provider.userfilter(current_user) # added by ssiddiqui
@@ -41,16 +48,17 @@ class ProvidersController < ApplicationController
   def create
     @provider = Provider.create(params[:provider])
     # @providers = Provider.alphabetical.page(params[:page]).per(20)
-    @providers = Provider.userfilter(current_user) # added by ssiddiqui
-
+		@providers = Provider.userfilter(current_user) # added by ssiddiqui
+		
     respond_to do |wants|
       wants.json {
         # @provider = Provider.create(params[:data])
         render json: @provider
       }
       wants.js { }
-      wants.html { }
-    end
+      wants.html {}
+   	end
+  
   end
   
   def update

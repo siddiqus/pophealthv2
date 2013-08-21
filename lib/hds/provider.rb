@@ -10,6 +10,7 @@ class Provider
   scope :selected, ->(provider_ids) { any_in(:_id => provider_ids)}
   scope :selected_or_all, ->(provider_ids) { provider_ids.nil? || provider_ids.empty? ? Provider.all : Provider.selected(provider_ids) }
   
+  
 	# added from bstrezze
   def self.userfilter(current_user)
     if current_user.admin?
