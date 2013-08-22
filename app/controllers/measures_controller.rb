@@ -337,11 +337,12 @@ class MeasuresController < ApplicationController
       build_filters
       
     else
-      
+
       if can?(:read, :providers)
 				# updated from bstrezze
-        @providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
-        @providers_for_filter = Provider.userfilter(current_user).alphabetical
+        #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
+				@providers = Provider.userfilter(current_user) # added by ssiddiqui        
+				@providers_for_filter = Provider.userfilter(current_user).alphabetical
         if APP_CONFIG['disable_provider_filters']
           @teams = Team.userfilter(current_user).alphabetical
           @page = params[:page]
@@ -349,6 +350,7 @@ class MeasuresController < ApplicationController
 					other = Team.new(name: "Other")
           @providers_by_team = @providers.group_by { |pv| pv.team || other }
           @providers_by_team[other] ||= []
+					@providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
         end
       end
 

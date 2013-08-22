@@ -5,7 +5,8 @@
   calculateSingleMeasure: (result) ->
     row = Dashboard.measureRow(result.measure_id, result.sub_id)
     row.fadeTo("fast", 1.0)
-    Render.percent row.find("div.percentage"), result
+    Render.percent row.find("div.fullPercentage"), result
+    Render.percent row.find("div.providerPercentagePercentage"), result # added by ssiddiqui
     # Render.barChart row.find("div.tableBar"), result
     Render.fraction row.find("div.fraction"), result
   measureRow: (measure, sub_id) ->
@@ -57,7 +58,7 @@
     $('#btnExportReport').click(Dashboard.exportReport);
     $('#btnExportReportSingle').click(Dashboard.doReportExport);
     $('#btnMeasurementPeriodChange').click(Dashboard.changeMeasurePeriod);
-    $('#measurementPeriodStartDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodStart});
+    $('#measurementPeriodStartDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodStart}); # added by ssiddiqui
     $('#measurementPeriodEndDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodEnd});
     Page.onFilterChange = (li) ->
       Dashboard.calculateSelected()

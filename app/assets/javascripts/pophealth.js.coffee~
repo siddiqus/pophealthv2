@@ -87,13 +87,12 @@ class @QualityReport
 		Page.onFilterChange(@)
 
 
-});
 	
 # Load Page
 $ ->
 	setTimeout ->
 		makeMeasureListClickable()
 		makeFilterListsClickable()
-		# makeListsExpandable()
+		makeListsExpandable()
 		Page.onLoad();
 	, 10

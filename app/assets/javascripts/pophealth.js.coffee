@@ -93,6 +93,6 @@ $ ->
 	setTimeout ->
 		makeMeasureListClickable()
 		makeFilterListsClickable()
-		# makeListsExpandable()
+		#makeListsExpandable()
 		Page.onLoad();
 	, 10

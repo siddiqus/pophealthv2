@@ -127,13 +127,31 @@
         <% end %>
        
       </div>
-
-      <div id="measures" class="row-fluid">
-        <% @categories.each do |categorized| %>
-            <div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class='headerRow row-fluid'><%=categorized['category'] %>
-            </div>
-            <%= render :partial => "measure_stats", :collection => categorized['measures'] %>
-        <% end %>
-        </div>	
+	
+    	
+    	<div id="measures" class="row-fluid">
+	    	<% @categories.each do |categorized| %>	
+	    		<thead>	  
+			  	<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		
+	  				<td>
+	  					<%= categorized['category'] %>
+	  				</td>
+	  				
+	  				<td>
+							USER % 
+		  			</td>
+		  			
+		  			<td style="align:right">
+							FULL % 
+		  			</td>
+		  			
+					</div>
+	
+	      		<%= render :partial => "measure", :collection => categorized['measures'] %>
+	      	
+	      <% end %>
+      </div>	
+      
+      
     </div><!-- end #dashboardPeriod -->
   </div><!-- end #pageContent -->
