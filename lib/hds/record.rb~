@@ -17,6 +17,8 @@ class Record
     any_in("provider_performances.provider_id" => provider_list)
   end
 
+  end
+  
   def self.update_or_create(data)
     existing = Record.where(medical_record_number: data.medical_record_number).first
     if existing

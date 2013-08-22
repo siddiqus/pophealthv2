@@ -31,7 +31,7 @@
               <i class="icon-star"></i> 
               Admin
             </a>
-            <ul  style="margin-left:20px;" class="dropdown-menu" role="menu" aria-labelledby="Admin">
+            <ul  style="margin-left:35px;" class="dropdown-menu" role="menu" aria-labelledby="Admin">
               
 	   	     		<li><%= link_to raw('<i class="icon-plus"></i> Providers'), providers_path%></li>           
              	<% if current_user.admin? %>

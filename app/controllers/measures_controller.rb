@@ -115,6 +115,7 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
+  # This is used to populate the patient list for a selected measure
   def measure_patients
 
     @type = params[:type] || 'DENOM'
@@ -269,15 +270,13 @@ class MeasuresController < ApplicationController
   
   
   def set_up_environment
-    # @patient_count = (@selected_provider) ? @selected_provider.records(@effective_date).count : Record.count
-    if @selected_provider
+    # added from bstrezze, edited by ssiddiqui
+		if @current_user.admin?
+			@patient_count = Record.all.count
+    elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     else
-      begin
-        @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
-      rescue
-        @patient_count = 0
-      end
+      @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
     end
     if params[:id]
       measure = QME::QualityMeasure.new(params[:id], params[:sub_id])

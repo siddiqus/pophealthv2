@@ -11,7 +11,6 @@
   <div id="pageContent" class="row-fluid">
  		<div id="providerReports" class="span2">
       <%#= @categories.to_a %>
-
 	  <h5>
 	  	<!--button added by ssiddiqui -->
 			<%= button_to "Clear Selections", "/measures/remove_selections", 'method' => 'delete', 'class' => 'btn btn-action' %>
@@ -57,7 +56,7 @@
     <% elsif can?(:manage, :providers)%>
 		  <%= render partial: 'provider_filters' %>
 
-	<% end %>
+		<% end %>
 
 
     <h5>
@@ -98,10 +97,6 @@
 		        </dl>
 		      <% else %>
 		        <%= content_tag(:h1, current_user.company) unless current_user.company.nil? || current_user.company.empty? %>
-		        <!-- <dl> 
-		         <dt>Practice:</dt>
-		          <dd class="practiceName"><h4><%=APP_CONFIG['practice_name']%></h4></dd>
-		        </dl>  -->
 		      <% end %>
         </div>
         
@@ -122,12 +117,12 @@
         </dl>
         <dl>
           <dt># of Patients: </dt>
-          <dd><%= @patient_count %></dd>
+          <dd><%= @patient_count%></dd>
         </dl>
         <% unless (@selected_provider) %>
           <dl>
             <dt># of Providers: </dt>
-            <dd><%= Provider.all.count %> </dd>
+            <dd><%= Provider.all.userfilter(current_user).count%></dd> <!-- added by ssiddiqui -->
           </dl>
         <% end %>
        
@@ -137,7 +132,7 @@
         <% @categories.each do |categorized| %>
             <div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class='headerRow row-fluid'><%=categorized['category'] %>
             </div>
-            <%= render :partial => "measure", :collection => categorized['measures'] %>
+            <%= render :partial => "measure_stats", :collection => categorized['measures'] %>
         <% end %>
         </div>	
     </div><!-- end #dashboardPeriod -->
