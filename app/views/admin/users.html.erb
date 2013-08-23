@@ -96,6 +96,10 @@
 
 <div id="pageContent" style="margin-left:40px; margin-right:50px; margin-top:20px">
 	<h2><strong>Users</strong></h2>
+	<% if flash[:notice] %>
+		<font color="red"> <b> <%= flash[:notice] %> </b> </font>
+		<br> </br>
+	<% end %>
 	<table id="patientTable" class="table">
 		<tr>
 		  <th>First Name</th>

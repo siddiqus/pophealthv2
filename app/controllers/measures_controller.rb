@@ -16,6 +16,8 @@ class MeasuresController < ApplicationController
       {}
     end
   end
+  
+  
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
     {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
@@ -51,8 +53,8 @@ class MeasuresController < ApplicationController
   def definition
     render :json => @definition
   end
+  
   def result
-
     uuid = generate_report(params[:uuid])
     
     if (@result)

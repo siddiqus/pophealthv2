@@ -20,21 +20,22 @@
     <% end %>
   </div>
   
-  <div class="fraction span1">
-    <%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
-  </div>
-  
-  <div class="userPercentage span1">
-    <%= image_tag "loading_bar.gif" %>
-  </div>
-   
-  <div class="fullPercentage span1" style="padding-left:40px">
-    <%= image_tag "loading_bar.gif" %>
-  </div>
+		<div class="fraction span1">
+		  	<%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
+		</div>
+		
+		<div class="userPercentage span1">	
+		 		<%= image_tag "loading.gif" %>
+		</div>   
+	
+		<div class="fullPercentage span1">
+		  	<%= image_tag "loading.gif"%>	
+		</div>
 
-  <div class="span2" style="padding-left:60px">
-    <%npi_param = (@selected_provider ? "?npi=#{@selected_provider.npi}" : '')%><%= link_to 'parameters', measure_url(measure['id'], sub['sub_id'])+npi_param%><br><%= link_to 'patients', patients_url(measure['id'], sub['sub_id'])+npi_param%>
-  </div>
+		<div class="span2" style="padding-left:70px">		
+		  <%npi_param = (@selected_provider ? "?npi=#{@selected_provider.npi}" : '')%><%= link_to 'Parameters', measure_url(measure['id'], sub['sub_id'])+npi_param%><br><%= link_to 'Patients', patients_url(measure['id'], sub['sub_id'])+npi_param%>  
+		</div>
+	
 </div>
 <% end %> 
 

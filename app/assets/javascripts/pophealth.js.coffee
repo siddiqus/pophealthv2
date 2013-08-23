@@ -54,9 +54,11 @@ class @QualityReport
 	fraction: (selector, data) ->
 		selector.find(".numeratorValue").html(data.NUMER)
 		selector.find(".denominatorValue").html(data.DENOM)
+	
 	fullPercent: (selector, data) -> 
 		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100
 		selector.html("#{Math.floor(percent)}%")	
+	
 	#added by ssiddiqui
 	userPercent: (selector, data) -> 
 		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100

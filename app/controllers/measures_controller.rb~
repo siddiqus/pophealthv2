@@ -16,6 +16,8 @@ class MeasuresController < ApplicationController
       {}
     end
   end
+  
+  
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
     {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
@@ -51,8 +53,8 @@ class MeasuresController < ApplicationController
   def definition
     render :json => @definition
   end
+  
   def result
-
     uuid = generate_report(params[:uuid])
     
     if (@result)
@@ -72,7 +74,8 @@ class MeasuresController < ApplicationController
       
       wants.js do
         
-        @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
+        #@providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
+       	@providers = Provider.userfilter(current_user) # added by ssiddiqui
         @providers = @providers.any_in(team_id: params[:team]) if params[:team]
         
       end
@@ -114,6 +117,7 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
+  # This is used to populate the patient list for a selected measure
   def measure_patients
 
     @type = params[:type] || 'DENOM'
@@ -268,15 +272,13 @@ class MeasuresController < ApplicationController
   
   
   def set_up_environment
-    # @patient_count = (@selected_provider) ? @selected_provider.records(@effective_date).count : Record.count
-    if @selected_provider
+    # added from bstrezze, edited by ssiddiqui
+		if @current_user.admin?
+			@patient_count = Record.all.count
+    elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     else
-      begin
-        @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
-      rescue
-        @patient_count = 0
-      end
+      @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
     end
     if params[:id]
       measure = QME::QualityMeasure.new(params[:id], params[:sub_id])
@@ -337,11 +339,12 @@ class MeasuresController < ApplicationController
       build_filters
       
     else
-      
+
       if can?(:read, :providers)
 				# updated from bstrezze
-        @providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
-        @providers_for_filter = Provider.userfilter(current_user).alphabetical
+        #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
+				@providers = Provider.userfilter(current_user) # added by ssiddiqui        
+				@providers_for_filter = Provider.userfilter(current_user).alphabetical
         if APP_CONFIG['disable_provider_filters']
           @teams = Team.userfilter(current_user).alphabetical
           @page = params[:page]
@@ -349,6 +352,7 @@ class MeasuresController < ApplicationController
 					other = Team.new(name: "Other")
           @providers_by_team = @providers.group_by { |pv| pv.team || other }
           @providers_by_team[other] ||= []
+					@providers_for_filter_by_team = @providers_for_filter.group_by { |pv| pv.team.try(:name) || "Other" }
         end
       end
 

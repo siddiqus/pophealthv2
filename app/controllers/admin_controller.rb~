@@ -1,4 +1,6 @@
 require 'record_importer'
+include Mongoid
+
 class AdminController < ApplicationController
 
   before_filter :authenticate_user!
@@ -30,9 +32,6 @@ class AdminController < ApplicationController
     i = 0
     temp_file = Tempfile.new("patient_upload")
 		
-		if(temp_file.open() == nil)
-			flash.now[:error] = "No file selected"
-		else
 		  File.open(temp_file.path, "wb") { |f| f.write(file.read) }
 		  
 		  Zip::ZipFile.open(temp_file.path) do |zipfile|
@@ -51,7 +50,7 @@ class AdminController < ApplicationController
 		    end
 		  end
 		  
-		end
+		
 		redirect_to action: 'patients'
   end
 
@@ -124,14 +123,16 @@ class AdminController < ApplicationController
   end
   # --!  
 
-  # added by ssiddiqui for button 
+  # added by ssiddiqui for button
   def delete_user
   	@user = User.by_id(params[:id])
   	if(User.count == 1)
-			render :text => "Cannot remove sole user. Please go back"
+			#render :text => "Cannot remove sole user. Please go back"
+			redirect_to :back, notice: "Cannot remove sole user"
   	else
   		if(@user.admin?)
-  			render :text => "Cannot remove administrator. Please go back"
+  	#		render :text => "Cannot remove administrator. Please go back"
+  			redirect_to :back, notice: "Cannot remove administrator"
   		else
   			@user.destroy
   			redirect_to(:back)
