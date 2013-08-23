@@ -26,7 +26,7 @@ class Measure
   def self.categories
     aggregate(GROUP, CATEGORY, ID, SORT)
   end
-
+	
   def self.list
     aggregate({'$project' => {'id' => 1, 'sub_id' => 1, 'name' => 1, 'short_subtitle' => 1}})
   end

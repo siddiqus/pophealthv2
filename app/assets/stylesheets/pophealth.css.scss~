@@ -53,7 +53,12 @@ ul.nav {
   padding-top:10px;
 }
 
-div.percentage {
+div.fullPercentage {
+  font-size:22px;
+}
+
+
+div.userPercentage {
   font-size:22px;
 }
 

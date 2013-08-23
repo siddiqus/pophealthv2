@@ -5,8 +5,8 @@
   calculateSingleMeasure: (result) ->
     row = Dashboard.measureRow(result.measure_id, result.sub_id)
     row.fadeTo("fast", 1.0)
-    Render.percent row.find("div.fullPercentage"), result
-    Render.percent row.find("div.providerPercentage"), result # added by ssiddiqui
+    Render.fullPercent row.find("div.fullPercentage"), result
+    Render.userPercent row.find("div.userPercentage"), result # added by ssiddiqui
     # Render.barChart row.find("div.tableBar"), result
     Render.fraction row.find("div.fraction"), result
   measureRow: (measure, sub_id) ->

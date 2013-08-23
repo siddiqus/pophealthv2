@@ -128,31 +128,31 @@
        
       </div>
 	
-    	
-    	<div id="measures" class="row-fluid">
+    	<!--SELECTED MEASURES AND RESUTLS  ----------------------------------------->
+    	<div id="measures">
 	    	<% @categories.each do |categorized| %>	
-	    		<thead>	  
-			  	<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		
-	  				<tr>
-							<td>
-								<%= categorized['category'] %>
-							</td>
+	    		
+					<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  	
+						<%= categorized['category'] %>
 							
-							<td>
-								USER % 
-							</td>
+						<!-- added by ssiddiqui - table hack -->
+							<div style='float:right'> 
+								<table style="margin-right:200px"> 
+									<td > User Data </td>	
+										<td>
+										 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+										 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
+								 		</td>				
+									<td >  Aggregate  </td>					
+									
+								</table>
+							</div> <!-- end table div --> 						
+					</div> <!-- end headerRow -->
 							
-							<td style="align:right">
-								FULL % 
-							</td>
-						</tr>
-		  			
-					</div>
-	
-	      		<%= render :partial => "measure", :collection => categorized['measures'] %>
-	      	
-	      <% end %>
-      </div>	
+				<%= render :partial => "measure", :collection => categorized['measures'] %>
+	    	&nbsp;
+	      <% end %> 
+      </div> <!-- end #measures >	
       
       
     </div><!-- end #dashboardPeriod -->
