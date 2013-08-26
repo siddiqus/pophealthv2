@@ -1,17 +1,20 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.14'
 
 # added:
 gem 'rack', '1.4.5'
 
 #gem 'quality-measure-engine', '~> 2.3.0'
 #gem "health-data-standards", '~> 3.0.2'
-gem 'quality-measure-engine', '2.1.0', :git => 'https://github.com/pophealth/quality-measure-engine.git', :branch => 'develop'
+#gem 'quality-measure-engine', '2.1.0', :git => 'https://github.com/pophealth/quality-measure-engine.git', :branch => 'develop'
+#gem "health-data-standards", '3.2.7', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
 
-gem "health-data-standards", '3.2.7', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
+gem 'quality-measure-engine', :path => "../quality-measure-engine"
+gem "health-data-standards", :path => "../health-data-standards"
 
-gem 'nokogiri', '1.5.5' #'1.5.10'
+
+gem 'nokogiri', '1.6.0'#'~>1.5.5' #'1.5.10'
 gem 'rubyzip', '0.9.9'
 
 gem "will_paginate", '3.0.4'# we need to get rid of this, very inefficient with large data sets and mongoid
@@ -19,6 +22,10 @@ gem "kaminari", '0.14.1'
 
 gem 'json', '1.8.0', :platforms => :jruby
 # these are all tied to 1.3.1 because bson 1.4.1 was yanked.  To get bundler to be happy we need to force 1.3.1 to cause the downgrade
+
+# added from bstrezze
+gem 'bson', '1.9.2'
+gem 'bson_ext', '1.9.2', :platforms => :mri
 
 gem "mongoid", '3.1.4'
 

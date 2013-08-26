@@ -1,39 +1,40 @@
 <div id="pageContent">
 	<div class="panel">
     	<center>
-    		<% if flash[:error] %>
+    		<% if flash[:notice] %>
 				<div class="accountError">
-					<%= flash[:error] %>
+					<font color="red"> <b> <%= flash[:notice] %> </b> </font>
 				</div>
 			<% end %>
-
-			User: <%= @user.first_name + " " + @user.last_name %>
 			<br /><br />
-	    	<div id=tableTeams class="table">
-				<tr><th colspan="2"><b>Current Teams:</b></th></tr>
+			User: <b> <%= @user.first_name + " " + @user.last_name %> </b>
+			<br /><br />
+	    	
+	    <table id=tableTeams class="table fluid-row">
+				<tr><th colspan='2'><b>Current Teams:</b></th></tr>
 				<% if (@user.teams && @user.teams.count > 0) %>
 					<% @user.teams.each do |team| -%>
-						<tr style="vertical-align: middle;">
+						<tbody >
 							<td align="left"><%= MONGO_DB['teams'].find({_id: team}).to_a[0]["name"] %></td>
 							<td align="right" width="30px">
 							    <%= form_for(:remove_team, :controller => "admin", :action => "edit_teams", :id => @id) do |f| %>
 							    	<%= f.hidden_field :team_id, :value => team %>
-									<%= submit_tag "X", {class: "userTeam", style: "width: 25px", confirm: "Are you sure?"} %>
+									<%= submit_tag "Remove", {class: "btn btn-danger", confirm: "Are you sure?"} %>
 							    <% end %>
 							</td>
-						</tr>
+						</tbody>
 					<% end %>
 				<% else %>
-					<tr><td>No teams</td><td>&nbsp;</td></tr>
+					<tr><td>No teams assigned</td><td>&nbsp;</td></tr>
 				<% end %>
 			</table>
-			<br />
+
 		    <%= form_for(:add_team, :controller => "admin", :action => "edit_teams", :id => @id) do |f| %>
 		    	<table>
 		    		<tr>
 		    			<td style="vertical-align: top; width: 75px;"><%= f.label :team %></td>
 		    			<td style="vertical-align: top; width: 200px;"><%= f.collection_select :team_id, Team.alphabetical, :id, :name, {include_blank: true}, {style: "width:175px"}%></td>
-		    			<td style="vertical-align: top; width: 125px;"><%= f.submit "Add Team", {class: "userTeam", style: "width:100px"} %></td>
+		    			<td style="vertical-align: top; width: 125px;"><%= f.submit "Add Team", {class: "btn btn-success", style: "width:100px"} %></td>
 		    		</tr>
 		    	</table>
 		    <% end %> <!-- end form -->

@@ -59,7 +59,7 @@ class User
   
   # Added 8/29/12 by BS for multiple groups per install
   field :teams, type: Array # added from bstrezze 
-  
+	  
   scope :ordered_by_username, order_by([:username, :asc])
   
   attr_protected :admin, :approved, :disabled, :encrypted_password, :remember_created_at, :reset_password_token, :reset_password_sent_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :effective_date
@@ -102,6 +102,8 @@ class User
 
     return teamlist
   end
+  
+	  
   
   # =============
   # = Accessors =

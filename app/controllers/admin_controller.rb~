@@ -107,19 +107,23 @@ class AdminController < ApplicationController
         @user.teams = Array.new
       end
       
-      if @user.teams.include?(BSON::ObjectId(params[:add_team][:team_id]))
-        flash[:error] = 'Selected team has already been added.'
+      if @user.teams.include?(Moped::BSON::ObjectId(params[:add_team][:team_id]))
+        flash[:notice] = 'Selected team has already been added.'
+      #  redirect_to :back, :notice => 'Selected team has already been added.'
+	      redirect_to :back 
       else
-        @user.teams << BSON::ObjectId(params[:add_team][:team_id])
+        @user.teams << Moped::BSON::ObjectId(params[:add_team][:team_id])
         @user.save
       end
     end
 
     # Remove item
     if (params[:remove_team] && params[:remove_team][:team_id])
-      @user.teams.delete_if {|item| item== BSON::ObjectId(params[:remove_team][:team_id]) }
+      @user.teams.delete_if {|item| item == Moped::BSON::ObjectId(params[:remove_team][:team_id]) }
       @user.save
     end
+    
+    
   end
   # --!  
 
@@ -131,7 +135,7 @@ class AdminController < ApplicationController
 			redirect_to :back, notice: "Cannot remove sole user"
   	else
   		if(@user.admin?)
-  	#		render :text => "Cannot remove administrator. Please go back"
+  			#render :text => "Cannot remove administrator. Please go back"
   			redirect_to :back, notice: "Cannot remove administrator"
   		else
   			@user.destroy

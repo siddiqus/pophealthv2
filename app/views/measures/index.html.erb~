@@ -135,18 +135,19 @@
 					<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  	
 						<%= categorized['category'] %>
 							
-						<!-- added by ssiddiqui - table hack -->
+						<!-- added by ssiddiqui - table hack
 							<div style='float:right'> 
 								<table style="margin-right:220px"> 
-									<td > User % </td>	
+									<td > <%=current_user.full_name.to_s %> </td>	
 										<td>
 										 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 								 		</td>				
-									<td >  Aggregate % </td>					
+									<td>  Aggregate </td>					
 									
 								</table>
-							</div> <!-- end table div --> 						
-					</div> <!-- end headerRow -->
+							</div> 
+					 -->
+					</div> 
 							
 				<%= render :partial => "measure", :collection => categorized['measures'] %>
 	    	&nbsp;

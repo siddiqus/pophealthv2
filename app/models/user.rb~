@@ -103,6 +103,8 @@ class User
     return teamlist
   end
   
+	  
+  
   # =============
   # = Accessors =
   # =============
@@ -123,17 +125,7 @@ class User
   def self.by_email(email)
     where(email: email).first
   end
-  
-  # added by ssiddiqui
-  def self.admin_list
-  	tmparr = []
-  	User.all.each do |user|
-  		if user.admin? 
-  			tmparr << user
-  		end
-  	end
-  end
-	
+  	
 	# added from bstrezze
   def self.by_id(id)
     where(_id: id).first
