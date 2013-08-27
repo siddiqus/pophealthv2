@@ -4,5 +4,7 @@
 	<td><%= provider_row.team.try(:name) || "N/A" %></td>
 	<% if current_user.admin? %>
 		<td><%= link_to "edit", edit_provider_path(provider_row), remote: true %> | <%= link_to "manage patients", manage_provider_patients_path(provider_row) %></td>
+	<% else %>
+		<td>	
 	<% end %>
 </tr>

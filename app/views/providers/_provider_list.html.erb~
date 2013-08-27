@@ -1,11 +1,10 @@
-<table id="providerList" class="display">
- 	
+<table id="providerList" class="display">	
 	<thead id="hd" align="left">
 		<tr>
 		  <th>Last Name</th>
 		  <th>First Name</th>
 		  <th>Team</th>
-		  <th />
+		 
 		</tr>
 	</thead>
 

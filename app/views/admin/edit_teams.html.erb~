@@ -1,13 +1,15 @@
-<div id="pageContent">
+<!-- <div id="pageContent">
 	<div class="panel">
     	<center>
     		<% if flash[:notice] %>
 				<div class="accountError">
-					<font color="red"> <b> <%= flash.now[:notice] %> </b> </font>
+					<font color="red"> <b> <%= flash[:notice] %> </b> </font>
 				</div>
 			<% end %>
 			<br /><br />
 			User: <b> <%= @user.first_name + " " + @user.last_name %> </b>
+			<br>
+			Username: <b> <%= @user.username %>
 			<br /><br />
 	    	
 	    <table id=tableTeams class="table fluid-row">
@@ -37,7 +39,9 @@
 		    			<td style="vertical-align: top; width: 125px;"><%= f.submit "Add Team", {class: "btn btn-success", style: "width:100px"} %></td>
 		    		</tr>
 		    	</table>
-		    <% end %> <!-- end form -->
+		    <% end %> <!-- end form --
     	</center>
 	</div>
 </div>
+-->
+<%= render_js partial: 'edit_teams' %>
