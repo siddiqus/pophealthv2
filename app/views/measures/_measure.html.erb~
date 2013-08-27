@@ -20,10 +20,10 @@
     <% end %>
   </div>
   
-  	
+ <!-- 	
   	<div class="barChart span1">
   		<%= render :partial => "shared/table_bar", locals: {numerator: 0, denominator:0, patient_count: 0, exclusions: 0}%>
-  	</div>
+  	</div> -->
   
 		<div class="fraction span1" width="100px">
 		  	<%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
@@ -37,7 +37,7 @@
 		  	<%= image_tag "loading.gif"%>	
 		</div>
 
-		<div class="span2" style="padding-left:70px">		
+		<div class="span2" style="padding-left:40px">		
 		  <%npi_param = (@selected_provider ? "?npi=#{@selected_provider.npi}" : '')%><%= link_to 'Parameters', measure_url(measure['id'], sub['sub_id'])+npi_param%><br><%= link_to 'Patients', patients_url(measure['id'], sub['sub_id'])+npi_param%>  
 		</div>
 	

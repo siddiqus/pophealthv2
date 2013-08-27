@@ -74,9 +74,7 @@ a#brand {
   padding: 0px 10px 0px 0px;
 }
 
-#dashboardPeriod {
-  padding-right:2%;
-}
+
 
 #providerReports {
   padding-left: 10px;
@@ -111,7 +109,7 @@ a#brand {
 
 #measures {
 
-  margin-top:20px;
+  margin-top:30px;
 
  .headerRow {
     
@@ -119,8 +117,9 @@ a#brand {
     font-size: 1em;
     text-transform: uppercase;
     color:#888;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
     margin-bottom: 5px;
+    margin-top:10px;
  } 
   .measure {
       padding: 10px;
@@ -157,6 +156,10 @@ a#brand {
 
     margin:0px;
   }
+
+  padding-right:2%;
+  
+  //width: 80%;
 }
 
 #outlierList, #exclusionList {
@@ -598,7 +601,7 @@ input#measurementPeriodEndDate {
 div.dashboardTabs {
      clear: left;
      padding-left: $measureDetailTable-padding;
-     padding-bottom: 0px;
+   //  padding-bottom: 0px;
      border-bottom: 2px solid $borderColor; 
      border-radius: $tab-radius;
      span{
@@ -608,9 +611,10 @@ div.dashboardTabs {
        padding-right: 10px;
        padding-top: 6px;
        padding-bottom: 3px;
-       border-left: 1px solid $borderColor;
-       border-right: 1px solid $borderColor;
-       border-top: 1px solid $borderColor;
+       border-left: 2px solid $borderColor;
+       border-right: 2px solid $borderColor;
+       border-top: 2px solid $borderColor;
+     //  border-bottom: 3px solid white;
        margin-right: 2px;
        @include rounded($tab-radius);
      }
@@ -620,6 +624,7 @@ div.dashboardTabs {
 #providerReports{
 		border-right: 1px solid #e0e0e0;
 		background: #f4f4f4;
+		//width: 17%;
 }
 
 // added by ssiddiqui

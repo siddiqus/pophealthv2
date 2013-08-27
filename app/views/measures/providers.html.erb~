@@ -29,7 +29,7 @@
     <h3>INDIVIDUAL PROVIDER STATISTICS</h3>
     <div id="providers">
       <%= render :partial => "provider_row", :collection => @providers %>
-   
+      <%= paginate @providers %>
     </div>
 		<div class="row-fluid">
     	<%#= paginate @providers, :remote => true %>	

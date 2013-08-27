@@ -9,7 +9,7 @@
   
   
 <div id="pageContent" class="row-fluid">
-	<div id="providerReports" class="span2">
+	<div id="providerReports" class="span2" style="padding-right:5px">
     <%#= @categories.to_a %>
   <h5>
   	<!--button added by ssiddiqui -->
@@ -70,8 +70,9 @@
   </div>
 
  </div><!-- end #providerReports --> 
-  <div id="dashboardPeriod" class="span10">
-    
+ 
+ 	<!-- beginning of dashboard -->
+	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
       <div style="margin-top: 20px;" class="pull-right">
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
@@ -126,33 +127,33 @@
         </dl>
       <% end %>
      
-    </div>
+    </div> <!-- end of dashboard -->
 	
+	
+		<!--added by ssiddiqui -->
 		<div class="dashboardTabs">
 			<br>
 			<span class="dashboardTab active"> <b> Measures </b></span>
 			
 			<table id='legend' style="float:right">
-			<td><div class='numerator'> </div> </td>
-			<td align='left' width='100px'>  numerator </td>
-			<td><div class='denominator'>  </div> </td>
-			<td align='left' width='120px'> denominator</td>
-			<td><div class='patients' >  </div> </td>
-			<td align='left' width='90px'> patients </td>
-			<td><div class='exclusions'> </div> </td>
-			<td align='left' width='100px'> exclusions </td>
-		</table>
-		
-			
+				<td><div class='numerator'> </div> </td>
+				<td align='left' width='100px'>  numerator </td>
+				<td><div class='denominator'>  </div> </td>
+				<td align='left' width='120px'> denominator</td>
+				<td><div class='patients' >  </div> </td>
+				<td align='left' width='90px'> patients </td>
+				<td><div class='exclusions'> </div> </td>
+				<td align='left' width='100px'> exclusions </td>
+			</table>			
 		</div>
 		
 		
-  	<!--SELECTED MEASURES AND RESUTLS  ----------------------------------------->
+  	<!--SELECTED MEASURES AND RESULTS  ----------------------------------------->
   	<div id="measures">
     	<% @categories.each do |categorized| %>	
     		
-				<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  			<div class='span6'>
-					<%= categorized['category'] %>
+				<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  					<div class='span6'>
+						<%= categorized['category'] %>
 					</div>
 					<div class='span2' style="text-align: center;">
 						<%=current_user.full_name.to_s %>

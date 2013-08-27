@@ -74,10 +74,10 @@ class MeasuresController < ApplicationController
       
       wants.js do
         
-        #@providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
+      #  @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
        	@providers = Provider.userfilter(current_user) # added by ssiddiqui
         @providers = @providers.any_in(team_id: params[:team]) if params[:team]
-        
+       	 
       end
       
       wants.json do
