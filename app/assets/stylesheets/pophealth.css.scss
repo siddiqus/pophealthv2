@@ -35,8 +35,6 @@ ul.nav {
   }
 }
 
-
-
 .popover-title {
   background-color:$numerator;
 }
@@ -212,6 +210,8 @@ input#measurementPeriodEndDate {
   // margin-top:1px;
   margin-left:2px;
 }
+
+
 
 
 // #dashboardPeriod, #dashboardContainer {
@@ -593,6 +593,60 @@ input#measurementPeriodEndDate {
     } 
   } 
 }
+
+// added by ssiddiqui
+div.dashboardTabs {
+     clear: left;
+     padding-left: $measureDetailTable-padding;
+     padding-bottom: 0px;
+     border-bottom: 2px solid $borderColor; 
+     border-radius: $tab-radius;
+     span{
+       text-transform: lowercase;
+       text-color: black;
+       padding-left: 10px;
+       padding-right: 10px;
+       padding-top: 6px;
+       padding-bottom: 3px;
+       border-left: 1px solid $borderColor;
+       border-right: 1px solid $borderColor;
+       border-top: 1px solid $borderColor;
+       margin-right: 2px;
+       @include rounded($tab-radius);
+     }
+}
+
+// added by ssiddiqui
+#providerReports{
+		border-right: 1px solid #e0e0e0;
+		background: #f4f4f4;
+}
+
+// added by ssiddiqui
+#legend{
+	
+	div {
+		display: block;
+    float: left;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+	}
+	.numerator {
+		background: $numerator; 
+	}
+	.denominator {
+		background: $denominator; 
+	}
+	.patients {
+		background: $patients; 
+	}
+	.exclusions {
+		background: $exclusions; 
+	}
+}
+
+
 // #exclusionPanel {
 //   width: 500px;
 //   position: absolute;
@@ -1102,6 +1156,14 @@ input#measurementPeriodEndDate {
   }
 }
 
+#barChart {
+   padding: 0 10px;
+
+   .tableBar {
+     height:20px;
+     width:150px;
+  }
+}
 
 
 // #measurePopulationPercentage {

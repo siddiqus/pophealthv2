@@ -1,4 +1,3 @@
-
 @import "mixins";
 
 body.login {
@@ -14,7 +13,7 @@ div#cap-top {
 
 * html div#cap-top {
   background-image: none;
-  filter: e('progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../assets/cap-top.png", sizingMethod="crop")'); }
+  filter: e(progid:DXImageTransform.Microsoft.AlphaImageLoader(src="../assets/cap-top.png", sizingMethod="crop")); }
 
 div#cap-body {
   background: transparent url("../assets/cap-bg.png") repeat-y;

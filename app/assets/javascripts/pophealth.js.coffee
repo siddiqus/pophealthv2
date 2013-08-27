@@ -63,6 +63,8 @@ class @QualityReport
 	userPercent: (selector, data) -> 
 		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100
 		selector.html("#{Math.floor(percent)}%")	
+		
+	
 }
 
 @makeMeasureListClickable = ->
