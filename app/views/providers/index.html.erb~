@@ -35,10 +35,11 @@
 	<% end %>
 </div>
 
-
 <div id="lst" class="container-fluid">
-	<%= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
-	<br />
+	<% if current_user.admin? %>
+		<%= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
+	<% end %>
+
 	<%= render partial: 'provider_list', locals: {providers: @providers} %>
 	<br> <br>
 	<br> <br>
