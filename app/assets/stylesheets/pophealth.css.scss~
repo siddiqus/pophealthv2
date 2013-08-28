@@ -1166,10 +1166,11 @@ div.barChart {
 
    .tableBar {
      height:20px;
-     width:150px;
+     width:100%;
   }
 }
 
+// added by ssiddiqui
 div.tableBar {
   margin-right: 15px;
   background-color: $measurePopulationChartBar;
@@ -1193,6 +1194,13 @@ div.tableBarExclusion {
 	float: left;
 	padding:0px;
 	background-color: $exclusions; }
+
+
+// added by ssiddiqui
+#managePatients {
+	margin-left:40px;
+
+}
 
 
 // #measurePopulationPercentage {

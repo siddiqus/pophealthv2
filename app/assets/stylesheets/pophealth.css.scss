@@ -1170,6 +1170,7 @@ div.barChart {
   }
 }
 
+// added by ssiddiqui
 div.tableBar {
   margin-right: 15px;
   background-color: $measurePopulationChartBar;
@@ -1193,6 +1194,14 @@ div.tableBarExclusion {
 	float: left;
 	padding:0px;
 	background-color: $exclusions; }
+
+
+// added by ssiddiqui
+#managePatients {
+	margin-left:40px;
+	margin-right:40px;
+
+}
 
 
 // #measurePopulationPercentage {

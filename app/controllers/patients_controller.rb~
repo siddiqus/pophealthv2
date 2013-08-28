@@ -44,7 +44,7 @@ class PatientsController < ApplicationController
   def manage
     @unassigned = Record.page(params[:unassigned_page]).per(10).alphabetical.without_provider
     @provider = Provider.find(params[:provider_id])
-    @records = Record.page(params[:provider_page]).per(10).alphabetical.by_provider(@provider, nil)
+    @records = Record.page(params[:provider_page]).per(25).alphabetical.by_provider(@provider, nil)
   end
   
   def update_all
