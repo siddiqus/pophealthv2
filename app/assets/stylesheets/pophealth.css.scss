@@ -1161,14 +1161,38 @@ div.dashboardTabs {
   }
 }
 
-#barChart {
+div.barChart {
    padding: 0 10px;
 
    .tableBar {
      height:20px;
-     width:150px;
+     width:100%;
   }
 }
+
+div.tableBar {
+  margin-right: 15px;
+  background-color: $measurePopulationChartBar;
+  width: 150px;
+  padding: 0 1px 0 0; }
+  
+div.tableBarDenominator {
+	@extend .tableBarVal;
+	float: left;
+	padding:0px;
+	background-color: $denominator; }
+
+div.tableBarNumerator {
+	@extend .tableBarVal;
+	float: left;
+	padding:0px;
+	background-color: $numerator; }
+
+div.tableBarExclusion {
+	@extend .tableBarVal;
+	float: left;
+	padding:0px;
+	background-color: $exclusions; }
 
 
 // #measurePopulationPercentage {

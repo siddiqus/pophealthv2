@@ -1,0 +1,15 @@
+<!--
+<div class="tableBar">
+  <div class="tableBarNumerator" style="width:<%= numerator_width(numerator, patient_count)%>"><span></span></div>
+  <div class="tableBarDenominator" style="width:<%= denominator_width(numerator, denominator, patient_count)%>"><span></span></div>
+  <div class="tableBarExclusion" style="width:<%= exclusion_width(exclusions, patient_count)%>"><span></span></div>
+</div>
+
+-->
+
+
+<div class="tableBar">
+  <div class="tableBarNumerator" style="width:25"><span></span></div>
+  <div class="tableBarDenominator" style="width:60"><span></span></div>
+  <div class="tableBarExclusion" style="width:10"><span></span></div>
+</div>

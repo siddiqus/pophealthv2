@@ -64,7 +64,17 @@ class @QualityReport
 		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100
 		selector.html("#{Math.floor(percent)}%")	
 		
-	
+	barChart: (selector, data) ->
+		numerator_width = 0
+		denominator_width = 0
+		exclusion_width = 0
+		if data.IPP != 0
+			numerator_width = (data.NUMER / data.IPP) * 100
+			denominator_width = ((data.DENOM - data.NUMER) / data.IPP) * 100
+			exclusion_width = (data.DENEX / data.IPP) * 100
+		selector.children("div.tableBarNumerator").animate(width: "#{numerator_width}%")
+		selector.children("div.tableBarDenominator").animate(width: "#{denominator_width}%")
+		selector.children("div.tableBarExclusion").animate(width: "#{exclusion_width}%")
 }
 
 @makeMeasureListClickable = ->

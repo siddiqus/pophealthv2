@@ -72,7 +72,7 @@
  </div><!-- end #providerReports --> 
  
  	<!-- beginning of dashboard -->
-	<div id="dashboardPeriod" class="span2">	
+	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
       <div style="margin-top: 20px;" class="pull-right">
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
@@ -137,13 +137,13 @@
 			
 			<table id='legend' style="float:right">
 				<td><div class='numerator'> </div> </td>
-				<td align='left' width='100px'>  numerator </td>
+				<td align='left'>  numerator </td>
 				<td><div class='denominator'>  </div> </td>
-				<td align='left' width='120px'> denominator</td>
+				<td align='left'> denominator</td>
 				<td><div class='patients' >  </div> </td>
-				<td align='left' width='90px'> patients </td>
-				<td><div class='exclusions'> </div> </td>
-				<td align='left' width='100px'> exclusions </td>
+				<td align='left'> patients </td>
+				<td><div class='exclusions' style='margin-left:20px'> </div> </td>
+				<td align='left'> exclusions </td>
 			</table>			
 		</div>
 		
@@ -155,7 +155,7 @@
 				<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  					<div class='span6'>
 						<%= categorized['category'] %>
 					</div>
-					<div class='span2' style="text-align: center;">
+					<div class='span3' style="text-align: center;">
 						<%=current_user.full_name.to_s %>
 					</div>
 					<div class='span1'>
