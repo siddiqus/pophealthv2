@@ -618,6 +618,15 @@ div.dashboardTabs {
        margin-right: 2px;
        @include rounded($tab-radius);
      }
+     span.active {
+      font-weight: bold;
+      color: $active-tab_font;
+      background-color: $active-tab_background;
+     // padding-bottom: $active-tab_padding;
+      border-left: $active-tab_border;
+      border-right: $active-tab_border;
+      border-top: $active-tab_border;
+      }
 }
 
 // added by ssiddiqui

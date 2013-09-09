@@ -17,7 +17,7 @@ gem "health-data-standards", :path => "../health-data-standards"
 gem 'nokogiri', '1.6.0'#'~>1.5.5' #'1.5.10'
 gem 'rubyzip', '0.9.9'
 
-#gem "will_paginate", '3.0.4'# we need to get rid of this, very inefficient with large data sets and mongoid
+gem "will_paginate", '3.0.4'# we need to get rid of this, very inefficient with large data sets and mongoid
 gem "kaminari", '0.14.1'
 
 gem 'json', '1.8.0', :platforms => :jruby

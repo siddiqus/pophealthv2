@@ -58,7 +58,7 @@
     $('#btnExportReport').click(Dashboard.exportReport);
     $('#btnExportReportSingle').click(Dashboard.doReportExport);
     $('#btnMeasurementPeriodChange').click(Dashboard.changeMeasurePeriod);
-    $('#measurementPeriodStartDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodStart}); # added by ssiddiqui
+   # $('#measurementPeriodStartDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodStart}); # added by ssiddiqui
     $('#measurementPeriodEndDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodEnd});
     Page.onFilterChange = (li) ->
       Dashboard.calculateSelected()
