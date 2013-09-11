@@ -1,4 +1,6 @@
-
 $("#providerForm").replaceWith("<%= render_js partial: 'edit_profile', locals: {provider: @provider} %>")
+$("#providerList").replaceWith( $("#providerList").dataTable);
+
+
 $("#providerForm").effect("highlight", {color: "#ECF7F8"}, 1000);
 

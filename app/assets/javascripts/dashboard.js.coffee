@@ -58,8 +58,7 @@
     $('#btnExportReport').click(Dashboard.exportReport);
     $('#btnExportReportSingle').click(Dashboard.doReportExport);
     $('#btnMeasurementPeriodChange').click(Dashboard.changeMeasurePeriod);
-   # $('#measurementPeriodStartDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodStart}); # added by ssiddiqui
-    $('#measurementPeriodEndDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodEnd});
+    $('#measurementPeriodEndDate').calendricalDate({usa: true, changed: Dashboard.updatePeriodEnd}).change(Dashboard.updatePeriodEnd);
     Page.onFilterChange = (li) ->
       Dashboard.calculateSelected()
     Dashboard.calculateSelected()
@@ -98,6 +97,7 @@
       npiParam = "?npi=#{npi}" if (npi)
       window.location.href="#{rootContext}/measures"+npiParam
     , 'json')
+    false
         
   updatePeriodEnd: (selected) -> 
     effective_date = $('#measurementPeriodEndDate').val();

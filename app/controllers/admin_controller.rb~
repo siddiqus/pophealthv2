@@ -5,12 +5,13 @@ class AdminController < ApplicationController
 
   before_filter :authenticate_user!
   before_filter :validate_authorization!
-  add_breadcrumb 'admin', :admin_users_path
+  add_breadcrumb 'Admin', :admin_users_path
 
   def patients
     @patient_count = Record.all.count
     @query_cache_count = QueryCache.all.count
     @patient_cache_count = PatientCache.all.count
+  	@provider_count = Provider.all.count
   end
   def remove_patients
     Record.all.delete
@@ -114,6 +115,7 @@ class AdminController < ApplicationController
       else
         @user.teams << Moped::BSON::ObjectId(params[:add_team][:team_id])
         @user.save
+        redirect_to :back
       end
     end
 

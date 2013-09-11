@@ -16,18 +16,18 @@ class MeasuresController < ApplicationController
       {}
     end
   end
-  
-  
+
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
     {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
      url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['sub_id'] ? "/#{measure['sub_id']}" : '')+(provider ? "?npi=#{provider.npi}" : "/providers")}
   end
-  add_breadcrumb 'parameters', '', only: %w{show}
-  add_breadcrumb 'patients', '', only: %w{patients}
+  add_breadcrumb 'Parameters', '', only: %w{show}
+  add_breadcrumb 'Patients', '', only: %w{patients}
   
   def index
-		@categories = Measure.categories
+	#	@categories = Measure.categories
+    @categories = HealthDataStandards::CQM::Measure.categories
   end
 
   def show
@@ -56,7 +56,6 @@ class MeasuresController < ApplicationController
   
   def result
     uuid = generate_report(params[:uuid])
-    
     if (@result)
       render :json => @result
     else
@@ -71,9 +70,7 @@ class MeasuresController < ApplicationController
     
     respond_to do |wants|
       wants.html {}
-      
-      wants.js do
-        
+      wants.js do    
       #  @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
        	@providers = Provider.userfilter(current_user) # added by ssiddiqui
         @providers = @providers.any_in(team_id: params[:team]) if params[:team]
@@ -81,10 +78,7 @@ class MeasuresController < ApplicationController
       end
       
       wants.json do
-
-            
         providerIds = params[:provider].blank? ?  Provider.all.map { |pv| pv.id.to_s } : @filters.delete('providers')
-        
         render_measure_response(providerIds, params[:jobs]) do |pvId|
           filters = @filters ? @filters.merge('providers' => [pvId]) : {'providers' => [pvId]}
           { 
@@ -191,6 +185,43 @@ class MeasuresController < ApplicationController
         headers['Content-Disposition'] = 'attachment; filename="excel-export.xls"'
         headers['Cache-Control'] = ''
         render :content_type => "application/vnd.ms-excel"
+      end
+    end
+  end
+
+  # added from latest version of popHealth on github
+  def qrda_cat3
+    Atna.log(current_user.username, :query)
+    selected_measures = current_user.selected_measures
+
+    measure_ids = selected_measures.map{|measure| measure['id']}
+    expected_results = QueryCache.in(:measure_id => measure_ids).where(:effective_date => current_user.effective_date)
+
+    results = {}
+    expected_results.each do |value|
+      result = results[value["measure_id"]] ||= {"hqmf_id"=>value["measure_id"], "population_ids" => {}}
+      population_ids = value["population_ids"]
+      strat_id = population_ids["stratification"]
+      population_ids.each_pair do |pop_key,pop_id|
+        if pop_key != "stratification" 
+          pop_result  = result["population_ids"][pop_id] ||= {"type"=> pop_key}
+          pop_val = value[pop_key]
+          if strat_id
+            pop_result["stratifications"] ||= {}
+            pop_result["stratifications"][strat_id] = pop_val
+          else
+            pop_result["value"] = pop_val
+          end
+        end
+      end
+    end
+    @results = results
+    @measures = MONGO_DB['measures'].find({:hqmf_id => {"$in" => measure_ids}, :sub_id => {"$in" =>[nil,'a']}})
+
+    respond_to do |format|
+      format.xml do
+        response.headers['Content-Disposition']='attachment;filename=qrda_cat3.xml';
+        render :content_type=>'application/xml'
       end
     end
   end
@@ -311,10 +342,10 @@ class MeasuresController < ApplicationController
       else
         measure_id = report.instance_variable_get(:@measure_id)
         sub_id = report.instance_variable_get(:@sub_id)
-        filters = report.instance_variable_get(:@parameter_values)['filters']
         key = "#{measure_id}#{sub_id}"
         uuid = (uuids.nil? || uuids[key].nil?) ? report.calculate : uuids[key]
-        job = {uuid: uuid, status: report.status(uuid)['status'], measure_id: measure_id, sub_id: sub_id, filters: filters}
+        filters = report.instance_variable_get(:@parameter_values)['filters']        
+				job = {uuid: uuid, status: report.status(uuid)['status'], measure_id: measure_id, sub_id: sub_id, filters: filters}
 
         memo[:jobs][key] = job
         memo[:result] << {job: job}
@@ -402,7 +433,7 @@ class MeasuresController < ApplicationController
   end
 
   def validate_authorization!
-    authorize! :read, Measure
+    authorize! :read, HealthDataStandards::CQM::Measure #Measure
   end
   
 end

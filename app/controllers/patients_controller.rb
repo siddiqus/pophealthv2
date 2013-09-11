@@ -5,16 +5,16 @@ class PatientsController < ApplicationController
   before_filter :validate_authorization!
   before_filter :load_patient, :only => [:show, :toggle_excluded]
   after_filter :hash_document, :only => :list
-  
   add_breadcrumb_dynamic([:patient], only: %w{show}) {|data| patient = data[:patient]; {title: "#{patient.last}, #{patient.first}", url: "/patients/show/#{patient.id}"}}
-
+	add_breadcrumb 'Patients', :root_path
+  
   def show
 
     respond_to do |wants|
       wants.html {}
       wants.json do
         @outliers = []
-        @measures = Measure.list
+        @measures = HealthDataStandards::CQM::Measure.all #Measure.list
         @measures.each do |measure|
           executor = QME::MapReduce::Executor.new(measure['id'], measure['sub_id'], {'effective_date' => @effective_date})
           result = executor.get_patient_result(@patient.medical_record_number)

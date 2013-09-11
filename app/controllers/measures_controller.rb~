@@ -7,24 +7,24 @@ class MeasuresController < ApplicationController
   before_filter :set_up_environment, :setup_filters
   after_filter :hash_document, :only => :measure_report
   
-  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
-  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
-    measure = data[:definition];
-    if measure
-      {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['subid'] ? "/#{measure['sub_id']}" : '')+"/providers"}
-    else
-      {}
-    end
-  end
-  
+#  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
+#  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
+#    measure = data[:definition];
+#    if measure
+#      {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['subid'] ? "/#{measure['sub_id']}" : '')+"/providers"}
+#    else
+#      {}
+#    end
+#  end
+#  
   
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
     {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
      url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['sub_id'] ? "/#{measure['sub_id']}" : '')+(provider ? "?npi=#{provider.npi}" : "/providers")}
   end
-  add_breadcrumb 'parameters', '', only: %w{show}
-  add_breadcrumb 'patients', '', only: %w{patients}
+  add_breadcrumb 'Parameters', '', only: %w{show}
+  add_breadcrumb 'Patients', '', only: %w{patients}
   
   def index
 		@categories = Measure.categories
@@ -75,11 +75,9 @@ class MeasuresController < ApplicationController
       wants.js do
         
       #  @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
-      # 	@providers = Provider.userfilter(current_user) # added by ssiddiqui
-      #  @providers = @providers.any_in(team_id: params[:team]) if params[:team]
-       	@providers = Provider.order(:created_at) 
-        Kaminari.paginate_array(@providers).page(params[:page]).per(10)
-        
+       	@providers = Provider.userfilter(current_user) # added by ssiddiqui
+        @providers = @providers.any_in(team_id: params[:team]) if params[:team]
+       	 
       end
       
       wants.json do
