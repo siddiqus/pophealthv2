@@ -39,7 +39,7 @@ class TeamsController < ApplicationController
     @team.destroy
     
     respond_to do |wants|
-    #  wants.html { redirect_to :action => "index" }
+      wants.html { redirect_to :action => "index" }
 			wants.js { render partial: "update_form"}
     end
   end
