@@ -8,7 +8,7 @@ GIT
 PATH
   remote: ../health-data-standards
   specs:
-    health-data-standards (3.2.8)
+    health-data-standards (3.2.11)
       activesupport (~> 3.2.14)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
