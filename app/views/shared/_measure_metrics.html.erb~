@@ -1,6 +1,6 @@
 <div id="measureMetrics" class='span12'>
   
-  <div id="measurePopulationPercentage" class='span7' style="text-align:left">
+  <div id="measurePopulationPercentage" class='span9' style="text-align:left">
   	<%= image_tag "loading.gif", :id => "loadingAggregate", :style => "display:none;margin-top:12px" %>
     <h1><%= display_raw_percentage(numerator, denominator) %></h1>
   </div> 
