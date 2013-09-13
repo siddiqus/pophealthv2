@@ -60,10 +60,8 @@ class MeasuresController < ApplicationController
       render :json => @result
     else
       render :json => @quality_report.status(uuid)
-    end
-    
-  end
-  
+    end  
+  end  
   
   def providers    
     authorize! :manage, :providers

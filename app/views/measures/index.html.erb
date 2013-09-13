@@ -76,19 +76,20 @@
     <div class="dashboard row-fluid">
       <div style="margin-top: 20px;" class="pull-right">
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
-          <a class="btn" href="#">Export Report</a>
+          <button class="btn-large btn-success" href="#" id="btnExportReport">Export Report</button>
         <% else %>
-         <!--  <div class="btn-group">
-            <a id="btnExportReportSingle" class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                      <i class="icon-download-alt"></i>
-      Export Report
+        
+        <div class="btn-group">
+            <a id="btnExportReport" class="btn btn-large btn-success dropdown-toggle" data-toggle="dropdown" href="#">
+            	<i class="icon-download-alt"></i>
+      				Export Report
             </a>
             <ul class="dropdown-menu">
               <li><a href="#" tabindex="-1">Provider Report</a></li>
               <li><a href="#" tabindex="-1">Practice Report</a></li>
             </ul>
-          </div> -->
-        <% end %>
+          </div> 
+        <%end %>
       </div>
       <div style="margin-top:20px">
 	      <% if (@selected_provider)%>

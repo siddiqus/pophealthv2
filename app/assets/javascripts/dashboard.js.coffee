@@ -69,6 +69,7 @@
         $(@).siblings("div").html()
   
   exportMenuHasMouse: false
+  
   exportReport: ->
     position = $(this).offset()
     dialog = $( "#generate-menu" ).dialog({ position: [position.left+5, (position.top + $(this).height() + 10 - $(window).scrollTop())], resizable: false, dialogClass: 'dialog-menuwindow', minWidth: false, minHeight: false, width: 170 }).css('padding', '2px');
