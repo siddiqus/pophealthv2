@@ -155,10 +155,11 @@
   	<div id="measures">
     	<% @categories.each do |categorized| %>	
     		
-				<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  					<div class='span6'>
+				<div style="<%= display_header(categorized['measures'], current_user.selected_measures)%>" class="headerRow row-fluid">			  		  					
+					<div class='span5'>
 						<%= categorized['category'] %>
 					</div>
-					<div class='span3' style="text-align: center;">
+					<div class='span4' style="text-align: center;">
 						<%=current_user.full_name.to_s %>
 					</div>
 					<div class='span1'>

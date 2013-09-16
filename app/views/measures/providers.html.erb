@@ -20,8 +20,8 @@
       </div>
 
         <div class="btn-group">
-          <%= link_to 'parameters', measure_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn'%> 
-          <%= link_to 'patients', patients_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn'%>
+          <%= link_to 'parameters', measure_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-info', :style =>'width:100px'%> 
+          <%= link_to 'patients', patients_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-success', :style =>'width:100px'%>
         </div>
     </div>
 		
