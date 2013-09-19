@@ -7,15 +7,15 @@ class MeasuresController < ApplicationController
   before_filter :set_up_environment, :setup_filters
   after_filter :hash_document, :only => :measure_report
   
-  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
-  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
-    measure = data[:definition];
-    if measure
-      {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['subid'] ? "/#{measure['sub_id']}" : '')+"/providers"}
-    else
-      {}
-    end
-  end
+#  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
+#  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
+#    measure = data[:definition];
+#    if measure
+#      {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['subid'] ? "/#{measure['sub_id']}" : '')+"/providers"}
+#    else
+#      {}
+#    end
+#  end
 
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
@@ -61,8 +61,7 @@ class MeasuresController < ApplicationController
     else
       render :json => @quality_report.status(uuid)
     end  
-  end
-  
+  end  
   
   def providers    
     authorize! :manage, :providers
@@ -358,11 +357,21 @@ class MeasuresController < ApplicationController
   
   def setup_filters
     
-    if !can?(:read, :providers) || params[:npi]
-      npi = params[:npi] ? params[:npi] : current_user.npi
-      @selected_provider = Provider.where(conditions: {npi: npi}).first
-      authorize! :read, @selected_provider
-    end
+#    if !can?(:read, :providers) || params[:npi]
+#      npi = params[:npi] ? params[:npi] : current_user.npi
+#      @selected_provider = Provider.where(conditions: {npi: npi}).first
+#      authorize! :read, @selected_provider
+#    end
+#    
+		
+		npi = current_user.npi
+		if(npi)		
+			@selected_provider = Provider.where(:npi => npi).first
+		end
+#    
+#    if(cu)
+#    	@selected_provider = 
+#    end
     
     if request.xhr?
       

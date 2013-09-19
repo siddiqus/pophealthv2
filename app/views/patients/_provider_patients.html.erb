@@ -10,7 +10,11 @@
 	</tr>
 	<% @records.each do |record| %>
 		<tr>
-			<td><%= record.medical_record_number %></td>
+<!--			<td><%= record.medical_record_number %></td> -->
+			<!-- added by ssiddiqui -->
+			<% rec=record.medical_record_number %>
+			<% id = Record.where(medical_record_number: "#{rec}").first._id %>
+			<td>      <%= link_to "#{rec}", :controller => "patients", :action => "show", :id => "#{id}"%> </td>
 			<td><%= record.last %></td>
 			<td><%= record.first %></td>
 			<% perfs = record.provider_performances.select{|pp| pp.provider_id == @provider.id} %>
