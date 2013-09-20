@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def create
-    @bundles = MONGO_DB["bundles"].find() #Bundle.find() # || []
+    @bundles = Bundle.find() # || []
     super
   end
 

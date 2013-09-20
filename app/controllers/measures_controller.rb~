@@ -365,8 +365,9 @@ class MeasuresController < ApplicationController
 #    
 		
 		npi = current_user.npi
-		if(npi)		
+		if(npi != nil)		
 			@selected_provider = Provider.where(:npi => npi).first
+			authorize! :read, @selected_provider
 		end
 #    
 #    if(cu)
