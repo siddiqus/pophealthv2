@@ -24,8 +24,10 @@
 
 <!--Added by ssiddiqui -->
 <div id="btn1">
-	<%= link_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
+	<% if current_user.admin? %>
+		<%= link_to "Delete All Providers", "/admin/remove_providers", 'method' => 'delete', 
 		:confirm => "Are you sure you want to delete all the providers?", 'class' => 'btn-large btn-danger'%>
+		<% end %>
 </div>	
 
 <!-- Added by ssiddiqui -->
@@ -37,8 +39,10 @@
 
 <div id="lst" class="container-fluid">
 	<% if current_user.admin? %>
-		<%= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
+		<%#= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
 	<% end %>
+	<br>
+	<h2><strong>Providers</strong></h2>
 
 	<%= render partial: 'provider_list', locals: {providers: @providers} %>
 	<br> <br>

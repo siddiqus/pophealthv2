@@ -6,17 +6,18 @@
 </style>
 
 
-<%= form_for provider, {html: {id: "providerForm", class: "form-horizontal"}, remote: true} do |f| %>
+<%= form_for @provider, {html: {id: "providerForm", class: "form-horizontal"}, remote: true} do |f| %>
+<!--
 	<h2>
 		<% if provider.new_record? %>
-			New
+			New:
 		<% else %>
-			Edit
+			Edit:
 		<% end %>
-		Provider:
 	</h2>
-
-	<div id="tbl" style="margin-left:-40px">
+-->
+	
+	<div id="tbl" style="margin-left:-60px">
 		<div class='control-group form-inline'>
 				<label class="control-label">
 					Name: 
@@ -49,15 +50,18 @@
 		<div class="control-group">	
 			<%= f.label :specialty, "Specialty:", 'class' => 'control-label' %>
 			<div class="controls">
-				<%= f.select :specialty, specialties, {include_blank: true} %>
+				<%= f.select :specialty, specialties, {include_blank: true}, :style=>"width:300px" %>
 			</div>
 		</div>
+		
 		<div class="control-group">
 			<div class="controls">
-				<%= submit_tag "Save", class: "btn btn-info" %>
-				<%= link_to raw("<i class=\"icon-plus-sign\"></i> Add New Provider"), new_provider_path, remote: true, class: "btn" %>
+				<%= submit_tag "Save", class: "btn btn-info", :style => "width:120px", :confirm => "Are you sure you want to save changes?"%>
+				<%#= link_to raw("<i class=\"icon-plus-sign\"></i> Add New Provider"), new_provider_path, remote: true, class: "btn" %>
 			</div>
 		</div>
+	
+	
 	</div>
 <% end %> <!-- end of form -->
 

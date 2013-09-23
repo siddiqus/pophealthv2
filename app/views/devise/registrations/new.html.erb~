@@ -63,7 +63,7 @@
           </li>
         </ul>
         <% @bundles.each do |bundle| %>
-        <%=  bundle["license"].html_safe %>
+        <%= bundle["license"] %>
         <% end %>
         <div id="regcheckbox">
           <%= f.check_box :agree_license %>

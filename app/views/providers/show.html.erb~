@@ -7,7 +7,7 @@
 	  <%= render partial: 'show_profile', locals: {provider: Provider.new} %>
 	<% end %>
 	<br>
-	<%= link_to "Return to Providers Page", "/providers", class: "btn btn-success" %>
+	<%= link_to "Return to Providers Page", "providers_path", class: "btn btn-success" %>
 </div>
 
 

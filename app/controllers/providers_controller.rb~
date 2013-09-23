@@ -64,6 +64,11 @@ class ProvidersController < ApplicationController
     end
   end
   
+  def remove
+  	@provider = Provider.by_id(params[:id])	 
+  	redirect_to :back
+  end
+  
   def merge_list
     render partial: 'merge_form'
   end
