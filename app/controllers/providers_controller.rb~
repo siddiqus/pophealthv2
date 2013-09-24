@@ -36,6 +36,7 @@ class ProvidersController < ApplicationController
     respond_to do |wants|
       wants.js {}
     end    
+    redirect_to :action => :show
   end
   
   def create
@@ -62,6 +63,7 @@ class ProvidersController < ApplicationController
      # wants.js { @providers = Provider.alphabetical.page(params[:page]).per(20) }
      wants.js { @providers = Provider.userfilter(current_user) }
     end
+
   end
   
   def remove

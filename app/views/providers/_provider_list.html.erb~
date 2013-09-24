@@ -12,4 +12,4 @@
 		<%= render partial: 'provider_row', collection: providers%>
 	</tbody>
 </table>
-<script language="javascript" type="text/javascript" defer
+

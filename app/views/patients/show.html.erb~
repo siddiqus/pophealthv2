@@ -78,7 +78,7 @@
               <%= render :partial => 'section', :object => @patient.conditions, :locals => {:title => 'Conditions'} %>
       </div>
       <div class="span6">
-              <%= render :partial => 'section', :object => @patient.procedures, :locals => {:title => 'Procedures'} %>
+                      <%= render :partial => 'section', :object => @patient.procedures, :locals => {:title => 'Procedures'} %>
               <%= render :partial => 'section', :object => @patient.medications, :locals => {:title => 'Medications'} %>
               <%= render :partial => 'section', :object => @patient.social_history, :locals => {:title => 'Social History'} %>
               <%= render :partial => 'section', :object => @patient.immunizations, :locals => {:title => 'Immunizations'} %>

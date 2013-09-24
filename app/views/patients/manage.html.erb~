@@ -18,8 +18,6 @@
 		<%= form_tag update_all_provider_patients_path(@provider), {method: 'put'} do %>
 		<h3>Unassigned Patients</h3>
 		<span id="unassigned">
-			<%#= submit_tag "Assign Selected to #{@provider.full_name}", class: "btn	 btn-success"%>
-
 				<%= render partial: 'unassigned', param_name: 'unassigned_page' %>
 					
 				<%= paginate @unassigned %>
@@ -28,7 +26,8 @@
 		</span>
 		<% end %>
 	<% end %>
-	<hr/>
 	<br> </br> 
+	<hr/>
+
 	<br> </br>
 </div>

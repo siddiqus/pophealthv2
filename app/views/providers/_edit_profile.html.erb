@@ -5,18 +5,9 @@
 	}
 </style>
 
+<!-- got rid of remote option to reload page -->
+<%= form_for @provider, {html: {id: "providerForm", class: "form-horizontal"}} do |f| %>
 
-<%= form_for @provider, {html: {id: "providerForm", class: "form-horizontal"}, remote: true} do |f| %>
-<!--
-	<h2>
-		<% if provider.new_record? %>
-			New:
-		<% else %>
-			Edit:
-		<% end %>
-	</h2>
--->
-	
 	<div id="tbl" style="margin-left:-60px">
 		<div class='control-group form-inline'>
 				<label class="control-label">

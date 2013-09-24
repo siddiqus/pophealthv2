@@ -43,8 +43,8 @@
 	<% end %>
 	<br>
 	<h2><strong>Providers</strong></h2>
-
-	<%= render partial: 'provider_list', locals: {providers: @providers} %>
+	<br>
+	<%#= render partial: 'provider_list', locals: {providers: @providers} %>
 	<br> <br>
 	<br> <br>
 </div>
