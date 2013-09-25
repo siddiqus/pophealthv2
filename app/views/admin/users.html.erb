@@ -100,65 +100,46 @@
 		<font color="red"> <b> <%= flash[:notice] %> </b> </font>
 		<br> </br>
 	<% end %>
-	<table id="patientTable" class="table">
-		<tr>
-		  <th>First Name</th>
-		  <th>Last Name</th>
-		  <th>Username</th>
-		  <th>Provider</th>
-		  <th>Administrator</th>
-		  <th>Staff Role</th>
-		  <th>Approved</th>
-		  <th>Status</th>
-		  <th>Teams</th> <%# added from bstrezze %>
-		  <th> </th>
-		</tr>
-		<% i = 0 #added from bstrezze %>
-		<% @users.each do |user| -%>
-		<tr>
-		  <td><%= user.first_name %></td>
-		  <td><%= user.last_name %></td>
-		  <td><%= user.username %></td>
-		  <td>
-		    <select class="npi_select" data-username="<%= user.username %>" name="user[npi]">
-		      <option value="-1">&nbsp;</option>
-		      <% Provider.all.alphabetical.each do |provider| %>
-		        <option value="<%= provider.npi %>" <%= (user.npi == provider.npi) ? "selected=\"selected\"" : ""%>><%= provider.full_name%></option>
-		      <% end%>
-		    </select>
-		  </td>
-		  <td>
-		    <% if user.admin? -%>
-		    Yes - <a href="#" class="demote" data-role="admin" data-username="<%= user.username %>">Revoke</a>
-		    <% else -%>
-		    No - <a href="#" class="promote" data-role="admin" data-username="<%= user.username %>">Grant</a>
-		    <% end -%>
-		  </td>
-		  <td>
-		    <% if user.staff_role? -%>
-		    Yes - <a href="#" class="demote" data-role="staff_role" data-username="<%= user.username %>">Revoke</a>
-		    <% else -%>
-		    No - <a href="#" class="promote" data-role="staff_role" data-username="<%= user.username %>">Grant</a>
-		    <% end -%>
-		  </td>
-		  <td>
-		    <% if user.approved? -%>
-		    True
-		    <% else -%>
-		    <a href="#" class="approve" data-username="<%= user.username %>">Approve</a>
-		    <% end -%>
-		  </td>
-		  <td>
-		    <a href="#" class="<%= (user.disabled?) ? 'Disable' : 'Enable'%>" data-username="<%= user.username %>"><%= (user.disabled?) ? 'Disabled' : 'Enabled'%></a>
-		  <td>
-		  	
-		  	<%= link_to "Edit", :controller => "admin", :action => "edit_teams", :id => user._id %>
-		  </td>
-		  <td>
-				<%= button_to "Delete User", {:controller => "admin", :action => "delete_user", :id => user._id}, 'method' => 'delete', :confirm=>"Are you sure you want to delete this user?", 'class' => 'btn btn-danger' %>    
-		  </td>
-		  <!-- /Teams Columns -->
-		</tr>
-		<% end -%>
-	</table>
+	
+	Click on one of the tabs to view list of users:
+	<br> </br>
+
+		<%# i = 0 #added from bstrezze %>
+	<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large btn-danger span3" data-toggle="dropdown" href="#">
+   	 Administrators 
+    </a>
+    <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
+      	<%= render partial: 'user_list', :locals => {:users => User.where(:admin => "true")} %>
+  
+    </ul>
+	</div> 	
+	
+	<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large btn-info span3" data-toggle="dropdown" href="#">
+   	 Providers 
+    </a>
+    <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
+      	<%= render partial: 'user_list', :locals => {:users => User.where(:provider => "true")} %>
+    </ul>
+	</div> 	
+	
+	<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large btn-success span3" data-toggle="dropdown" href="#">
+   	 Staff 
+    </a>
+    <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
+      	<%= render partial: 'user_list', :locals => {:users => User.where(:staff_role => "true")} %>
+    </ul>
+	</div> 	
+	
+		<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large btn-primary span3" data-toggle="dropdown" href="#">
+   	 Pending 
+    </a>
+    <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
+      	<%= render partial: 'user_list', :locals => {:users => User.where(:approved => "false")} %>
+    </ul>
+	</div> 	
+	
 </div> <!-- pageContent -->

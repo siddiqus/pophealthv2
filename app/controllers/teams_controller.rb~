@@ -15,7 +15,11 @@ class TeamsController < ApplicationController
   end
   
   def create
-    @team = Team.create(params[:team])
+    if Team.where(:name => params[:team][:name]).exists?
+    	flash[:notice] = 'Team already exists'
+    else 
+    	@team = Team.create(params[:team]) 
+    end
 
     respond_to do |wants|
       wants.html { redirect_to :action => "index" }

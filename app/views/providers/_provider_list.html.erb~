@@ -1,10 +1,13 @@
-<table id="providerList" class="display">	
+<table id="providerList" class="display table-hover table-condensed">	
 	<thead id="hd" align="left">
 		<tr>
 		  <th>Last Name</th>
 		  <th>First Name</th>
 		  <th>Team</th>
-		  <th />
+		  <% if current_user.admin? %>	
+		  	<th> NPI </th>
+		 	 	<th/>
+		  <%end%>
 		</tr>
 	</thead>
 
