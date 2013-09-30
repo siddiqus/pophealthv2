@@ -27,8 +27,7 @@ PopHealth::Application.routes.draw do
 	match 'admin/delete_user/:id', :to => 'admin#delete_user', :via => [ :get, :post, :delete] # added by ssiddiqui
 
   get "logs/index"
-  post "logs/update_query"
-  resources :logs #added by ssiddiqui
+  post "logs/index"
   
   match 'measures', :to => 'measures#index', :as => :dashboard, :via => :get
   match "measure/:id(/:sub_id)/providers", :to => "measures#providers", :via => :get
