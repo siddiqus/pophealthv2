@@ -18,6 +18,7 @@ PopHealth::Application.routes.draw do
   delete "admin/remove_patients"
   delete "admin/remove_caches"
 	delete "admin/remove_providers" #added for button, ssiddiqui
+	delete "providers/remove"
 #	get "providers/provider_form"
 
 	delete "measures/remove_selections" #added for button, ssiddiqui
@@ -26,6 +27,8 @@ PopHealth::Application.routes.draw do
 	match 'admin/delete_user/:id', :to => 'admin#delete_user', :via => [ :get, :post, :delete] # added by ssiddiqui
 
   get "logs/index"
+  post "logs/update_query"
+  resources :logs #added by ssiddiqui
   
   match 'measures', :to => 'measures#index', :as => :dashboard, :via => :get
   match "measure/:id(/:sub_id)/providers", :to => "measures#providers", :via => :get

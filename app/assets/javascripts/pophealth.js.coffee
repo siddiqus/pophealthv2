@@ -1,3 +1,8 @@
+  
+jQuery -> 	$('#logTable').dataTable
+          	sPaginationType: "full_numbers"
+						bJQueryUI: true
+
 class @QualityReport
 	constructor: (@measure, @sub_id, @filters) ->
 		@sub_id or= null

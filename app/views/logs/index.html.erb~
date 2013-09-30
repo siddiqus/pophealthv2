@@ -19,35 +19,63 @@
   </script>
 <% end -%>
 
-<div id="pageContent" style="margin-left:40px; margin-right:20px">
+<div id="pageContent" style="margin-left:40px; margin-right:40px">
     <h3>Logs</h3>
-    <form class="form-inline">
+    
+    <form class="form-inline" >
       <fieldset>
-        <legend>Date Range</legend>
+        <font><b> Date Range &nbsp&nbsp </b> </font>
               <input type="text" id="logStartDate" size="6" value="<%= params[:log_start_date] %>" placeholder="Start Date" />
       <input type="text" id="logEndDate" size="6" value="<%= params[:log_end_date] %>" placeholder="End Date"/>
+      
+     
+		    <select>
+					<option value="">Select Filter</option>
+				
+					<option value="patient record imported">Record Imports</option>
+					<option value="patient record viewed">Record Views</option>
+					<option value="login">Logins</option>
+					<option value="logout">Logouts</option>
+					<option value="failed login attempt">Failed Login Attempts</option>
+				</select> 
+      
+      
+		     <!-- added by ssiddiqui to submit?	 -->
+				<button class="btn btn-small" type="submit"> 
+              <i class="icon-refresh"></i>
+        </button>
+      
+      
       </fieldset>
-
+   
     </form>
-
-    <table id="patientTable" class="table table-hover">
-      <tr>
-        <th><%= link_to 'Timestamp', time_range_params_plus(:sort => 'created_at', :order => 'desc') %></th>
-        <th><%= link_to 'Username', time_range_params_plus(:sort => 'username', :order => 'desc') %></th>
-        <th><%= link_to 'Event', time_range_params_plus(:sort => 'event', :order => 'desc') %></th>
-        <th><%= link_to 'File SHA1 Hash', time_range_params_plus(:sort => 'checksum', :order => 'desc') %></th>
-        <th><%= link_to 'Patient Id', time_range_params_plus(:sort => 'medical_record_number', :order => 'desc') %></th>
-      </tr>
-      <% @logs.each do |log| -%>
-      <tr>
-        <td><%= log.created_at %></td>
-        <td><%= log.username %></td>
-        <td><%= log.event %></td>
-        <td><%= log.checksum %></td>
-        <td><%= log.medical_record_number %></td>
-      </tr>
-      <% end -%>
+    
+ 
+    
+    <table id="logTable" class="display table-hover table-bordered">
+      <thead>
+      	<tr>
+		      <th> Timestamp<%#= link_to 'Timestamp', time_range_params_plus(:sort => 'created_at', :order => 'desc') %></th>
+		      <th> Username<%#= link_to 'Username', time_range_params_plus(:sort => 'username', :order => 'desc') %></th>
+		      <th> Event<%#= link_to 'Event', time_range_params_plus(:sort => 'event', :order => 'desc') %></th>
+		      <th> Patient Id<%#= link_to 'Patient Id', time_range_params_plus(:sort => 'medical_record_number', :order => 'desc') %></th>
+          <th> File SHA1 Hash<%#= link_to 'File SHA1 Hash', time_range_params_plus(:sort => 'checksum', :order => 'desc') %></th>
+		    </tr>
+      </thead>
+      <tbody>
+      	<% @logs.each do |log| -%>
+				  <tr>
+				    <td><%= log.created_at %></td>
+				    <td><%= log.username %></td>
+				    <td><%= log.event %></td>
+				    <td><%= log.medical_record_number %></td>
+			      <td><%= log.checksum %></td>
+				  </tr>
+	    	<% end -%>
+      </tbody>
     </table>
+    
 
-    <%= will_paginate @logs %>
+
+    <%#= will_paginate @logs %>
 </div> <!-- pageContent -->
