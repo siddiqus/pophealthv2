@@ -30,25 +30,26 @@ class AdminController < ApplicationController
   def upload_patients
 
     file = params[:file]
-    temp_file = Tempfile.new("patient_upload")
-  
-    File.open(temp_file.path, "wb") { |f| f.write(file.read) }
-    
-    Zip::ZipFile.open(temp_file.path) do |zipfile|
-      zipfile.entries.each do |entry|
-        next if entry.directory?
-        xml = zipfile.read(entry.name)
-        result = RecordImporter.import(xml)
-        
-        if (result[:status] == 'success') 
-          @record = result[:record]
-          QME::QualityReport.update_patient_results(@record.medical_record_number)
-          Atna.log(current_user.username, :phi_import)
-          Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
-        end
-        
-      end
-    end
+    if file!=nil
+		  temp_file = Tempfile.new("patient_upload")
+		
+		  File.open(temp_file.path, "wb") { |f| f.write(file.read) }
+		  
+		  Zip::ZipFile.open(temp_file.path) do |zipfile|
+		    zipfile.entries.each do |entry|
+		      next if entry.directory?
+		      xml = zipfile.read(entry.name)
+		      result = RecordImporter.import(xml)
+		      
+		      if (result[:status] == 'success') 
+		        @record = result[:record]
+		        QME::QualityReport.update_patient_results(@record.medical_record_number)
+		        Atna.log(current_user.username, :phi_import)
+		        Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
+		      end    
+		    end
+		  end
+		end
   	redirect_to action: 'patients'
   end
 
