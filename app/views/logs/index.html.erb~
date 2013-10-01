@@ -1,7 +1,7 @@
 <% content_for :head do -%>
   <script type="text/javascript">
   var popHealth = popHealth || {};
-  
+ /* 
   popHealth.rangeChanged = function () {
     var query = $.query
     if ($('#logStartDate').val().length > 0) {
@@ -16,21 +16,25 @@
   $(document).ready(function() {
     $('#logStartDate, #logEndDate').calendricalDateRange({usa: true, changed: popHealth.rangeChanged});
   });
+ */
+  $(document).ready(function(){
+        $('#log_start_date').datepicker({inline: true});
+        $('#log_end_date').datepicker();
+  });
+  
   </script>
-<% end -%>
+<% end %>
 
 <div id="pageContent" style="margin-left:40px; margin-right:40px">
     <h3>Logs</h3>
     
-    
-    <form class="form-inline" action="index">
-   		<fieldset>
+<!--    
+    <form accept-charset="UTF-8"  action="/logs/index">
         <font><b> Date Range &nbsp&nbsp </b> </font>
         
      		<input type="text" id="logStartDate" size="6" value="<%= params[:log_start_date] %>" placeholder="Start Date" />
       	<input type="text" id="logEndDate" size="6" value="<%= params[:log_end_date] %>" placeholder="End Date"/>
       
-     
 		    <select value="<%= params[:log_event] %>">
 					<option value="">Select Filter</option>
 				
@@ -40,28 +44,25 @@
 					<option value="logout">Logouts</option>
 					<option value="failed login attempt">Failed Login Attempts</option>
 				</select> 
-      
-      
-				<button class="btn btn-small" type="submit"> 
-              <i class="icon-refresh"></i>
-        </button>
-      
-      </fieldset>
-     
+
+				<input class="btn btn-small" type="submit" value="Refresh">               
+				  
+        </input> 
    
     </form>
+-->
     
     
     
-  <!--  
     <%= form_tag :controller=>"logs", :action=>"index" do %>
     	<font><b> Date Range &nbsp&nbsp </b> </font>
-    	<%= text_field_tag :log_start_date, params[:log_start_date], :placeholder => "Start Date"  %> 
-	  	<%= text_field_tag :log_end_date, params[:log_end_date], :placeholder => "End Date" %>	
-	  	<%= select_tag :log_event, options_for_select([ ["Select filter",""],["Patient Record Imported","patient record imported"], ["patient record viewed","patient record views"], ['logins','logins'],['logouts','logout'],['failed login attempts','failed login attempts']])%>
-	  	<%= submit_tag 'Refresh', class: "btn btn-success", style: "margin-bottom:10px"%>
+    	<%= text_field_tag "log_start_date", params[:log_start_date], :placeholder => "Start Date"  %> 
+	  	<%= text_field_tag "log_end_date", params[:log_end_date], :placeholder => "End Date" %>	
+	  	<%= select_tag :log_event, options_for_select([ ["Select filter",""],["Patient Record Imported","patient record imported"], ["Patient Record Viewed","patient record viewed"], ['Logins','logins'],['logouts','logout'],['failed login attempts','failed login attempts']])%>
+	  	<%= submit_tag 'Apply', class: "btn btn-success", style: "margin-bottom:10px"%>
+	  	<%= link_to "Clear Filters", "index", class: "btn btn-info", style: "margin-bottom:10px"%>
     <% end %>
- -->
+ 		
     
     <table id="logTable" class="display table-hover table-bordered">
       <thead>
@@ -82,11 +83,11 @@
 				    <td><%= log.medical_record_number %></td>
 			      <td><%= log.checksum %></td>
 				  </tr>
-	    	<% end -%>
+	    	<% end %>
       </tbody>
     </table>
-    
+    <br>
+    <br>
 
 
-    <%#= will_paginate @logs %>
 </div> <!-- pageContent -->

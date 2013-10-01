@@ -1,0 +1,3 @@
+$("log_start_date").datepicker()
+$("log_end_date").datepicker()
+

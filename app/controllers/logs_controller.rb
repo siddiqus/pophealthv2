@@ -26,27 +26,20 @@ class LogsController < ApplicationController
     start_date = date_param_to_date(params[:log_start_date])
     end_date = date_param_to_date(params[:log_end_date])
     
-#    if start_date
-#      #where[:created_at] = {'$gte' => start_date}
-#      where[:created_at] = start_date
-#    end
-#    
-#    
-#    if end_date
-#      # will create an empty hash if created_at is nil or leave start_date alone if it is there
-##      where[:created_at] ||= {}
-##      where[:created_at].merge!('$lt' => end_date.next_day) # becomes less than midnight the next day
-#			where[:created_at] = end_date
-#    end
-#    
-    if start_date || end_date
-	    where[:created_at] = {"$gte" => start_date, "$lt" => end_date};
+    if start_date
+      where[:created_at] = {'$gte' => start_date}
     end
     
-    event = params[:log_event]
-    if event
-    	where[:event] = event
+    if end_date
+      # will create an empty hash if created_at is nil or leave start_date alone if it is there
+      where[:created_at] ||= {}
+      where[:created_at].merge!('$lt' => end_date.next_day) # becomes less than midnight the next day
     end
+        
+#    event = params[:log_event]
+#    if event
+#    	where[:event] = event
+#    end
     
     @logs = Log.where(where) #.where({:event=> "failed login attempt" }) #where(where) #.order_by(order) #paginate(:page => params[:page], :per_page => 20)
   end
