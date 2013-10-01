@@ -1,0 +1,30 @@
+# added by ssiddiqui
+	
+
+<table id="adminPatientTable" class="display table-hover">
+	<thead>
+		<tr>
+			<th>Patient ID</th>
+			<th>Last Name</th>
+			<th>First Name</th>
+			<th> Date of Birth </th>
+			<th> Age </th>
+		</tr>
+	</thead>
+	<% @records.each do |record| %>
+	<tbody>
+		<tr>
+<!--			<td><%= record.medical_record_number %></td> -->
+			<!-- added by ssiddiqui -->
+			<% rec=record.medical_record_number %>
+			<% id = Record.where(medical_record_number: "#{rec}").first._id %>
+			<td>      <%= link_to "#{rec}", :controller => "patients", :action => "show", :id => "#{id}"%> </td>
+			<td><%= record.last %></td>
+			<td><%= record.first %></td>
+			<td> <%= Time.now.year - Time.at(record.birthdate).year %></td>
+			<td> <%= Time.at(record.birthdate).strftime('%m/%d/%Y') %> </td>
+			
+		</tr>
+	</tbody>
+	<% end %>
+</table>

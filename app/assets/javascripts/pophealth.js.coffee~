@@ -1,7 +1,9 @@
-
-  				
   
 jQuery -> 	$('#logTable').dataTable
+          	sPaginationType: "full_numbers"
+						bJQueryUI: true
+						
+jQuery -> 	$('#adminPatientTable').dataTable
           	sPaginationType: "full_numbers"
 						bJQueryUI: true
 

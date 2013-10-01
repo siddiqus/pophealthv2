@@ -56,7 +56,38 @@
     <% end %>
   </table>
   
+  <hr>
+
+  <h3> Patient List: </h3>
   
-  
+		<table id="adminPatientTable" class="display table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Last Name</th>
+					<th>First Name</th>
+					<th> Date of Birth </th>
+					<th> Age </th>
+					<th> Patient ID</th>
+					<th/>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<% @records.each do |record| %>
+					<tr>
+						<td><%= record.last %></td>
+						<td><%= record.first %></td>
+						<td> <%= Time.at(record.birthdate).strftime('%m/%d/%Y') %> </td>		
+						<td> <%= Time.now.year - Time.at(record.birthdate).year %></td>
+						<% rec=record.medical_record_number %>
+						<% id = Record.where(medical_record_number: "#{rec}").first._id %>
+						<td> <%= rec %>
+						<td> <%= link_to "View Patient Summary", :controller => "patients", :action => "show", :id => "#{id}"%> </td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+ <br>
+ <br>
 
 </div> <!-- pageContent -->

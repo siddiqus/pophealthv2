@@ -12,6 +12,7 @@ class AdminController < ApplicationController
     @query_cache_count = QueryCache.all.count
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count
+  	@records = Record.all
   end
   def remove_patients
     Record.all.delete
