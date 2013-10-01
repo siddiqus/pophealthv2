@@ -20,8 +20,9 @@ PopHealth::Application.routes.draw do
 	delete "admin/remove_providers" #added for button, ssiddiqui
 	delete "providers/remove"
 #	get "providers/provider_form"
-
+	
 	delete "measures/remove_selections" #added for button, ssiddiqui
+	delete "logs/delete_logs"
 	
 	match 'admin/edit_teams/:id', :to => 'admin#edit_teams', :via => [ :get, :post ] # added from bstrezze
 	match 'admin/delete_user/:id', :to => 'admin#delete_user', :via => [ :get, :post, :delete] # added by ssiddiqui

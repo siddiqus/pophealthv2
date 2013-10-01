@@ -94,17 +94,26 @@
 </script>
 <% end -%>
 
+<hr style='margin-bottom:-5px'>
+	<div style="padding-left:40px; padding-right:40px">
+		<table class="table-condensed" style="width:100%">
+			<td> <h2><strong>Users</strong></h2> </td>
+			
+		</table>
+	</div>
+<hr style="margin-top:-5px">
+
 <div id="pageContent" style="margin-left:40px; margin-right:50px; margin-top:20px">
-	<h2><strong>Users</strong></h2>
+
+	
 	<% if flash[:notice] %>
 		<font color="red"> <b> <%= flash[:notice] %> </b> </font>
 		<br> </br>
 	<% end %>
 	
-	Click on one of the tabs to view list of users:
-	<br> </br>
+	<h5> Click on one of the tabs to view list of users: </h5>
 
-		<%# i = 0 #added from bstrezze %>
+
 	<div class="dropdown">
     <a class="dropdown-toggle btn btn-large btn-danger span3" data-toggle="dropdown" href="#">
    	 Administrators 

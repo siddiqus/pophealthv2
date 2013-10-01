@@ -6,8 +6,18 @@
   
 </script>
 
-<div id="pageContent" style="margin-left:40px; margin-right:40px">
-    <h3>Logs</h3>
+<hr style='margin-bottom:-5px'>
+	<div style="padding-left:40px; padding-right:40px">
+		<table class="table-condensed" style="width:100%">
+			<td> <h2><strong>Logs</strong></h2> </td>
+			<td colspan='2' align='right'>	
+				<%= link_to "Delete All Logs", "delete_logs", :confirm => "Are you sure you want to delete all logs?", class: "btn btn-large btn-danger", :style => "float:right", method: "delete" %>
+			</td>
+		</table>
+	</div>
+	<hr style="margin-top:-5px">
+    
+<div id="pageContent" style="margin-left:40px; margin-right:40px; margin-top:10px">    
     
 <!--    
     <form accept-charset="UTF-8"  action="/logs/index">
@@ -33,10 +43,7 @@
     </form>
 -->
     
-    
-    
-    <%= form_tag :controller=>"logs", :action=>"index" do %>
-    	<font><b> Date Range &nbsp&nbsp </b> </font>
+    <%= form_tag :controller=>"logs", :action=>"index" do%>
     	<%= text_field_tag "log_start_date", params[:log_start_date], :placeholder => "Start Date"  %> 
 	  	<%= text_field_tag "log_end_date", params[:log_end_date], :placeholder => "End Date" %>	
 	  	<%= select_tag "log_event", options_for_select([ ["Select filter",""],["Patient Record Imported","patient record imported"], ["Patient Record Viewed","patient record viewed"], ['Logins','login'],['Logouts','logout'],['Failed login attempts',"failed login attempt"]], :selected=> params[:log_event])%>
@@ -56,15 +63,17 @@
 		    </tr>
       </thead>
       <tbody>
-      	<% @logs.each do |log| -%>
-				  <tr>
-				    <td><%= log.created_at %></td>
-				    <td><%= log.username %></td>
-				    <td><%= log.event %></td>
-				    <td><%= log.medical_record_number %></td>
-			      <td><%= log.checksum %></td>
-				  </tr>
-	    	<% end %>
+      	<% unless @logs.empty? %>
+		    	<% @logs.each do |log| %>
+						<tr>
+						  <td><%= log.created_at %></td>
+						  <td><%= log.username %></td>
+						  <td><%= log.event %></td>
+						  <td><%= log.medical_record_number %></td>
+					    <td><%= log.checksum %></td>
+						</tr>
+			  	<% end %>
+		  	<% end %>	
       </tbody>
     </table>
     <br>
