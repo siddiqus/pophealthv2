@@ -1,29 +1,10 @@
-<% content_for :head do -%>
-  <script type="text/javascript">
-  var popHealth = popHealth || {};
- /* 
-  popHealth.rangeChanged = function () {
-    var query = $.query
-    if ($('#logStartDate').val().length > 0) {
-      query = query.set('log_start_date', $('#logStartDate').val());
-    }
-    if ($('#logEndDate').val().length > 0) {
-      query = query.set('log_end_date', $('#logEndDate').val());
-    }
-    window.location.search = query.toString();
-  };
+<script type="text/javascript">
+		$(document).ready(function(){
+		      $('#log_start_date').datepicker();
+		      $('#log_end_date').datepicker();
+		});
   
-  $(document).ready(function() {
-    $('#logStartDate, #logEndDate').calendricalDateRange({usa: true, changed: popHealth.rangeChanged});
-  });
- */
-  $(document).ready(function(){
-        $('#log_start_date').datepicker({inline: true});
-        $('#log_end_date').datepicker();
-  });
-  
-  </script>
-<% end %>
+</script>
 
 <div id="pageContent" style="margin-left:40px; margin-right:40px">
     <h3>Logs</h3>
@@ -58,7 +39,7 @@
     	<font><b> Date Range &nbsp&nbsp </b> </font>
     	<%= text_field_tag "log_start_date", params[:log_start_date], :placeholder => "Start Date"  %> 
 	  	<%= text_field_tag "log_end_date", params[:log_end_date], :placeholder => "End Date" %>	
-	  	<%= select_tag :log_event, options_for_select([ ["Select filter",""],["Patient Record Imported","patient record imported"], ["Patient Record Viewed","patient record viewed"], ['Logins','logins'],['logouts','logout'],['failed login attempts','failed login attempts']])%>
+	  	<%= select_tag "log_event", options_for_select([ ["Select filter",""],["Patient Record Imported","patient record imported"], ["Patient Record Viewed","patient record viewed"], ['Logins','login'],['Logouts','logout'],['Failed login attempts',"failed login attempt"]], :selected=> params[:log_event])%>
 	  	<%= submit_tag 'Apply', class: "btn btn-success", style: "margin-bottom:10px"%>
 	  	<%= link_to "Clear Filters", "index", class: "btn btn-info", style: "margin-bottom:10px"%>
     <% end %>

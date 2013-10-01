@@ -2,7 +2,7 @@ class LogsController < ApplicationController
   
   before_filter :authenticate_user!
   before_filter :validate_authorization!
-  add_breadcrumb 'Access and Upload Logs', '/logs'
+  add_breadcrumb 'Logs', '/logs'
   
   # All attributes of the Log class are valid to sort on except ones that start with an underscore.
   VALID_SORTABLE_COLUMNS = Log.fields.keys.reject {|k| k[0] == '_'}
@@ -36,10 +36,10 @@ class LogsController < ApplicationController
       where[:created_at].merge!('$lt' => end_date.next_day) # becomes less than midnight the next day
     end
         
-#    event = params[:log_event]
-#    if event
-#    	where[:event] = event
-#    end
+    event = params[:log_event]
+    if event
+    	where[:event] = event.to_s
+    end
     
     @logs = Log.where(where) #.where({:event=> "failed login attempt" }) #where(where) #.order_by(order) #paginate(:page => params[:page], :per_page => 20)
   end
