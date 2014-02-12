@@ -70,7 +70,7 @@ class MeasuresController < ApplicationController
       wants.html {}
       wants.js do    
       #  @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
-       	@providers = Provider.userfilter(current_user) # added by ssiddiqui
+       	@providers = Provider.user_filter(current_user) # added by ssiddiqui
         @providers = @providers.any_in(team_id: params[:team]) if params[:team]
        	 
       end
@@ -379,10 +379,10 @@ class MeasuresController < ApplicationController
       if can?(:read, :providers)
 				# updated from bstrezze
         #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
-				@providers = Provider.userfilter(current_user) # added by ssiddiqui        
-				@providers_for_filter = Provider.userfilter(current_user).alphabetical
+				@providers = Provider.user_filter(current_user) # added by ssiddiqui        
+				@providers_for_filter = Provider.user_filter(current_user).alphabetical
         if APP_CONFIG['disable_provider_filters']
-          @teams = Team.userfilter(current_user).alphabetical
+          @teams = Team.user_filter(current_user).alphabetical
           @page = params[:page]
         else				
 					other = Team.new(name: "Other")
@@ -412,7 +412,7 @@ class MeasuresController < ApplicationController
     else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil
-      providers = Provider.userfilter(current_user).map { |pv| pv.id.to_s } # added from bstrezze
+      providers = Provider.user_filter(current_user).map { |pv| pv.id.to_s } # added from bstrezze
     end
 
     races = params[:race] ? Race.selected(params[:race]).all : nil

@@ -9,7 +9,7 @@ class Team
   validate :name, :uniqueness => true
     
 	# added from bstrezze
-  def self.userfilter(current_user)
+  def self.user_filter(current_user)
     if current_user.admin?
       all
     else

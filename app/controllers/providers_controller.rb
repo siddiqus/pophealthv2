@@ -9,7 +9,7 @@ class ProvidersController < ApplicationController
   
   def index
     # @providers = Provider.alphabetical.page(params[:page]).per(60)
-    @providers = Provider.userfilter(current_user) # added by ssiddiqui
+    @providers = Provider.user_filter(current_user) # added by ssiddiqui
     respond_to do |wants|
       wants.html {}
       wants.js {}
@@ -43,7 +43,7 @@ class ProvidersController < ApplicationController
   def create
     @provider = Provider.create(params[:provider])
     # @providers = Provider.alphabetical.page(params[:page]).per(20)
-		@providers = Provider.userfilter(current_user) # added by ssiddiqui
+		@providers = Provider.user_filter(current_user) # added by ssiddiqui
 		
     respond_to do |wants|
       wants.json {
@@ -57,12 +57,12 @@ class ProvidersController < ApplicationController
   
   def update
     @provider.update_attributes!(params[:provider])
-    @providers = Provider.userfilter(current_user) # added by ssiddiqui
+    @providers = Provider.user_filter(current_user) # added by ssiddiqui
     
     respond_to do |wants|
       wants.html { render :action => "show" }
      # wants.js { @providers = Provider.alphabetical.page(params[:page]).per(20) }
-     wants.js { @providers = Provider.userfilter(current_user) }
+     wants.js { @providers = Provider.user_filter(current_user) }
     end
 
   end

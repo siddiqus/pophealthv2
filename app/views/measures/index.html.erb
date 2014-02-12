@@ -126,7 +126,7 @@
       <% unless (@selected_provider) %>
         <dl>
           <dt># of Providers: </dt>
-          <dd><%= Provider.all.userfilter(current_user).count%></dd> <!-- added by ssiddiqui -->
+          <dd><%= Provider.all.user_filter(current_user).count%></dd> <!-- added by ssiddiqui -->
         </dl>
       <% end %>
      

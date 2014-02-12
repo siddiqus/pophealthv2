@@ -12,7 +12,7 @@ class Provider
   
   
 	# added from bstrezze
-  def self.userfilter(current_user)
+  def self.user_filter(current_user)
     if current_user.admin?
       Provider.all
     else
@@ -78,10 +78,10 @@ class Provider
   end
   
 	# added from bstrezze
-  def self.generateUserProviderIDList(current_user)
+  def self.generate_user_provider_ids(current_user)
     results = Array.new
     
-    Provider.userfilter(current_user).each do |currentProvider|
+    Provider.user_filter(current_user).each do |currentProvider|
       results << currentProvider._id      
     end
     
