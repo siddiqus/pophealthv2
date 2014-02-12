@@ -64,11 +64,10 @@ class @QualityReport
 		selector.find(".numeratorValue").html(data.NUMER)
 		selector.find(".denominatorValue").html(data.DENOM)
 	
-	fullPercent: (selector, data) -> 
-		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100
+	full_percent: (selector, data) -> 
+		percent = if (data.full_denom == 0 || data.full_denom == undefined) then 0 else  (data.full_numer / data.full_denom) * 100
 		selector.html("#{Math.floor(percent)}%")	
 	
-	#added by ssiddiqui
 	percent: (selector, data) -> 
 		percent = if (data.DENOM == 0 || data.DENOM == undefined) then 0 else  (data.NUMER / data.DENOM) * 100
 		selector.html("#{Math.floor(percent)}%")	

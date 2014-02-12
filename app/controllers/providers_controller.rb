@@ -13,7 +13,8 @@ class ProvidersController < ApplicationController
     respond_to do |wants|
       wants.html {}
       wants.js {}
-      wants.json { render json: @providers.to_json(:only => [:title, :given_name, :family_name, :npi]) }
+ #     wants.json { render json: @providers.to_json(:only => [:title, :given_name, :family_name, :npi]) }
+#		 	wants.json { render json: ProvidersDatatable.new(view_context) }
     end
   end
   

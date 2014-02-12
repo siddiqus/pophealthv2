@@ -1,6 +1,42 @@
 @import "mixins";
 @import "bootstrap";
 
+// new measure bar charts -------------------------------
+div.measureBarGraph {
+    height: 1.529411765em;
+    margin-bottom: .470588235em;
+    overflow: hidden;
+    background-color: #e5e5e5;
+    border-radius: .071428571em;
+    text-align: center;
+}
+
+	/* The actual bar itself */
+	.graph-single-bar {
+		  float: left;
+		  width: 0;
+		  height: 100%;
+		  color: $measurePopulationChartBar;
+		  background-color: #0088cc;
+	}
+
+	/* Alternate color for stacked graphs */
+	.measureBarNumerator {
+		  background-color: $numerator;
+	}
+	/* Alternate color for stacked graphs */
+	.measureBarDenominator {
+		  background-color: $denominator;
+	}
+	/* Alternate color for stacked graphs */
+	.measureBarExclusions{
+		  background-color: $exclusions;
+	}
+	
+
+// -------------------------------------------!
+
+
 a {
   color: $denominator;
 }

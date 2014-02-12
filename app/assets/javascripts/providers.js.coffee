@@ -1,8 +1,11 @@
 # added by ssiddiqui
-jQuery -> 	$('#providerList').dataTable
-          	sPaginationType: "full_numbers"
-						bJQueryUI: true
-			
+jQuery ->
+        $('#providerList').dataTable
+          sPaginationType: "full_numbers"
+#          bJQueryUI: true
+#          bProcessing: true
+#          bServerSide: true
+#          sAjaxSource: $('#providerList').data('source')					
 					
 @Providers = {
 	updateAggregate: (current_measure, sub_id) ->

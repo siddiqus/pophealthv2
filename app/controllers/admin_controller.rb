@@ -29,7 +29,8 @@ class AdminController < ApplicationController
   end
 
   def upload_patients
-
+		up_log = File.open("upload_errors.txt",'w')
+		
     file = params[:file]
     if file!=nil
 		  temp_file = Tempfile.new("patient_upload")
@@ -40,17 +41,33 @@ class AdminController < ApplicationController
 		    zipfile.entries.each do |entry|
 		      next if entry.directory?
 		      xml = zipfile.read(entry.name)
-		      result = RecordImporter.import(xml)
 		      
-		      if (result[:status] == 'success') 
-		        @record = result[:record]
-		        QME::QualityReport.update_patient_results(@record.medical_record_number)
-		        Atna.log(current_user.username, :phi_import)
-		        Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
+		      begin
+		      	result = RecordImporter.import(xml)		      
+				    if (result[:status] == 'success') 
+				      @record = result[:record]
+				      QME::QualityReport.update_patient_results(@record.medical_record_number)
+				      Atna.log(current_user.username, :phi_import)
+				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
+						end
+		      rescue
+		      	up_log.write("error in file: " + "#{entry}" + "\n")
 		      end    
 		    end
 		  end
 		end
+		
+		missing_info = File.open("missing_provider_info.txt", 'w')
+		invalid_providers = []
+		
+		Provider.where(:npi => nil).each do |prov|
+			empty_providers.push("#{prov.given_name} " + "#{prov.family_name}")
+		end
+		
+		unique = empty_providers.uniq.sort.join("\n")
+		missing_info.write("#{unique}")
+		
+		Provider.where(:npi => nil).delete
   	redirect_to action: 'patients'
   end
 
