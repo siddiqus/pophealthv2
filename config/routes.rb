@@ -19,6 +19,7 @@ PopHealth::Application.routes.draw do
   delete "admin/remove_caches"
 	delete "admin/remove_providers" #added for button, ssiddiqui
 	delete "providers/remove"
+	get "admin/user_profile"
 #	get "providers/provider_form"
 	
 	delete "measures/remove_selections" #added for button, ssiddiqui

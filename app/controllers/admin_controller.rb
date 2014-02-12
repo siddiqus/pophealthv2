@@ -27,6 +27,10 @@ class AdminController < ApplicationController
     Provider.destroy_all
     redirect_to action: 'patients'
   end
+	
+	def user_profile
+		@user = User.by_id(params[:id])
+	end
 
   def upload_patients
 		up_log = File.open("upload_errors.txt",'w')

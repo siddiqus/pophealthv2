@@ -98,7 +98,9 @@
 	<div style="padding-left:40px; padding-right:40px">
 		<table class="table-condensed" style="width:100%">
 			<td> <h2><strong>Users</strong></h2> </td>
-			
+			<td colspan='2' align='right'>	
+				<%= link_to "Refresh Tables", "users", class: "btn btn-large btn-primary", :style => "float:right" %>
+			</td>
 		</table>
 	</div>
 <hr style="margin-top:-5px">
@@ -112,42 +114,51 @@
 	
 	<h5> Click on one of the tabs to view list of users: </h5>
 
-
 	<div class="dropdown">
     <a class="dropdown-toggle btn btn-large btn-danger span3" data-toggle="dropdown" href="#">
-   	 Administrators 
+   	 Admin (<%= User.where(:admin => "true").count%>)
     </a>
     <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
       	<%= render partial: 'user_list', :locals => {:users => User.where(:admin => "true")} %>
-  
     </ul>
 	</div> 	
 	
 	<div class="dropdown">
     <a class="dropdown-toggle btn btn-large btn-info span3" data-toggle="dropdown" href="#">
-   	 Providers 
+   	 Providers (<%= User.where(:provider => "true", :approved =>"true").count%>)
     </a>
     <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
-      	<%= render partial: 'user_list', :locals => {:users => User.where(:provider => "true")} %>
+      	<%= render partial: 'user_list', :locals => {:users => User.where(:provider => "true", :approved =>"true")} %>
     </ul>
 	</div> 	
 	
 	<div class="dropdown">
     <a class="dropdown-toggle btn btn-large btn-success span3" data-toggle="dropdown" href="#">
-   	 Staff 
+   	 Staff (<%= User.where(:staff_role => "true").count%>)
     </a>
     <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
       	<%= render partial: 'user_list', :locals => {:users => User.where(:staff_role => "true")} %>
     </ul>
 	</div> 	
 	
-		<div class="dropdown">
-    <a class="dropdown-toggle btn btn-large btn-primary span3" data-toggle="dropdown" href="#">
-   	 Pending 
+	<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large btn-warning span2" data-toggle="dropdown" href="#">
+   	 Pending (<%= User.where(:approved=>'false').count%>)
     </a>
     <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
       	<%= render partial: 'user_list', :locals => {:users => User.where(:approved => "false")} %>
     </ul>
 	</div> 	
 	
+	<div class="dropdown">
+    <a class="dropdown-toggle btn btn-large span2" data-toggle="dropdown" href="#">
+   	 All (<%= User.all.count%>)
+    </a>
+    <ul class="dropdown-menu" role="menu" style="width:100%; margin-top:50px">
+      	<%= render partial: 'user_list', :locals => {:users => User.all} %>
+    </ul>
+	</div> 	
+	
+
+
 </div> <!-- pageContent -->
