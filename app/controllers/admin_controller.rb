@@ -128,15 +128,17 @@ class AdminController < ApplicationController
         @user.teams = Array.new
       end
       
-      if @user.teams.include?(Moped::BSON::ObjectId(params[:add_team][:team_id]))
-        flash[:notice] = 'Selected team has already been added.'
-      #  redirect_to :back, :notice => 'Selected team has already been added.'
-	      redirect_to :back 
-      else
-        @user.teams << Moped::BSON::ObjectId(params[:add_team][:team_id])
-        @user.save
-        redirect_to :back
-      end
+    unless (params[:add_team][:team_id] == '')
+		    if @user.teams.include?(Moped::BSON::ObjectId(params[:add_team][:team_id]))
+		      flash[:notice] = 'Selected team has already been added.'
+		    #  redirect_to :back, :notice => 'Selected team has already been added.'
+			    redirect_to :back 
+		    else
+		      @user.teams << Moped::BSON::ObjectId(params[:add_team][:team_id])
+		      @user.save
+		      redirect_to :back
+		    end
+		  end
     end
 
     # Remove item

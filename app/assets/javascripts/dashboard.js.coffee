@@ -7,8 +7,8 @@
     row.fadeTo("fast", 1.0)
     Render.full_percent row.find("div.full_percentage"), result
     Render.percent row.find("div.user_percentage"), result # added by ssiddiqui
-    Render.barChart row.find("div.measureChart"), result # added by ssiddiqui
-    Render.fraction row.find("div.fraction"), result
+    Render.barChart row.find("div.measure_chart"), result # added by ssiddiqui
+    Render.fraction row.find("div.measure_fraction"), result
 		
   measureRow: (measure, sub_id) ->
     selector = ".measure[data-measure='#{measure}']"

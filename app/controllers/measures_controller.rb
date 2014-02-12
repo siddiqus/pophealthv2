@@ -4,8 +4,14 @@ class MeasuresController < ApplicationController
 
   before_filter :authenticate_user!
   before_filter :validate_authorization!
-  before_filter :set_up_environment, :setup_filters
+  before_filter :filter_order
   after_filter :hash_document, :only => :measure_report
+  
+  # fixed by ssiddiqui. order important to establish selected_provider first
+  def filter_order
+  	setup_filters
+  	set_up_environment 
+  end
   
 #  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
 #  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
@@ -133,7 +139,7 @@ class MeasuresController < ApplicationController
     else
       authorize! :manage, :providers
       # added from bstrezze
-      result = PatientCache.provider_in(Provider.generateUserProviderIDList(current_user)).where(query)
+      result = PatientCache.provider_in(Provider.generate_user_provider_ids(current_user)).where(query)
     end
     @total = result.count
     @records = result.order_by(["value.#{sort}", sort_order]).skip(@skip).limit(@limit);
@@ -165,7 +171,7 @@ class MeasuresController < ApplicationController
     else
       authorize! :manage, :providers
 			# added from bstrezze
-      result = PatientCache.provider_in(Provider.generateUserProviderIDList(current_user)).where(query)
+      result = PatientCache.provider_in(Provider.generate_user_provider_ids(current_user)).where(query)
     end
     @records = result.order_by(["value.medical_record_id", 'desc']);
     
@@ -301,14 +307,18 @@ class MeasuresController < ApplicationController
   
   
   def set_up_environment
-    # added from bstrezze, edited by ssiddiqui
-		if @current_user.admin?
+    provider_npi = params[:npi]
+		if @current_user.admin? && provider_npi
+    	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count
+    elsif @current_user.admin?		
 			@patient_count = Record.all.count
     elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     else
-      @patient_count = Record.provider_in(Provider.generateUserProviderIDList(current_user)).count
+    	# for teams
+      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
     end
+
     if params[:id]
       measure = QME::QualityMeasure.new(params[:id], params[:sub_id])
       render(:file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404) unless measure
@@ -357,18 +367,23 @@ class MeasuresController < ApplicationController
   
   def setup_filters
     
-    if !can?(:read, :providers) || params[:npi]
-      npi = params[:npi] ? params[:npi] : current_user.npi
-      @selected_provider = Provider.where(conditions: {npi: npi}).first
-      authorize! :read, @selected_provider
-    end
-    
-		
-#		npi = current_user.npi
-#		if(npi != nil)		
-#			@selected_provider = Provider.where(:npi => npi).first
-#			authorize! :read, @selected_provider
-#		end
+#    if !can?(:read, :providers) || params[:npi]
+#      npi = params[:npi] ? params[:npi] : current_user.npi
+#      @selected_provider = Provider.where(conditions: {npi: npi}).first
+#      authorize! :read, @selected_provider
+#    end
+   	
+   	# fixed by ssiddiqui
+		user_npi = current_user.npi
+		measures_npi = params[:npi]
+	
+		if(measures_npi)
+			@selected_provider = Provider.where(:npi => "#{measures_npi}").first
+			authorize! :read, @selected_provider
+		elsif(user_npi != nil)			
+			@selected_provider = Provider.where(:npi => "#{user_npi}").first
+			authorize! :read, @selected_provider
+		end
     
     if request.xhr?
       

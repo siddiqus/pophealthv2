@@ -20,12 +20,11 @@
 		</div>
 		
 			
-		<div class="measureChart span2">
-			<%#= render :partial => "shared/table_bar", locals: {numerator: 0, denominator:0, patient_count: 0, exclusions: 0}%>
+		<div class="measure_chart span2">
 			<%= render :partial => "shared/measure_bar"%>
 		</div>
 
-		<div class="fraction span1" style="text-align: center">
+		<div class="measure_fraction span1" style="text-align: center">
 				<%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
 		</div>
 	

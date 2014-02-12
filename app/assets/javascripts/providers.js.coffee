@@ -59,7 +59,7 @@ jQuery ->
 						row = $(Providers.row(providers[0]))
 						Render.percent row.find(".measureProviderPopulationPercentage"), result
 						Render.fraction row, result
-						#Render.barChart row.find(".provider_row_measure_bar"), result
+						Render.barChart row.find(".provider_row_measure_bar"), result
 						row.fadeTo("fast", 1.0)
 			else
 				$.each results, (i, data) ->
