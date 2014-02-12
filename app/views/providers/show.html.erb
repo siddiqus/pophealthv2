@@ -2,9 +2,9 @@
 	<h2><%= @provider.full_name %></h2>
 	
   <% if current_user.admin? %>
-		<%= render partial: 'edit_profile', locals: {provider: Provider.new} %> 
+		<%= render partial: 'show_profile' , locals: {disabled: false} %> 
 	<% else %>
-	  <%= render partial: 'show_profile', locals: {provider: Provider.new} %>
+	  <%= render partial: 'show_profile', locals: {disabled: true} %>
 	<% end %>
 	<br>
 	<%= link_to "Return to Providers Page", "/providers", class: "btn btn-success" %>

@@ -5,10 +5,11 @@
   calculateSingleMeasure: (result) ->
     row = Dashboard.measureRow(result.measure_id, result.sub_id)
     row.fadeTo("fast", 1.0)
-    Render.full_percent row.find("div.fullPercentage"), result
-    Render.percent row.find("div.userPercentage"), result # added by ssiddiqui
-    Render.barChart row.find("div.barChart"), result
+    Render.full_percent row.find("div.full_percentage"), result
+    Render.percent row.find("div.user_percentage"), result # added by ssiddiqui
+    Render.barChart row.find("div.measureChart"), result # added by ssiddiqui
     Render.fraction row.find("div.fraction"), result
+		
   measureRow: (measure, sub_id) ->
     selector = ".measure[data-measure='#{measure}']"
     selector += "[data-measure-sub='#{sub_id || ''}']" if sub_id?

@@ -20,19 +20,20 @@
 		</div>
 		
 			
-		<div class="barChart span2">
-			<%= render :partial => "shared/table_bar", locals: {numerator: 0, denominator:0, patient_count: 0, exclusions: 0}%>
+		<div class="measureChart span2">
+			<%#= render :partial => "shared/table_bar", locals: {numerator: 0, denominator:0, patient_count: 0, exclusions: 0}%>
+			<%= render :partial => "shared/measure_bar"%>
 		</div>
 
 		<div class="fraction span1" style="text-align: center">
 				<%= render :partial => "shared/fraction", locals: {numerator: 0, denominator: 0} %>
 		</div>
 	
-		<div class="userPercentage span1">	
+		<div class="user_percentage span1">	
 		 		<%= image_tag "loading.gif" %>
 		</div>   
 
-		<div class="fullPercentage span1">
+		<div class="full_percentage span1">
 				<%= image_tag "loading.gif"%>	
 		</div>
 

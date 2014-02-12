@@ -1,4 +1,4 @@
-  
+
 jQuery -> 	$('#logTable').dataTable
           	sPaginationType: "full_numbers"
 						bJQueryUI: true
@@ -77,12 +77,19 @@ class @QualityReport
 		denominator_width = 0
 		exclusion_width = 0
 		if data.IPP != 0
-			numerator_width = (data.NUMER / data.IPP) * 100
-			denominator_width = ((data.DENOM - data.NUMER) / data.IPP) * 100
-			exclusion_width = (data.DENEX / data.IPP) * 100
-		selector.children("div.tableBarNumerator").animate(width: "#{numerator_width}%")
-		selector.children("div.tableBarDenominator").animate(width: "#{denominator_width}%")
-		selector.children("div.tableBarExclusion").animate(width: "#{exclusion_width}%")
+#			numerator_width = (data.NUMER / data.IPP) * 100
+#			denominator_width = ((data.DENOM - data.NUMER) / data.IPP) * 100
+#			exclusion_width = (data.DENEX / data.IPP) * 100
+#		selector.children("div.tableBarNumerator").animate(width: "#{numerator_width}%")
+#		selector.children("div.tableBarDenominator").animate(width: "#{denominator_width}%")
+#		selector.children("div.tableBarExclusion").animate(width: "#{exclusion_width}%")
+			numerator_width = (data.NUMER / data.considered) * 100
+			denominator_width = ((data.DENOM) / data.considered) * 100 # changed (denom-num)/pop to denom/pop
+			exclusion_width = (data.DENEX / data.considered) * 100	
+		selector.find("div.measureBarNumerator").animate({width: "#{numerator_width}%"}, "slow");
+		selector.find("div.measureBarDenominator").animate({width: "#{denominator_width}%"}, "slow");
+		selector.find("div.measureBarExclusions").animate({width: "#{exclusion_width}%"}, "slow");	
+
 }
 
 @makeMeasureListClickable = ->
