@@ -62,8 +62,8 @@ class AdminController < ApplicationController
 		end
 		
 		missing_info = File.open("missing_provider_info.txt", 'w')
-		invalid_providers = []
-		
+		empty_providers = []
+				
 		Provider.where(:npi => nil).each do |prov|
 			empty_providers.push("#{prov.given_name} " + "#{prov.family_name}")
 		end
