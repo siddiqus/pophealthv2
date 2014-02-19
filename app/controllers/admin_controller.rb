@@ -44,9 +44,9 @@ class AdminController < ApplicationController
 		  Zip::ZipFile.open(temp_file.path) do |zipfile|
 		    zipfile.entries.each do |entry|
 		      next if entry.directory?
-		      xml = zipfile.read(entry.name)
-		      
-		      begin
+		      xml = zipfile.read(entry.name)		      
+					# if exists, import otherwise update
+#		      begin
 		      	result = RecordImporter.import(xml)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
@@ -54,9 +54,9 @@ class AdminController < ApplicationController
 				      Atna.log(current_user.username, :phi_import)
 				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
 						end
-		      rescue
-		      	up_log.write("error in file: " + "#{entry}" + "\n")
-		      end    
+#		      rescue
+		      	#up_log.write("error in file: " + "#{entry}" + "\n")
+#		      end    
 		    end
 		  end
 		end

@@ -21,6 +21,23 @@ class Record
     existing = Record.where(medical_record_number: data.medical_record_number).first
     if existing
       existing.update_attributes!(data.attributes.except('_id'))
+			
+			# for each new entry, check if entry exists with start_date and 			
+			data.conditions.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				exists = false
+				existing.conditions.each do |excon|
+					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.conditions.push(con)		
+				end			
+			end
+			
       existing
     else
       data.save!
