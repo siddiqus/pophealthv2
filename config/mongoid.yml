@@ -13,6 +13,6 @@ test:
 production:
   sessions:
     default:
-      database: pophealth_production
+      database: new_popdev
       hosts:
         - localhost:27017

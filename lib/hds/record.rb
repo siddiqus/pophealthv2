@@ -25,7 +25,7 @@ class Record
 			# for each new entry, check if entry exists with start_date and 			
 			data.conditions.each do |con|
 				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
-				exists = false
+				exists = false				
 				existing.conditions.each do |excon|
 					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
 						exists = true
