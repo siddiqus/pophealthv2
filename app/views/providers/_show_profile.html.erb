@@ -14,36 +14,45 @@
 					Name: 
 				</label>
 				<div class="controls" >
-						<%= f.text_field :title, 'class' => "input-mini", placeholder: "Title", :disabled => "true"%>
-						<%= f.text_field :given_name, 'class' => "input-small", placeholder: "First Name", :disabled => "true" %>
-						<%= f.text_field :family_name, 'class' => "input-small", placeholder: "Last Name", :disabled => "true" %>
+						<%= f.text_field :title, 'class' => "input-mini", placeholder: "Title", :disabled => disabled %>
+						<%= f.text_field :given_name, 'class' => "input-small", placeholder: "First Name", :disabled => disabled  %>
+						<%= f.text_field :family_name, 'class' => "input-small", placeholder: "Last Name", :disabled => disabled  %>
 				</div>
 		</div>
 		<div class="control-group">	
-			<%= f.label :npi, "NPI:", 'class' => 'control-label', :disabled=>"true" %>
+			<%= f.label :npi, "NPI:", 'class' => 'control-label', :disabled => disabled  %>
 			<div class="controls">
-				<%= f.text_field :npi, class: "input-small", :disabled=>"true"%>
+				<%= f.text_field :npi, class: "input-small", :disabled => disabled %>
 			</div>
 		</div>
 		<div class="control-group">	
-			<%= f.label :tin, "Tax ID:", 'class' => 'control-label', :disabled=>"true" %>
+			<%= f.label :tin, "Tax ID:", 'class' => 'control-label', :disabled => disabled%>
 			<div class="controls">
-				<%= f.text_field :tin, class: "input-small", :disabled=>"true"%>
+				<%= f.text_field :tin, class: "input-small", :disabled => disabled %>
 			</div>
 		</div>
 		<div class="control-group">	
-			<%= f.label :team_id, "Team:", 'class' => 'control-label', :disabled=>"true" %>
+			<%= f.label :team_id, "Team:", 'class' => 'control-label', :disabled => disabled %>
 	 		<div class="controls">
-		  	<%= f.collection_select :team_id, Team.alphabetical, :id, :name, {include_blank: true}, :disabled=>"true"%>
+		  	<%= f.collection_select :team_id, Team.alphabetical, :id, :name, {include_blank: true}, :disabled => disabled %>
 			</div>
 
 		</div>
 		<div class="control-group">	
-			<%= f.label :specialty, "Specialty:", 'class' => 'control-label', :disabled=>"true"%>
+			<%= f.label :specialty, "Specialty:", 'class' => 'control-label', :disabled=>disabled %>
 			<div class="controls">
-				<%= f.select :specialty, specialties, {include_blank: true}, :disabled=>"true", :style=>"width:300px" %>
+				<%= f.select :specialty, specialties, {include_blank: true}, :disabled=>disabled, :style=>"width:300px" %>
 			</div>
 		</div>
+		
+			<% if !disabled %>
+		<div class="control-group">
+			<div class="controls">
+				<%= submit_tag "Save", class: "btn btn-info", :style => "width:120px", :confirm => "Are you sure you want to save changes?"%>
+				<%#= link_to raw("<i class=\"icon-plus-sign\"></i> Add New Provider"), new_provider_path, remote: true, class: "btn" %>
+			</div>
+		</div>
+		<% end %>
 	</div>
 <% end %> <!-- end of form -->
 
