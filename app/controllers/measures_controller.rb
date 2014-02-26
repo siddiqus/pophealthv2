@@ -415,15 +415,17 @@ class MeasuresController < ApplicationController
     end
 
   end
-  
+
   def build_filters
     providers = nil
     
     if params[:provider]
       providers = params[:provider]
-    elsif params[:team] && params[:team].size != Team.count
-      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }
-      
+#    elsif params[:team] && params[:team].size != Team.count
+#      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }      
+		elsif params[:fqhc]
+			providers = fqhc_provider_listf
+
     else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil

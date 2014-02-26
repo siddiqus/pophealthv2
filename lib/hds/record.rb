@@ -20,7 +20,7 @@ class Record
   def self.update_or_create(data)
     existing = Record.where(medical_record_number: data.medical_record_number).first
     if existing
-      existing.update_attributes!(data.attributes.except('_id'))
+      existing.update_attributes!(data.attributes.except('_id', 'fqhc'))
 			
 			# for each new entry, check if entry exists with start_date and 			
 			data.conditions.each do |con|

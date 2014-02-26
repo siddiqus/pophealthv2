@@ -36,7 +36,9 @@ class AdminController < ApplicationController
 		up_log = File.open("upload_errors.txt",'w')
 		
     file = params[:file]
-    if file!=nil
+    fqhc = params[:fqhc]
+    
+    if file!=nil && fqhc!=''
 		  temp_file = Tempfile.new("patient_upload")
 		
 		  File.open(temp_file.path, "wb") { |f| f.write(file.read) }
@@ -46,19 +48,21 @@ class AdminController < ApplicationController
 		      next if entry.directory?
 		      xml = zipfile.read(entry.name)		      
 					# if exists, import otherwise update
-#		      begin
-		      	result = RecordImporter.import(xml)		      
+		      begin
+		      	result = RecordImporter.import(xml, fqhc)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
 				      QME::QualityReport.update_patient_results(@record.medical_record_number)
 				      Atna.log(current_user.username, :phi_import)
 				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
 						end
-#		      rescue
-		      	#up_log.write("error in file: " + "#{entry}" + "\n")
-#		      end    
+		      rescue
+		      	up_log.write("error in file: " + "#{entry}" + "\n")
+		      end    
 		    end
 		  end
+		else
+			flash[:notice] = "Please check file or FQHC selection"
 		end
 		
 		missing_info = File.open("missing_provider_info.txt", 'w')

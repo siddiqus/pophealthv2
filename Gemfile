@@ -51,6 +51,7 @@ group :assets do
   gem "bootstrap-sass", '2.3.2.1'
   gem 'jquery-datatables-rails', :git => 'https://github.com/rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails', '4.0.4'
+  gem 'jquery-rails', '2.1.4'
  # gem 'jquery-modal-rails', '0.0.3' #added by ssiddiqui
 end
 
@@ -68,7 +69,7 @@ group :production do
   gem 'therubyracer', '0.11.4', :platforms => [:ruby, :jruby] # 10.8 mountain lion compatibility
 end
 
-gem 'jquery-rails', '2.1.4'
+#gem 'jquery-rails', '2.1.4'
 
 # Use unicorn as the web server
 # gem 'unicorn'
