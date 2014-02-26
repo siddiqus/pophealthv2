@@ -74,8 +74,17 @@ class AdminController < ApplicationController
 		
 		unique = empty_providers.uniq.sort.join("\n")
 		missing_info.write("#{unique}")
-		
+
+		# the following gets rid of empty providers 
+		provs=[]
+		Provider.where(:npi => nil).each do |prov|
+			provs << prov._id
+		end				
+		Record.all.each do |rec|
+			rec.provider_performances.any_in('provider_id' => provs).delete
+		end						
 		Provider.where(:npi => nil).delete
+		
   	redirect_to action: 'patients'
   end
 

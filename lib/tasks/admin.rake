@@ -14,4 +14,25 @@ namespace :admin do
     admin_account.grant_admin                
     admin_account.save!
   end
+  
+  task :create_user, :user, :pass, :fqhc do |t, args|
+  	user = args[:user]
+  	pass = args[:pass]
+  	fqhc = args[:fqhc]
+    user_account = User.new(
+                     :first_name =>     "Administrator",
+                     :last_name =>      "Administrator",
+                     :username =>       user,
+                     :password =>       pass,
+                     :email =>          "provideadmin@providemycompanyname.com",
+                     :agree_license =>  true,
+                     :admin =>          true,
+                     :approved =>       true,
+                     :fqhc => fqhc)
+		                
+    admin_account.save!
+  end
+  
+  
+  
 end

@@ -1,7 +1,7 @@
 development:
   sessions:
     default:
-      database: new_popdev #pophealth-dev3
+      database: new_popdev2 #pophealth-dev3
       hosts:
         - localhost:27017
 test:

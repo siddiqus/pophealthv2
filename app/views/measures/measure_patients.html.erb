@@ -102,8 +102,6 @@ $(document).ready(function() {
 
 </script>
 <% end -%>
-
-
  <table id="patientTable" class="table table-hover display">
     <thead>
        <tr>
@@ -124,7 +122,6 @@ $(document).ready(function() {
      <% @page_results.each do |patient_container| -%>
        <tr class="antiNumerator">
          <% patient = patient_container['value'] -%>
-         <!-- <td><%= link_to (patient['medical_record_id'] || 'UNK'), url_for(controller: :patients, action: :show, id: patient_container['value']['patient_id']) %></td>         -->
          <td><%= patient['last'] %></td>
          <td><%= patient['first'] %></td>
          <td><%= age_from_time(patient['birthdate']) || 'UNK' %></td>

@@ -30,6 +30,10 @@ module MeasuresHelper
     is_selected?(measure_id, selected_measures) ? 'checked' : nil
   end
   
+  def is_numeric?(obj) 
+   obj.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+	end
+  
   def display_row(measure_id, selected_measures)
     is_selected?(measure_id, selected_measures) ? "" : "display:none"
   end
