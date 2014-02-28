@@ -26,7 +26,21 @@
     </div>
 		
 
-    <h3>INDIVIDUAL PROVIDER STATISTICS </h3>
+		
+    <h3>INDIVIDUAL PROVIDER STATISTICS </h3>	
+		<table id='legend'>
+			<td>	 	</td>
+			<td><div class='numerator' style='margin-left:20px'> </div> </td>
+			<td align='left'>  numerator </td>
+			<td><div class='denominator' style='margin-left:20px'>  </div> </td>
+			<td align='left'> denominator</td>
+			<td><div class='patients' style='margin-left:20px' >  </div> </td>
+			<td align='left'> outliers </td>
+			<td><div class='exclusions' style='margin-left:20px'> </div> </td>
+			<td align='left'> Exclusions </td>				
+		</table>					
+		<br>
+ 		
     <div id="providers">
       <%= render :partial => "provider_row", :collection => @providers %>
    

@@ -25,7 +25,7 @@ class MeasuresController < ApplicationController
 
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
-    {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
+    {title: "#{measure['endorser']}" + "NQF#" + "#{measure['nqf_id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), 
      url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['sub_id'] ? "/#{measure['sub_id']}" : '')+(provider ? "?npi=#{provider.npi}" : "/providers")}
   end
   add_breadcrumb 'Parameters', '', only: %w{show}
