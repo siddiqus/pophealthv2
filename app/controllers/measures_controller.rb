@@ -367,23 +367,17 @@ class MeasuresController < ApplicationController
   
   def setup_filters
     
-#    if !can?(:read, :providers) || params[:npi]
-#      npi = params[:npi] ? params[:npi] : current_user.npi
-#      @selected_provider = Provider.where(conditions: {npi: npi}).first
-#      authorize! :read, @selected_provider
-#    end
-   	
-   	# fixed by ssiddiqui
-		user_npi = current_user.npi
-		measures_npi = params[:npi]
-	
-		if(measures_npi)
-			@selected_provider = Provider.where(:npi => "#{measures_npi}").first
-			authorize! :read, @selected_provider
-		elsif(user_npi != nil)			
+   	user_npi = current_user.npi
+    if !can?(:read, :providers) || params[:npi]
+      npi = params[:npi] ? params[:npi] : current_user.npi
+      @selected_provider = Provider.where(:npi => "#{npi}").first 
+      #Provider.where(conditions: {npi: npi}).first
+      authorize! :read, @selected_provider
+    elsif (user_npi != nil)
 			@selected_provider = Provider.where(:npi => "#{user_npi}").first
-			authorize! :read, @selected_provider
-		end
+			authorize! :read, @selected_provider    	
+    end
+
     
     if request.xhr?
       

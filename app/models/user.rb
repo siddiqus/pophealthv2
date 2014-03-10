@@ -79,7 +79,7 @@ class User
   def set_defaults
     self.staff_role ||= APP_CONFIG["default_user_staff_role"]
     self.approved ||= APP_CONFIG["default_user_approved"]
-    self.provider = (self.npi != nil)? true : false 
+    self.provider = is_numeric?(self.npi) true : false 
     true
   end
 

@@ -26,13 +26,13 @@
           <% end %>
           <% if current_user.staff_role? || current_user.admin? %>
            <li class="divider"></li>
-          <li class="dropdown-submenu pull-left">
+          <!--<li class="dropdown-submenu">
             <a tabindex="-1" class="dropdown-toggle" data-toggle="dropdown" href="#">
               <i class="icon-star"></i> 
               Admin
             </a>
-            <ul  style="margin-left:38px;" class="dropdown-menu" role="menu" aria-labelledby="Admin">
-            
+            <ul class="dropdown-menu" role="menu" aria-labelledby="Admin">
+            -->
 	   	     		<li><%= link_to raw('<i class="icon-plus"></i> Providers'), providers_path%></li>           
              	<% if current_user.admin? %>
                 <% if (APP_CONFIG['patient_management_enabled']) %>
@@ -42,8 +42,8 @@
                
                 <li><%= link_to raw('<i class="icon-pencil"></i> Logs'), logs_index_path%></li> 
               <% end %>
-            </ul>
-          </li>
+           <!-- </ul>
+          </li> -->
           <% end %>
         </ul>
       </div>
