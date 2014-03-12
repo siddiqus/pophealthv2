@@ -62,7 +62,13 @@
  	<!-- beginning of dashboard -->
 	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
+    
+    
       <div style="margin-top: 20px;" class="pull-right">
+      <%= button_to "Export Report", "measures/export_report", class: 'btn btn-large btn-success' %>
+      
+      
+      <!--
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
           <button class="btn-large btn-success" href="#" id="btnExportReport"> <i class="icon-download-alt"></i> Export Report</button>
         <% else %>
@@ -78,6 +84,8 @@
             </ul>
           </div> 
         <%end %>
+        
+        -->
       </div>
       <div style="margin-top:20px">
 	      <% if (@selected_provider)%>
@@ -89,6 +97,15 @@
 	        <%= content_tag(:h1, current_user.company) unless current_user.company.nil? || current_user.company.empty? %>
 	      <% end %>
       </div>
+	
+			<!-- selection for FQHC --> 
+      <form class="form-inline">      	
+		    <%= form_tag do %> 			
+					<%= label_tag :fqhc, "FQHC: " %>
+		    	<%= select_tag :fqhc, options_for_select(User::FQHC.sort), include_blank: true %> 
+			   	<%= submit_tag "Select", class: 'btn btn-primary'%> 
+		    <% end %>      	
+      </form>      
       
       <dl id="reporting-period">
         <dt>Reporting Period:</dt>

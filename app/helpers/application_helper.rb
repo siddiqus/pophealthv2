@@ -31,4 +31,8 @@ module ApplicationHelper
   def display_time(seconds_since_epoch)
     Time.at(seconds_since_epoch).strftime('%m/%d/%Y')
   end
+  
+  def is_numeric?(obj) 
+   obj.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+	end
 end

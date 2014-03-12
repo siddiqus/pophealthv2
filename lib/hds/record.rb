@@ -36,8 +36,7 @@ class Record
 				if !exists
 					existing.conditions.push(con)		
 				end			
-			end
-			
+			end			
       existing
     else
       data.save!

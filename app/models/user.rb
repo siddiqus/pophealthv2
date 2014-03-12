@@ -57,14 +57,14 @@ class User
   field :staff_role, type: Boolean
   field :disabled, type: Boolean
   field :provider, type: Boolean
-    
+  field :fqhc, type: Boolean
   # Added 8/29/12 by BS for multiple groups per install
   field :teams, type: Array # added from bstrezze 
 	  
   scope :ordered_by_username, order_by([:username, :asc])
   
   FQHC = ["Staywell", "Norwalk", "CHWC", "Cornell Scott"]
- attr_protected :provider, :admin, :approved, :disabled, :encrypted_password, :remember_created_at, :reset_password_token, :reset_password_sent_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :effective_date
+ attr_protected :fqhc, :provider, :admin, :approved, :disabled, :encrypted_password, :remember_created_at, :reset_password_token, :reset_password_sent_at, :sign_in_count, :current_sign_in_at, :last_sign_in_at, :current_sign_in_ip, :last_sign_in_ip, :effective_date
 
   validates_presence_of :first_name, :last_name
 
@@ -79,9 +79,15 @@ class User
   def set_defaults
     self.staff_role ||= APP_CONFIG["default_user_staff_role"]
     self.approved ||= APP_CONFIG["default_user_approved"]
-    self.provider = (is_numeric?(self.npi) && Provider.valid_npi?(self.npi) ) ? true : false 
+    numeric = self.npi.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+    self.provider = (numeric && Provider.valid_npi?(self.npi) ) ? true : false 
     true
   end
+
+	# helper method for npi check	
+	def is_numeric?(obj) 
+   obj.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
+	end
 
   def active_for_authentication? 
     super && approved? && !disabled?

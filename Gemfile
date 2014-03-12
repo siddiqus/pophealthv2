@@ -30,6 +30,7 @@ gem 'bson', '1.9.2'
 gem 'bson_ext', '1.9.2', :platforms => :mri
 
 gem "mongoid", '3.1.4'
+gem 'spreadsheet'
 
 gem 'devise', '3.0.2'
 

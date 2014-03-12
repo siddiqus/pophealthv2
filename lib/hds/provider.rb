@@ -14,7 +14,7 @@ class Provider
 	# added from bstrezze
   def self.user_filter(current_user)
     if current_user.admin?
-      Provider.all
+#      Provider.all
     else
       Provider.any_in(:team_id => current_user.teams)
     end

@@ -20,7 +20,7 @@ PopHealth::Application.routes.draw do
 	delete "admin/remove_providers" #added for button, ssiddiqui
 	delete "providers/remove"
 	get "admin/user_profile"
-#	get "providers/provider_form"
+	post "measures/export_report"
 	
 	delete "measures/remove_selections" #added for button, ssiddiqui
 	delete "logs/delete_logs"
@@ -45,6 +45,9 @@ PopHealth::Application.routes.draw do
   match 'measures/period', :to=>'measures#period', :as => :period, :via=> :post
   
   match 'provider/:npi', :to => "measures#index", :as => :provider_dashboard, :via => :get
+  
+  # measure pages for different practices
+  match 'fqhc/:fqhc', :to => "measures#index", :via => :get
   
   match 'records', :to => 'records#create', :via => :post
   

@@ -55,7 +55,7 @@ class MeasuresController < ApplicationController
       end
     end
   end
-  
+      
   def definition
     render :json => @definition
   end
@@ -193,43 +193,6 @@ class MeasuresController < ApplicationController
     end
   end
 
-  # added from latest version of popHealth on github
-  def qrda_cat3
-    Atna.log(current_user.username, :query)
-    selected_measures = current_user.selected_measures
-
-    measure_ids = selected_measures.map{|measure| measure['id']}
-    expected_results = QueryCache.in(:measure_id => measure_ids).where(:effective_date => current_user.effective_date)
-
-    results = {}
-    expected_results.each do |value|
-      result = results[value["measure_id"]] ||= {"hqmf_id"=>value["measure_id"], "population_ids" => {}}
-      population_ids = value["population_ids"]
-      strat_id = population_ids["stratification"]
-      population_ids.each_pair do |pop_key,pop_id|
-        if pop_key != "stratification" 
-          pop_result  = result["population_ids"][pop_id] ||= {"type"=> pop_key}
-          pop_val = value[pop_key]
-          if strat_id
-            pop_result["stratifications"] ||= {}
-            pop_result["stratifications"][strat_id] = pop_val
-          else
-            pop_result["value"] = pop_val
-          end
-        end
-      end
-    end
-    @results = results
-    @measures = MONGO_DB['measures'].find({:hqmf_id => {"$in" => measure_ids}, :sub_id => {"$in" =>[nil,'a']}})
-
-    respond_to do |format|
-      format.xml do
-        response.headers['Content-Disposition']='attachment;filename=qrda_cat3.xml';
-        render :content_type=>'application/xml'
-      end
-    end
-  end
-
   def measure_report
     Atna.log(current_user.username, :query)
     selected_measures = current_user.selected_measures
@@ -262,18 +225,63 @@ class MeasuresController < ApplicationController
       end
     end
   end
-  
+   
   def period
     month, day, year = params[:effective_date].split('/')
     set_effective_date(Time.gm(year.to_i, month.to_i, day.to_i).to_i, params[:persist]=="true")
     render :period, :status=>200
   end
 
+ 	def export_report
+  	book = Spreadsheet::Workbook.new
+		sheet = book.create_worksheet
+		
+		format = Spreadsheet::Format.new :weight => :bold
+		
+		selected_measures = @current_user.selected_measures
+		
+		start_date = Time.at(@period_start).strftime("%D")
+    end_date = Time.at(@effective_date).strftime("%D")
+    
+		# table headers
+		sheet.row(0).push 'NQF ID', 'Sub ID', 'Name', 'Subtitle', 'Numerator', 'Denominator', 'Exclusions', 'Percentage'
+		sheet.row(0).default_format = format
+		r = 1
+		
+		providers_for_filter = @providers.map{|pv| pv._id.to_s}
+
+		selected_measures.each do |measure|
+			subs_iterator(measure['subs']) do |sub_id|
+				info = measure_info(measure['id'], sub_id)
+				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, 'filters.providers' => {'$all' => providers_for_filter}).first
+				percent = (100*(cache['NUMER'] / cache['DENOM'])).round(1)
+				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent
+				r = r + 1;
+			end
+		end
+		
+		book.write 'measure-report.xls'
+		today = Time.now.strftime("%D")
+		filename = "measure-report-" + "#{today}" + ".xlsx"
+		
+		data = StringIO.new '';
+		book.write data;
+		send_data(data.string, {
+		  :disposition => 'attachment',
+		  :encoding => 'utf8',
+		  :stream => false,
+		  :type => 'application/excel',
+		  :filename => filename
+		})
+		
+  end  
+
+
   private
 
   def generate_xml_report(provider, selected_measures, provider_report=true)
     report = {}
-    report[:start] = Time.at(@period_start)
+    report[:start] = Time.at(@period_start).
     report[:end] = Time.at(@effective_date)
     report[:npi] = provider ? provider.npi : '' 
     report[:tin] = provider ? provider.tin : ''
@@ -286,24 +294,52 @@ class MeasuresController < ApplicationController
     end
     report
   end
-  
-  def extract_result(id, sub_id, effective_date, providers=nil)
-    if (providers)
-      qr = QME::QualityReport.new(id, sub_id, 'effective_date' => effective_date, 'filters' => {'providers' => providers})
-    else
-      qr = QME::QualityReport.new(id, sub_id, 'effective_date' => effective_date)
+
+  def generate_xls(selected_measures)
+    report = {}
+    report[:start] = Time.at(@period_start)
+    report[:end] = Time.at(@effective_date)
+    report[:results] = []
+    
+    selected_measures.each do |measure|
+      subs_iterator(measure['subs']) do |sub_id|
+        report[:results] << extract_result(measure['id'], sub_id)
+      end
     end
-    qr.calculate unless qr.calculated?
+    report
+  end
+  
+#  def extract_result(id, sub_id, effective_date, providers=nil)
+#    if (providers)
+#      qr = QME::QualityReport.new(id, sub_id, 'effective_date' => effective_date, 'filters' => {'providers' => providers})
+#    else
+#      qr = QME::QualityReport.new(id, sub_id, 'effective_date' => effective_date)
+#    end
+	def extract_result(id, sub_id)
+		qr = QME::QualityReport.new(id, sub_id, 'effective_date' => @effective_date, 
+		'filters.providers' => @providers.map {|pv| pv._id.to_s})
+#    qr.calculate unless qr.calculated?
     result = qr.result
+#    measure = measure_name(id, sub_id)
     {
-      :id=>id,
-      :sub_id=>sub_id,
-      :population=>result['population'],
-      :denominator=>result['denominator'],
-      :numerator=>result['numerator'],
-      :exclusions=>result['exclusions']
+      :nqf_id => result['measure_id'],
+      :id => id,
+      :sub_id => sub_id,
+      :name => measure[:name],
+      :subtitle => measure[:subtitle],
+#      :population => result['population'],
+      :denominator => result['DENOM'],
+      :numerator => result['NUMER'],
+      :exclusions => result['DENEX'],
+      :full_numer => result['full_numer'],
+      :full_denom => result['full_denom']
     }
   end
+  
+  def measure_info(id, sub_id)
+		measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first
+		{:name => measure['name'], :subtitle => measure['short_subtitle'], :nqf_id => measure['nqf_id']}	
+	end
   
   
   def set_up_environment
@@ -365,6 +401,8 @@ class MeasuresController < ApplicationController
     render :json => result.merge(:complete => result[:jobs].empty?, :failed => !(result[:jobs].values.keep_if {|job| job[:status] == 'failed'}).empty?)
   end
   
+  
+  # setup the filters to show on the left panel
   def setup_filters
     
    	user_npi = current_user.npi
@@ -377,12 +415,9 @@ class MeasuresController < ApplicationController
 			@selected_provider = Provider.where(:npi => "#{user_npi}").first
 			authorize! :read, @selected_provider    	
     end
-
     
-    if request.xhr?
-      
+    if request.xhr?     
       build_filters
-      
     else
 
       if can?(:read, :providers)
@@ -404,8 +439,7 @@ class MeasuresController < ApplicationController
       @races = Race.ordered
       @ethnicities = Ethnicity.ordered
       @genders = [{name: 'Male', id: 'M'}, {name: 'Female', id: 'F'}].map { |g| OpenStruct.new(g)}
-      @languages = Language.ordered
-      
+      @languages = Language.ordered    
     end
 
   end
@@ -416,10 +450,10 @@ class MeasuresController < ApplicationController
     if params[:provider]
       providers = params[:provider]
 #    elsif params[:team] && params[:team].size != Team.count
-#      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }      
-		elsif params[:fqhc]
-			providers = fqhc_provider_listf
-
+#      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }   
+		# provisional   
+		elsif params[:fqhc] || (current_user.fqhc != nil && current_user.staff_role)
+			providers = fqhc_provider_list(params[:fqhc] || current_user.fqhc)
     else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil
@@ -445,7 +479,7 @@ class MeasuresController < ApplicationController
     end
     
     @filters = nil if @filters.empty?
-    
+       
   end
 
   def validate_authorization!
