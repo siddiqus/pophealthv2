@@ -13,6 +13,7 @@ module MeasuresHelper
     end
   end
   
+  # returns a list of provider ids that belong to a certain fqhc
   def fqhc_provider_list(fqhc)
   	provs = []
   	Provider.each do |prov|

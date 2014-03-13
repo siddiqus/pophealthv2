@@ -1225,6 +1225,15 @@ div.tableBar {
   background-color: $measurePopulationChartBar;
   width: 150px;
   padding: 0 1px 0 0; }
+
+ .tableBarVal {
+   background-color: $barValueColor;
+   height: 100%;
+   color: $barValueText;
+   padding: 0 1px 0 0;
+   font-size: 0.7em;
+   span {
+     margin: 3px 0 0 5px; } }
   
 div.tableBarDenominator {
 	@extend .tableBarVal;

@@ -99,6 +99,7 @@
       </div>
 	
 			<!-- selection for FQHC --> 
+			<% if @current_user.admin? %>
       <form class="form-inline">      	
 		    <%= form_tag do %> 			
 					<%= label_tag :fqhc, "FQHC: " %>
@@ -106,6 +107,7 @@
 			   	<%= submit_tag "Select", class: 'btn btn-primary'%> 
 		    <% end %>      	
       </form>      
+      <% end %>
       
       <dl id="reporting-period">
         <dt>Reporting Period:</dt>

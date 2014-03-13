@@ -232,6 +232,11 @@ class MeasuresController < ApplicationController
     render :period, :status=>200
   end
 
+	def percentage(numer,denom)	
+		percent = (100*(numer / denom)).round(1)
+		(denom==0)? 0 : percent
+	end
+
  	def export_report
   	book = Spreadsheet::Workbook.new
 		sheet = book.create_worksheet
@@ -244,7 +249,7 @@ class MeasuresController < ApplicationController
     end_date = Time.at(@effective_date).strftime("%D")
     
 		# table headers
-		sheet.row(0).push 'NQF ID', 'Sub ID', 'Name', 'Subtitle', 'Numerator', 'Denominator', 'Exclusions', 'Percentage'
+		sheet.row(0).push 'NQF ID', 'Sub ID', 'Name', 'Subtitle', 'Numerator', 'Denominator', 'Exclusions', 'Percentage', 'Aggregate'
 		sheet.row(0).default_format = format
 		r = 1
 		
@@ -253,9 +258,12 @@ class MeasuresController < ApplicationController
 		selected_measures.each do |measure|
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
-				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, 'filters.providers' => {'$all' => providers_for_filter}).first
-				percent = (100*(cache['NUMER'] / cache['DENOM'])).round(1)
-				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent
+				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, 
+				'filters.providers' => {'$all' => providers_for_filter},
+				'filters.providers' => {'$size' => 1}).first
+				percent = "#{percentage(cache['NUMER'], cache['DENOM'])}" + "%"
+				full_percent = "#{percentage(cache['full_numer'],cache['full_denom'])}" + "%"
+				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent, full_percent
 				r = r + 1;
 			end
 		end
@@ -423,7 +431,7 @@ class MeasuresController < ApplicationController
       if can?(:read, :providers)
 				# updated from bstrezze
         #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
-				@providers = Provider.user_filter(current_user) # added by ssiddiqui        
+				@providers = Provider.user_filter(current_user)								
 				@providers_for_filter = Provider.user_filter(current_user).alphabetical
         if APP_CONFIG['disable_provider_filters']
           @teams = Team.user_filter(current_user).alphabetical
@@ -452,8 +460,8 @@ class MeasuresController < ApplicationController
 #    elsif params[:team] && params[:team].size != Team.count
 #      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }   
 		# provisional   
-		elsif params[:fqhc] || (current_user.fqhc != nil && current_user.staff_role)
-			providers = fqhc_provider_list(params[:fqhc] || current_user.fqhc)
+#		elsif params[:fqhc] || (current_user.fqhc != nil && current_user.staff_role)
+#			providers = fqhc_provider_list(params[:fqhc] || current_user.fqhc)
     else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil
