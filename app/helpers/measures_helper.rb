@@ -12,18 +12,7 @@ module MeasuresHelper
       yield sub_id
     end
   end
-  
-  # returns a list of provider ids that belong to a certain fqhc
-  def fqhc_provider_list(fqhc)
-  	provs = []
-  	Provider.each do |prov|
-  		if (prov.records.where(fqhc).count > 0)
-	  		provs << prov.id.to_s
-	  	end
-	  end
-	  provs  
-  end
-	
+ 	
 	# added from bstrezze
   # Checks a measure id to see if it is in the Array returned
   # be getting the selected_measure collection

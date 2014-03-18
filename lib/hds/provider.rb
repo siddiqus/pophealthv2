@@ -9,13 +9,15 @@ class Provider
   scope :all_except, ->(prov) { where(:_id.ne => prov.id) }
   scope :selected, ->(provider_ids) { any_in(:_id => provider_ids)}
   scope :selected_or_all, ->(provider_ids) { provider_ids.nil? || provider_ids.empty? ? Provider.all : Provider.selected(provider_ids) }
+
   
 	# added from bstrezze
   def self.user_filter(current_user)
     if current_user.admin?
       Provider.all
-#    elsif current_user.staff?
-#    	Provider.any_in(:id => fqhc_provider_list(current_user.fqhc))
+    elsif current_user.staff_role?
+    	#Provider.all #any_in(:id => fqhc_provider_list(current_user.fqhc))
+    	by_fqhc(current_user.fqhc)
 		elsif current_user.provider?
 			Provider.where(:npi => current_user.npi)
     else
@@ -24,6 +26,18 @@ class Provider
   end 
 
   belongs_to :team
+  
+  # returns a list of provider ids that belong to a certain fqhc
+  def self.by_fqhc(fqhc)
+  	provs = []
+  	Provider.each do |prov|
+  		if (prov.records.where(:fqhc => fqhc).count > 0)
+	  		provs << prov
+	  	end
+	  end
+	  provs 
+  end
+
   
   Specialties = {"100000000X" => "Behavioral Health and Social Service Providers",
                  "110000000X" => "Chiropractic Providers",

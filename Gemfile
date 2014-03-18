@@ -15,7 +15,7 @@ gem 'macaddr', '1.6.1'
 gem 'quality-measure-engine', :path => "../quality-measure-engine"
 gem "health-data-standards", :path => "../health-data-standards"
 
-
+gem 'spreadsheet'
 gem 'nokogiri', '1.6.0'#'~>1.5.5' #'1.5.10'
 gem 'rubyzip', '0.9.9'
 
@@ -30,7 +30,6 @@ gem 'bson', '1.9.2'
 gem 'bson_ext', '1.9.2', :platforms => :mri
 
 gem "mongoid", '3.1.4'
-gem 'spreadsheet'
 
 gem 'devise', '3.0.2'
 

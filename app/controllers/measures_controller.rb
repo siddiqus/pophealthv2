@@ -115,6 +115,66 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
+
+	# returns percentage
+	def percentage(numer,denom)	
+		percent = (100*(numer / denom)).round(1)
+		(denom==0)? 0 : percent
+	end
+
+
+	# creates spreadsheet of dashboard reports
+ 	def export_report
+  	book = Spreadsheet::Workbook.new
+		sheet = book.create_worksheet
+		
+		format = Spreadsheet::Format.new :weight => :bold
+		
+		selected_measures = @current_user.selected_measures
+		
+		start_date = Time.at(@period_start).strftime("%D")
+    end_date = Time.at(@effective_date).strftime("%D")
+    
+		# table headers
+		sheet.row(0).push 'NQF ID', 'Sub ID', 'Name', 'Subtitle', 'Numerator', 'Denominator', 'Exclusions', 'Percentage', 'Aggregate'
+		sheet.row(0).default_format = format
+		r = 1
+		
+		providers_for_filter = @providers.map{|pv| pv._id.to_s}
+
+		selected_measures.each do |measure|
+			subs_iterator(measure['subs']) do |sub_id|
+				info = measure_info(measure['id'], sub_id)
+				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => providers_for_filter.count}).first
+				percent = percentage(cache['NUMER'], cache['DENOM'])
+				full_percent = percentage(cache['full_numer'],cache['full_denom'])
+				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent, full_percent
+				r = r + 1;
+			end
+		end
+		
+		book.write 'measure-report.xls'
+		today = Time.now.strftime("%D")
+		filename = "measure-report-" + "#{today}" + ".xls"
+		
+		data = StringIO.new '';
+		book.write data;
+		send_data(data.string, {
+		  :disposition => 'attachment',
+		  :encoding => 'utf8',
+		  :stream => false,
+		  :type => 'application/excel',
+		  :filename => filename
+		})
+		
+  end  
+
+		def measure_info(id, sub_id)
+			measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first
+			{:name => measure['name'], :subtitle => measure['short_subtitle'], :nqf_id => measure['nqf_id']}	
+		end
+		
+
   # This is used to populate the patient list for a selected measure
   def measure_patients
 
@@ -232,64 +292,11 @@ class MeasuresController < ApplicationController
     render :period, :status=>200
   end
 
-	def percentage(numer,denom)	
-		percent = (100*(numer / denom)).round(1)
-		(denom==0)? 0 : percent
-	end
-
- 	def export_report
-  	book = Spreadsheet::Workbook.new
-		sheet = book.create_worksheet
-		
-		format = Spreadsheet::Format.new :weight => :bold
-		
-		selected_measures = @current_user.selected_measures
-		
-		start_date = Time.at(@period_start).strftime("%D")
-    end_date = Time.at(@effective_date).strftime("%D")
-    
-		# table headers
-		sheet.row(0).push 'NQF ID', 'Sub ID', 'Name', 'Subtitle', 'Numerator', 'Denominator', 'Exclusions', 'Percentage', 'Aggregate'
-		sheet.row(0).default_format = format
-		r = 1
-		
-		providers_for_filter = @providers.map{|pv| pv._id.to_s}
-
-		selected_measures.each do |measure|
-			subs_iterator(measure['subs']) do |sub_id|
-				info = measure_info(measure['id'], sub_id)
-				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, 
-				'filters.providers' => {'$all' => providers_for_filter},
-				'filters.providers' => {'$size' => 1}).first
-				percent = "#{percentage(cache['NUMER'], cache['DENOM'])}" + "%"
-				full_percent = "#{percentage(cache['full_numer'],cache['full_denom'])}" + "%"
-				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent, full_percent
-				r = r + 1;
-			end
-		end
-		
-		book.write 'measure-report.xls'
-		today = Time.now.strftime("%D")
-		filename = "measure-report-" + "#{today}" + ".xlsx"
-		
-		data = StringIO.new '';
-		book.write data;
-		send_data(data.string, {
-		  :disposition => 'attachment',
-		  :encoding => 'utf8',
-		  :stream => false,
-		  :type => 'application/excel',
-		  :filename => filename
-		})
-		
-  end  
-
-
   private
 
   def generate_xml_report(provider, selected_measures, provider_report=true)
     report = {}
-    report[:start] = Time.at(@period_start).
+    report[:start] = Time.at(@period_start)
     report[:end] = Time.at(@effective_date)
     report[:npi] = provider ? provider.npi : '' 
     report[:tin] = provider ? provider.tin : ''
@@ -413,21 +420,15 @@ class MeasuresController < ApplicationController
   # setup the filters to show on the left panel
   def setup_filters
     
-   	user_npi = current_user.npi
     if !can?(:read, :providers) || params[:npi]
       npi = params[:npi] ? params[:npi] : current_user.npi
       @selected_provider = Provider.where(:npi => "#{npi}").first 
-      #Provider.where(conditions: {npi: npi}).first
       authorize! :read, @selected_provider
-    elsif (user_npi != nil)
-			@selected_provider = Provider.where(:npi => "#{user_npi}").first
-			authorize! :read, @selected_provider    	
     end
     
     if request.xhr?     
       build_filters
     else
-
       if can?(:read, :providers)
 				# updated from bstrezze
         #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical

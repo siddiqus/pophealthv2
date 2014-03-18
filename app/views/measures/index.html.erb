@@ -62,12 +62,8 @@
  	<!-- beginning of dashboard -->
 	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
-    
-    
       <div style="margin-top: 20px;" class="pull-right">
-      <%= button_to "Export Report", "measures/export_report", class: 'btn btn-large btn-success' %>
-      
-      
+      <%= button_to "Export Report", "measures/export_report", class: "btn btn-large btn-success" %>
       <!--
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
           <button class="btn-large btn-success" href="#" id="btnExportReport"> <i class="icon-download-alt"></i> Export Report</button>
@@ -84,8 +80,7 @@
             </ul>
           </div> 
         <%end %>
-        
-        -->
+      -->
       </div>
       <div style="margin-top:20px">
 	      <% if (@selected_provider)%>
@@ -152,7 +147,7 @@
 				<td align='left'> exclusions </td>
 			</table>			
 		</div>
-			
+							
   	<!--SELECTED MEASURES AND RESULTS  ----------------------------------------->
   	<div id="measures">
     	<% @categories.each do |categorized| %>	

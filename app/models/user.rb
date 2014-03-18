@@ -80,14 +80,9 @@ class User
     self.staff_role ||= APP_CONFIG["default_user_staff_role"]
     self.approved ||= APP_CONFIG["default_user_approved"]
     numeric = self.npi.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
-    self.provider = (numeric && Provider.valid_npi?(self.npi) ) ? true : false 
+    self.provider = Provider.valid_npi?(self.npi) ? true : false 
     true
   end
-
-	# helper method for npi check	
-	def is_numeric?(obj) 
-   obj.to_s.match(/\A[+-]?\d+?(\.\d+)?\Z/) == nil ? false : true
-	end
 
   def active_for_authentication? 
     super && approved? && !disabled?
