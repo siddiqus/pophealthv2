@@ -365,9 +365,10 @@ class MeasuresController < ApplicationController
 			@patient_count = Record.all.count
     elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
-    else
+    elsif @current_user.staff_role?
+			@patient_count = Record.where(:fqhc => "#{current_user.fqhc}").count
     	# for teams
-      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
+#      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
     end
 
     if params[:id]
@@ -433,7 +434,7 @@ class MeasuresController < ApplicationController
 				# updated from bstrezze
         #@providers = Provider.page(@page).per(20).userfilter(current_user).alphabetical
 				@providers = Provider.user_filter(current_user)								
-				@providers_for_filter = Provider.user_filter(current_user).alphabetical
+				@providers_for_filter = Provider.user_filter(current_user) #.alphabetical
         if APP_CONFIG['disable_provider_filters']
           @teams = Team.user_filter(current_user).alphabetical
           @page = params[:page]

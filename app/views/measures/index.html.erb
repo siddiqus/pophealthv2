@@ -126,7 +126,7 @@
       <% unless (@selected_provider) %>
         <dl>
           <dt># of Providers: </dt>
-          <dd><%= Provider.all.user_filter(current_user).count%></dd> <!-- added by ssiddiqui -->
+          <dd><%= @providers.count%></dd> <!-- added by ssiddiqui -->
         </dl>
       <% end %>     
     </div> <!-- end of dashboard -->
@@ -146,7 +146,7 @@
 				<td><div class='exclusions' style='margin-left:20px'> </div> </td>
 				<td align='left'> exclusions </td>
 			</table>			
-		</div>
+		</div>									
 							
   	<!--SELECTED MEASURES AND RESULTS  ----------------------------------------->
   	<div id="measures">
