@@ -115,14 +115,6 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
-
-	# returns percentage
-	def percentage(numer,denom)	
-		percent = (100*(numer / denom)).round(1)
-		(denom==0)? 0 : percent
-	end
-
-
 	# creates spreadsheet of dashboard reports
  	def export_report
   	book = Spreadsheet::Workbook.new
@@ -146,9 +138,9 @@ class MeasuresController < ApplicationController
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
 				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => providers_for_filter.count}).first
-				percent = percentage(cache['NUMER'], cache['DENOM'])
-				full_percent = percentage(cache['full_numer'],cache['full_denom'])
-				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'], percent, full_percent
+				percent =  percentage(cache['NUMER'].to_f, cache['DENOM'].to_f)
+				full_percent = percentage(cache['full_numer'].to_f, cache['full_denom'].to_f)
+				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent, full_percent
 				r = r + 1;
 			end
 		end
@@ -166,14 +158,19 @@ class MeasuresController < ApplicationController
 		  :type => 'application/excel',
 		  :filename => filename
 		})
-		
-  end  
-
-		def measure_info(id, sub_id)
-			measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first
-			{:name => measure['name'], :subtitle => measure['short_subtitle'], :nqf_id => measure['nqf_id']}	
-		end
-		
+  end 
+  
+  # returns info on measure
+  def measure_info(id, sub_id)
+		measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first
+		{:name => measure['name'], :subtitle => measure['short_subtitle'], :nqf_id => measure['nqf_id']}	
+	end
+	
+		# returns percentage
+	def percentage(numer,denom)	
+		percent = (numer/denom * 100).round(1)
+		(denom==0)? 0 : percent
+	end
 
   # This is used to populate the patient list for a selected measure
   def measure_patients
@@ -351,10 +348,6 @@ class MeasuresController < ApplicationController
     }
   end
   
-  def measure_info(id, sub_id)
-		measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first
-		{:name => measure['name'], :subtitle => measure['short_subtitle'], :nqf_id => measure['nqf_id']}	
-	end
   
   
   def set_up_environment
@@ -451,7 +444,10 @@ class MeasuresController < ApplicationController
       @genders = [{name: 'Male', id: 'M'}, {name: 'Female', id: 'F'}].map { |g| OpenStruct.new(g)}
       @languages = Language.ordered    
     end
-
+	
+		fqhc = params[:fqhc]
+		@providers = Provider.where(:fqhc => "#{fqhc}") unless (fqhc == nil)
+		
   end
 
   def build_filters

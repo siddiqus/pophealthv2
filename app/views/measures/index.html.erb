@@ -30,13 +30,13 @@
         </div>
         <div id="category<%=idx%>" class="accordion-body collapse">
           <ul class="accordion-inner measureItemList">
-             <% categorized['measures'].each do |measure| -%>
+             <% categorized['measures'].each do |measure| %>
                <li data-category="<%= categorized['category'] %>">
               <label class="checkbox">
-                <%= check_box_tag :measure_id, measure["id"], is_selected?(measure['id'], current_user.selected_measures), {id: nil, 'data-measure-id' => measure['id'], 'data-sub-measures' => measure['sub_ids'].join(',')} %><%= measure['name'] %>
+                <%= check_box_tag :measure_id, measure["id"], is_selected?(measure['id'], current_user.selected_measures), {id: nil, 'data-measure-id' => measure['id'], 'data-sub-measures' => measure['sub_ids'].join(',')} %> NQF#<%=measure['nqf_id'] %>: <%= measure['name']%> 
               </label>         
               </li>
-             <% end -%>
+             <% end %>
           </ul>
         </div>
       </div>
