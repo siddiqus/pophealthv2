@@ -1,3 +1,5 @@
+
+<div class='form-inline'>
 <%= form_for(@practice) do |f| %>
   <% if @practice.errors.any? %>
     <div id="error_explanation">
@@ -11,11 +13,10 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
+  <h4> Create Practice </h4>
+    <%= f.label :name %>
     <%= f.text_field :name %>
-  </div>
-  <div class="actions">
     <%= f.submit %>
-  </div>
+
 <% end %>
+</div>

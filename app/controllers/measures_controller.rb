@@ -350,17 +350,14 @@ class MeasuresController < ApplicationController
     
   def set_up_environment
     provider_npi = params[:npi]
-#    fqhc = params[:fqhc]
 		if @current_user.admin? && provider_npi
-    	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count
-#    elsif @current_user.admin? && fqhc != ''
-#    	@patient_count = Record.where(:fqhc => fqhc).count
+    	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count   
     elsif @current_user.admin?		
 			@patient_count = Record.all.count
     elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     elsif @current_user.staff_role?
-			@patient_count = Record.where(:fqhc => "#{current_user.fqhc}").count
+			@patient_count = Record.where(:practice => "#{current_user.practice}").count
     	# for teams
 #      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
     end
@@ -455,10 +452,6 @@ class MeasuresController < ApplicationController
 #    elsif params[:team] && params[:team].size != Team.count
 #      providers = Provider.any_in(team_id: params[:team]).map { |pv| pv.id.to_s }   
 		# provisional   
-#		elsif params[:fqhc] || (current_user.fqhc != nil && current_user.staff_role)
-#			providers = fqhc_provider_list(params[:fqhc] || current_user.fqhc)
-#    elsif params[:fqhc]
-#    	providers = Provider.by_fqhc(params[:fqhc]).map{|pv| pv.id.to_s}
    	else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil

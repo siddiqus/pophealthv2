@@ -16,8 +16,7 @@ class Provider
     if current_user.admin?
       Provider.all
     elsif current_user.staff_role?
-    	#Provider.all #any_in(:id => fqhc_provider_list(current_user.fqhc))
-    	by_fqhc(current_user.fqhc)
+    	by_practice(current_user.practice)
 		elsif current_user.provider?
 			Provider.where(:npi => current_user.npi)
     else
@@ -27,17 +26,16 @@ class Provider
 
   belongs_to :team
   
-  # returns a list of provider ids that belong to a certain fqhc
-  def self.by_fqhc(fqhc)
+  # returns a list of provider ids that belong to a certain practice
+  def self.by_practice(practice)
   	provs = []
   	Provider.each do |prov|
-  		if (prov.records.where(:fqhc => fqhc).count > 0)
+  		if (prov.records.where(:practice => practice).count > 0)
 	  		provs << prov
 	  	end
 	  end
 	  provs 
   end
-
   
   Specialties = {"100000000X" => "Behavioral Health and Social Service Providers",
                  "110000000X" => "Chiropractic Providers",

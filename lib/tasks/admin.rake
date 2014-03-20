@@ -15,11 +15,11 @@ namespace :admin do
     admin_account.save!
   end
   
-  task :create_user, [:user, :pass, :fqhc] => :environment do |t, args|
+  task :create_user, [:user, :pass, :practice] => :environment do |t, args|
 #  	args = params
   	user = args[:user]
   	pass = args[:pass]
-  	fqhc = args[:fqhc]
+  	fqhc = args[:practice]
     user_account = User.new(
                      :first_name =>     "Administrator",
                      :last_name =>      "Administrator",

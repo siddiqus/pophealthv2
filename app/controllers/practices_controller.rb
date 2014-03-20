@@ -11,28 +11,31 @@ class PracticesController < ApplicationController
 
   def index
     @practices = Practice.all
-
+		@practice = Practice.new
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @practices }
+      format.json { render json: @practice }
     end
   end
 
   # GET /practices/1
   # GET /practices/1.json
   def show
-    @practice = Practice.find(params[:id])
+#    @practice = Practice.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @practice }
-    end
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.json { render json: @practice }
+#    end
+
+		redirect_to :action => :new
   end
 
   # GET /practices/new
   # GET /practices/new.json
   def new
     @practice = Practice.new
+    @practices = Practice.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -84,7 +87,7 @@ class PracticesController < ApplicationController
     @practice.destroy
 
     respond_to do |format|
-      format.html { redirect_to practices_url }
+      format.html { redirect_to :action => :new}
       format.json { head :no_content }
     end
   end
