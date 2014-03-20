@@ -145,7 +145,7 @@ class MeasuresController < ApplicationController
 			end
 		end
 		
-		book.write 'measure-report.xls'
+#		book.write 'measure-report.xls'
 		today = Time.now.strftime("%D")
 		filename = "measure-report-" + "#{today}" + ".xls"
 		
@@ -347,13 +347,14 @@ class MeasuresController < ApplicationController
       :full_denom => result['full_denom']
     }
   end
-  
-  
-  
+    
   def set_up_environment
     provider_npi = params[:npi]
+#    fqhc = params[:fqhc]
 		if @current_user.admin? && provider_npi
     	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count
+#    elsif @current_user.admin? && fqhc != ''
+#    	@patient_count = Record.where(:fqhc => fqhc).count
     elsif @current_user.admin?		
 			@patient_count = Record.all.count
     elsif @selected_provider
@@ -442,14 +443,12 @@ class MeasuresController < ApplicationController
       @races = Race.ordered
       @ethnicities = Ethnicity.ordered
       @genders = [{name: 'Male', id: 'M'}, {name: 'Female', id: 'F'}].map { |g| OpenStruct.new(g)}
-      @languages = Language.ordered    
+      @languages = Language.ordered          
     end
 	
-		fqhc = params[:fqhc]
-		@providers = Provider.where(:fqhc => "#{fqhc}") unless (fqhc == nil)
 		
   end
-
+	
   def build_filters
     providers = nil
     
@@ -460,7 +459,9 @@ class MeasuresController < ApplicationController
 		# provisional   
 #		elsif params[:fqhc] || (current_user.fqhc != nil && current_user.staff_role)
 #			providers = fqhc_provider_list(params[:fqhc] || current_user.fqhc)
-    else
+#    elsif params[:fqhc]
+#    	providers = Provider.by_fqhc(params[:fqhc]).map{|pv| pv.id.to_s}
+   	else
       # Changed to, with setting the filters, to filter based on the user
       # providers = nil
       providers = Provider.user_filter(current_user).map { |pv| pv.id.to_s } # added from bstrezze

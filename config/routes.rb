@@ -30,6 +30,10 @@ PopHealth::Application.routes.draw do
 
   get "logs/index"
   post "logs/index" #added by ssiddiqui for log filters
+
+  # measure pages for different practices
+  match 'measures/fqhc/:fqhc', :to => 'measures#index', :via => :get
+  
   
   match 'measures', :to => 'measures#index', :as => :dashboard, :via => :get
   match "measure/:id(/:sub_id)/providers", :to => "measures#providers", :via => :get
@@ -45,9 +49,6 @@ PopHealth::Application.routes.draw do
   match 'measures/period', :to=>'measures#period', :as => :period, :via=> :post
   
   match 'provider/:npi', :to => "measures#index", :as => :provider_dashboard, :via => :get
-  
-  # measure pages for different practices
-  match 'fqhc/:fqhc', :to => "measures#index", :via => :get
   
   match 'records', :to => 'records#create', :via => :post
   

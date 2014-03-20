@@ -12,11 +12,11 @@ gem 'macaddr', '1.6.1'
 #gem 'quality-measure-engine', '2.1.0', :git => 'https://github.com/pophealth/quality-measure-engine.git', :branch => 'develop'
 #gem "health-data-standards", '3.2.7', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
 
-gem 'quality-measure-engine', :path => "../quality-measure-engine"
-gem "health-data-standards", :path => "../health-data-standards"
+gem 'quality-measure-engine', :path => "../quality-measure-engine-v2"
+gem "health-data-standards", :path => "../hds-v2"
 
 gem 'spreadsheet'
-gem 'nokogiri', '1.6.0'#'~>1.5.5' #'1.5.10'
+gem 'nokogiri', '1.6.0' #'~>1.5.5' #'1.5.10'
 gem 'rubyzip', '0.9.9'
 
 gem "will_paginate", '3.0.4'# we need to get rid of this, very inefficient with large data sets and mongoid

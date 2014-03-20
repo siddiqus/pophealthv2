@@ -7,7 +7,7 @@ GIT
       sass-rails
 
 PATH
-  remote: ../health-data-standards
+  remote: ../hds-v2
   specs:
     health-data-standards (3.2.11)
       activesupport (~> 3.2.14)
@@ -22,7 +22,7 @@ PATH
       uuid (~> 2.3.7)
 
 PATH
-  remote: ../quality-measure-engine
+  remote: ../quality-measure-engine-v2
   specs:
     quality-measure-engine (2.5.1)
       delayed_job_mongoid (~> 2.0.0)

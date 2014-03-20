@@ -15,9 +15,15 @@
       <div class="dropdown">
         <a class="dropdown-toggle" data-toggle="dropdown" href="#">
           <i class="icon-user"></i>
-          <%= current_user.full_name %>
+          <% if current_user.admin? %>
+          	Admin
+          <% elsif current_user.fqhc? %>
+          	<%= current_user.fqhc %>
+          <% elsif current_user.provider? %>
+         		<%= current_user.first_name %>
+         	<% end %> 
         </a>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="User">
+        <ul class="dropdown-menu pull-right" role="menu" aria-labelledby="User">
           <% if APP_CONFIG['edit_account_enabled']%>
             <li><%=link_to raw('<i class="icon-edit"></i> Edit Account'), edit_user_registration_path(current_user) %></li>
           <% end %>
