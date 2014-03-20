@@ -444,9 +444,7 @@ class MeasuresController < ApplicationController
       @ethnicities = Ethnicity.ordered
       @genders = [{name: 'Male', id: 'M'}, {name: 'Female', id: 'F'}].map { |g| OpenStruct.new(g)}
       @languages = Language.ordered          
-    end
-	
-		
+    end			
   end
 	
   def build_filters

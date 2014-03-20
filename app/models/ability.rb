@@ -26,7 +26,7 @@ class Ability
       can :read, HealthDataStandards::CQM::Measure #Measure
       can :read, Record
       can :manage, Provider do |prov|
-      	prov.records.where(:fqhc => current_user.fqhc).count > 0
+      	prov.records.where(:fqhc => user.fqhc).count > 0
       end
       can :manage, :providers
       can :manage, Team
