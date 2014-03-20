@@ -1,5 +1,8 @@
 PopHealth::Application.routes.draw do
 
+  resources :practices
+
+
   devise_for :users, :controllers => {:registrations => "registrations"}
 
 	# added by ssiddiqui - enable sign out

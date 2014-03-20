@@ -47,7 +47,7 @@ class RecordImporter
     
   end
   
-  def self.import(xml_data, fqhc, provider_map = {})
+  def self.import(xml_data, practice, provider_map = {})
     doc = Nokogiri::XML(xml_data)
     #doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
     providers = []
@@ -82,7 +82,7 @@ class RecordImporter
       return {status: 'error', message: 'Unknown XML Format', status_code: 400}
     end
 		
-		patient_data[:fqhc] = "#{fqhc}"
+		patient_data[:practice] = "#{practice}"
     record = Record.update_or_create(patient_data)
     record.provider_performances = providers
     record.save

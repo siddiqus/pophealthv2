@@ -36,9 +36,9 @@ class AdminController < ApplicationController
 		up_log = File.open("upload_errors.txt",'w')
 		
     file = params[:file]
-    fqhc = params[:fqhc]
+    practice = params[:practice]
     
-    if file!=nil && fqhc!=''
+    if file!=nil && practice!=''
 		  temp_file = Tempfile.new("patient_upload")
 		
 		  File.open(temp_file.path, "wb") { |f| f.write(file.read) }
@@ -49,7 +49,7 @@ class AdminController < ApplicationController
 		      xml = zipfile.read(entry.name)		      
 					# if exists, import otherwise update
 		      begin
-		      	result = RecordImporter.import(xml, fqhc)		      
+		      	result = RecordImporter.import(xml, practice)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
 				      QME::QualityReport.update_patient_results(@record.medical_record_number)
