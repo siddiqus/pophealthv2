@@ -93,19 +93,6 @@
 	      <% end %>
       </div>
 
-
-			<% if @current_user.admin? %>
-      <form class="form-inline">      	
-		    <%#= form_tag do %> 			
-					<%#= label_tag :fqhc, "FQHC: " %>
-		    	<%#= select_tag :fqhc, options_for_select(User::FQHC.sort), include_blank: true %> 
-			   	<%#= submit_tag "Select", class: 'btn btn-primary'%> 
-		    <%# end %>
-						    	          	
-      </form>      
-      <% end %>
-
-
       <dl id="reporting-period">
         <dt>Reporting Period:</dt>
         <dd>
@@ -162,8 +149,8 @@
 						<%#=current_user.full_name.to_s %>
 		        <% if current_user.admin? %>
 		        	Admin
-		        <% elsif current_user.fqhc? %>
-		        	<%= current_user.fqhc %>
+		        <% elsif current_user.practice? %>
+		        	<%= current_user.practice %>
 		        <% elsif current_user.provider? %>
 		       		Provider <%#= current_user.first_name %>
 		       	<% end %>						

@@ -17,8 +17,8 @@
           <i class="icon-user"></i>
           <% if current_user.admin? %>
           	Admin
-          <% elsif current_user.fqhc? %>
-          	<%= current_user.fqhc %>
+          <% elsif current_user.practice? %>
+          	<%= current_user.practice %>
           <% elsif current_user.provider? %>
          		<%= current_user.first_name %>
          	<% end %> 
