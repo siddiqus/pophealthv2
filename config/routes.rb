@@ -24,6 +24,8 @@ PopHealth::Application.routes.draw do
 	get "admin/user_profile"
 	post "measures/export_report"
 	
+	post "admin/set_user_practice"
+	
 	delete "measures/remove_selections" #added for button, ssiddiqui
 	delete "logs/delete_logs"
 	

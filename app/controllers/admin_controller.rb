@@ -32,6 +32,13 @@ class AdminController < ApplicationController
 		@user = User.by_id(params[:id])
 	end
 
+	def set_user_practice
+		@user = User.by_id(params[:id])
+		practice = params[:practice]
+		@user.update_attribute(:practice, practice)		
+		redirect_to :action => :user_profile, :id => @user.id
+	end
+
   def upload_patients
 		up_log = File.open("upload_errors.txt",'w')
 		

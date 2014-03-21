@@ -11,6 +11,8 @@
 	<div style="margin-left:40px; margin-right:40px; margin-top:10px; width:50%">
 		<table class="table table-hover table-bordered">
 
+			<h3>Practice:  <%= @user.practice %> </h3>
+
 			<tr>
 				<td> Username: </td>
 				<td> <%= @user.username %> </td>
@@ -51,6 +53,16 @@
 				<td> <%= @user.tin %> </td>
 			<tr>
 		</table>
+		
+		<div class='form-inline'>
+			<%= form_tag "/admin/set_user_practice" do %>
+				<%= label_tag "Assign Practice: " %>
+				<%= select_tag "practice", options_for_select(Practice.distinct(:name).sort), include_blank: true%>		
+				<%= hidden_field_tag(:id, @user.id) %>			
+			 	<%= submit_tag "Assign", class: 'btn btn-info'%>
+			<% end %>
+		</div>
+		
 		
 		<%= link_to "Back to Users", "/admin/users", :class=>"btn btn-success" %>
 	</div>
