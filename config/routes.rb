@@ -33,11 +33,7 @@ PopHealth::Application.routes.draw do
 	match 'admin/delete_user/:id', :to => 'admin#delete_user', :via => [ :get, :post, :delete] # added by ssiddiqui
 
   get "logs/index"
-  post "logs/index" #added by ssiddiqui for log filters
-
-  # measure pages for different practices
-  match 'measures/fqhc/:fqhc', :to => 'measures#index', :via => :get
-  
+  post "logs/index" #added for log filters
   
   match 'measures', :to => 'measures#index', :as => :dashboard, :via => :get
   match "measure/:id(/:sub_id)/providers", :to => "measures#providers", :via => :get

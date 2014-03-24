@@ -69,7 +69,7 @@ class AdminController < ApplicationController
 		    end
 		  end
 		else
-			flash[:notice] = "Please check file or FQHC selection"
+			flash[:notice] = "Please check file or Practice selection"
 		end
 		
 		missing_info = File.open("missing_provider_info.txt", 'w')

@@ -25,10 +25,10 @@ class Ability
     elsif user.staff_role?
       can :read, HealthDataStandards::CQM::Measure #Measure
       can :read, Record do |rec|
-      	rec.fqhc == user.fqhc
+      	rec.practice == user.practice
       end
       can :manage, Provider do |prov|
-      	prov.records.where(:fqhc => user.fqhc).count > 0
+      	prov.records.where(:practice => user.practice).count > 0
       end
       can :manage, :providers
       can :manage, Team
