@@ -34,6 +34,8 @@ class MeasuresController < ApplicationController
   def index
 	#	@categories = Measure.categories
     @categories = HealthDataStandards::CQM::Measure.categories
+    
+    @last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime
   end
 
   def show
