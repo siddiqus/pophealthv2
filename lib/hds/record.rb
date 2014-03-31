@@ -18,13 +18,32 @@ class Record
   end
 
   def self.update_or_create(data)
-    existing = Record.where(medical_record_number: data.medical_record_number).first
+    existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
     if existing
+    	#update
       existing.update_attributes!(data.attributes.except('_id', 'practice'))
 			
+			# ALLERGIES --------------------------------------------------------------------			
+			# for each new entry, check if entry exists with start_date and 			
+			data.allergies.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				exists = false				
+				existing.allergies.each do |excon|
+					if con.start_time==excon.start_time && con.reaction.code==excon.reaction.code
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.allergies.push(con)		
+				end					
+			end						
+			
+			# CONDITIONS --------------------------------------------------------------------
 			# for each new entry, check if entry exists with start_date and 			
 			data.conditions.each do |con|
-				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				#if start_date and cda_identifier.oid exist for any entry in existing
 				exists = false				
 				existing.conditions.each do |excon|
 					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
@@ -35,10 +54,97 @@ class Record
 				#if doesn't exist, add to list of conditions				
 				if !exists
 					existing.conditions.push(con)		
-				end			
+				end					
 			end			
+						
+			# ENCOUNTERS --------------------------------------------------------------------
+			# for each new entry, check if entry exists with start_date and 			
+			data.encounters.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing
+				exists = false				
+				existing.encounters.each do |excon|
+					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.encounters.push(con)		
+				end					
+			end			
+			
+#			# MEDICATIONS --------------------------------------------------------------------			
+#			# for each new entry, check if entry exists with start_date and 			
+#			data.medications.each do |con|
+#				#if start_date and cda_identifier.oid exist for any entry in existing
+#				exists = false				
+#				existing.medications.each do |excon|
+#					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+#						exists = true
+#					end
+#					break if exists
+#				end
+#				#if doesn't exist, add to list of conditions				
+#				if !exists
+#					existing.medications.push(con)		
+#				end					
+#			end			
+
+			# PROCEDURES --------------------------------------------------------------------			
+			# for each new entry, check if entry exists with start_date and 			
+			data.procedures.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				exists = false				
+				existing.procedures.each do |excon|
+					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.procedures.push(con)		
+				end					
+			end			
+			
+			# RESULTS --------------------------------------------------------------------			
+			# for each new entry, check if entry exists with start_date and 			
+			data.results.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				exists = false				
+				existing.results.each do |excon|
+					if con.time==excon.time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.results.push(con)		
+				end					
+			end			
+
+			# VITAL SIGNS --------------------------------------------------------------------			
+			# for each new entry, check if entry exists with start_date and 			
+			data.vital_signs.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing.conditions
+				exists = false				
+				existing.vital_signs.each do |excon|
+					if con.time==excon.time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.vital_signs.push(con)		
+				end					
+			end			
+			
       existing
     else
+    	# create
       data.save!
       data
     end
