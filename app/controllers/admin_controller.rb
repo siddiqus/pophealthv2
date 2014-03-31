@@ -39,6 +39,17 @@ class AdminController < ApplicationController
 		redirect_to :action => :user_profile, :id => @user.id
 	end
 
+	def remove_end_dates
+		Record.all.each do |rec|
+			rec.provider_performances.each do |prov|
+				prov.end_date = nil
+			end
+			rec.save!
+		end
+		
+		redirect_to :action => :patients
+	end
+
   def upload_patients
 		up_log = File.open("upload_errors.txt",'w')
 		

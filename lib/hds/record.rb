@@ -74,22 +74,22 @@ class Record
 				end					
 			end			
 			
-#			# MEDICATIONS --------------------------------------------------------------------			
-#			# for each new entry, check if entry exists with start_date and 			
-#			data.medications.each do |con|
-#				#if start_date and cda_identifier.oid exist for any entry in existing
-#				exists = false				
-#				existing.medications.each do |excon|
-#					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
-#						exists = true
-#					end
-#					break if exists
-#				end
-#				#if doesn't exist, add to list of conditions				
-#				if !exists
-#					existing.medications.push(con)		
-#				end					
-#			end			
+			# MEDICATIONS --------------------------------------------------------------------			
+			# for each new entry, check if entry exists with start_date and 			
+			data.medications.each do |con|
+				#if start_date and cda_identifier.oid exist for any entry in existing
+				exists = false				
+				existing.medications.each do |excon|
+					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+						exists = true
+					end
+					break if exists
+				end
+				#if doesn't exist, add to list of conditions				
+				if !exists
+					existing.medications.push(con)		
+				end					
+			end			
 
 			# PROCEDURES --------------------------------------------------------------------			
 			# for each new entry, check if entry exists with start_date and 			
