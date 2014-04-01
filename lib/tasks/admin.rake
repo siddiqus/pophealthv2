@@ -34,6 +34,29 @@ namespace :admin do
     admin_account.save!
   end
   
+ 	task :check_npi, [:npi] do |t, args|
+    if !args.npi || args.npi.size==0
+      raise "please specify a value for provider_json"
+    end
+		
+		if (Provider.valid_npi?("#{args.npi}"))		   
+	    puts "NPI valid"
+	  else
+	  	puts "NPI invalid"
+	  end
+	  
+  end
   
-  
+#  3452667166
+#  
+#   task :providers, [:provider_json] do |t, args|
+#    if !args.provider_json || args.provider_json.size==0
+#      raise "please specify a value for provider_json"
+#    end
+#    
+#    providers = JSON.parse(File.new(args.provider_json).read)
+#    providers.each {|provider_hash| Provider.new(provider_hash).save}
+#    puts "imported #{providers.count} providers"
+#  end
+#  
 end

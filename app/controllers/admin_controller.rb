@@ -103,6 +103,8 @@ class AdminController < ApplicationController
 		end						
 		Provider.where(:npi => nil).delete
 		
+		flash[:notice] = "Upload Successfull"
+		
   	redirect_to action: 'patients'
   end
 
