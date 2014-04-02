@@ -23,9 +23,12 @@ class Record
 				exists = false
 				existing.send(section).each do |ex|
 					#will only work for cda_identifier holding sections
+					
+					# if results or vitals
 					if nex.cda_identifier.root == ex.cda_identifier.root
 						exists = true
 					end
+
 					break if exists
 				end  		
 				if !exists

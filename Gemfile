@@ -6,6 +6,7 @@ gem 'rails', '3.2.14'
 # added:
 gem 'rack', '1.4.5'
 gem 'macaddr', '1.6.1'
+gem 'hashdiff', '0.2.0'
 
 #gem 'quality-measure-engine', '~> 2.3.0'
 #gem "health-data-standards", '~> 3.0.2'
