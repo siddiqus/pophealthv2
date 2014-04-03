@@ -18,33 +18,30 @@ class Record
     any_in("provider_performances.provider_id" => provider_list)
   end
 
-	def update(data, existing)
-		Record::Sections.each do |section|				
-			data.send(section).each do |nex|
-				exists = false
-				existing.send(section).each do |ex|
-					#will only work for cda_identifier holding sections
-					
-					# if results or vitals
-					if nex.cda_identifier.root == ex.cda_identifier.root
-						exists = true
-					end
-
-					break if exists
-				end  		
-				if !exists
-					existing.send(section).push(nex)
-				end
-			end
-		end
-	end
-
   def self.update_or_create(data)
     existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
     if existing
     	#update
       existing.update_attributes!(data.attributes.except('_id', 'practice'))
-			update(data, existing)
+			
+#			Record::Sections.each do |section|				
+#			data.send(section).each do |nex|
+#				exists = false
+#				existing.send(section).each do |ex|
+#					#will only work for cda_identifier holding sections
+#					
+#					# if results or vitals
+#					if nex.cda_identifier.root == ex.cda_identifier.root
+#						exists = true
+#					end
+
+#					break if exists
+#				end  		
+#				if !exists
+#					existing.send(section).push(nex)
+#				end
+#			end
+#		end
 			
 			
 #			# ALLERGIES --------------------------------------------------------------------			

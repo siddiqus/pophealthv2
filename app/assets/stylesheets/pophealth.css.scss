@@ -36,6 +36,18 @@ div.measureBarGraph {
 
 // -------------------------------------------!
 
+.errorBox{
+	float:right; 
+	margin-top:20px;
+	width: 350px;
+	height: 300px; 
+	overflow-y: scroll;
+	resize: none;
+ 	border: 1px solid gray ;
+ 	border-radius:15px;
+ 	padding: 10px 20px;
+}
+
 
 a {
   color: $denominator;

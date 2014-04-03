@@ -9,31 +9,42 @@
 </script>
 <% end %>
 
-<script type="text/css">
-	.link_button{
-		color: white;
-	}
-</script>
-
 <hr style='margin-bottom:-5px'>
 <div style="padding-left:40px; padding-right:40px">
 	<table class="table-condensed" style="width:100%">
 		<td> <h2><strong>Patients</strong></h2> </td>
 		<td colspan='2' align='right'>	
-			<%= link_to "Edit Practices", new_practice_path, :style => 'bold', :class => "link_button btn btn-large btn-success"%> 	
+			<%= link_to "Edit Practices", new_practice_path, :style => 'bold', :class => "btn btn-large btn-success"%> 	
 		</td>
 	</table>
 </div>
 <hr style="margin-top:-5px">
 
 <div id="pageContent" style="margin-left:40px; margin-right:40px">
-  
+		
+  	<div class='errorBox'>
+			<u> LAST UPLOAD DETAILS </u>			
+			<br/>
+			<b> Last Upload Date: </b> <%= @last_upload_date %>
+			<b> Providers with missing/invalid NPI: &nbsp;</b>
+				<% if $missing_info_text %>
+					<% $missing_info_text.each do |pv| %>
+						<%= pv %> &nbsp; <br/>
+					<% end %>
+				<% end %>
+			<b> Files Causing Parse Error: &nbsp;</b> <br/>
+				<% if $upload_errors %>
+					<% $upload_errors.each do |er| %>
+						<%= er %> &nbsp; <br/>
+					<% end %>
+				<% end %>			
+  	</div>
+
   <table class="table-hover" style="width:60%; margin-top:-20px" >  
-  	<font color='red'> <h4> <%=flash[:notice].to_s if flash[:notice]%> </h4> </font>  	
     <tr>
-    	<td><h5>Patients Loaded: </h5></td>
-      <td> <%= @patient_count %> Patients </td>
-      <td> <%= button_to "Delete Patients", "/admin/remove_patients", 'method' => 'delete', 'class' => 'btn btn-danger', :confirm=>"Are you sure you want to delete all patient records?", :style=>'margin-top:20px'%> </td>
+    	<td class='span2'><h5>Patients Loaded: </h5></td>
+      <td class='span2'> <%= @patient_count %> Patients </td>
+      <td class='span2'> <%= button_to "Delete Patients", "/admin/remove_patients", 'method' => 'delete', 'class' => 'btn btn-danger', :confirm=>"Are you sure you want to delete all patient records?", :style=>'margin-top:20px'%> </td>
     </tr>    
     <tr> 
     	<td><h5>Cache Counts:</h5> </td>

@@ -13,6 +13,9 @@ class AdminController < ApplicationController
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count
   	@records = Record.all
+  	
+  	@last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime 
+ 
   end
   def remove_patients
     Record.all.delete
@@ -52,6 +55,7 @@ class AdminController < ApplicationController
 
   def upload_patients
 		up_log = File.open("upload_errors.txt",'w')
+		$upload_errors = []
 		
     file = params[:file]
     practice = params[:practice]
@@ -76,6 +80,7 @@ class AdminController < ApplicationController
 						end
 		      rescue
 		      	up_log.write("error in file: " + "#{entry}" + "\n")
+		      	$upload_errors << "#{entry}"
 		      end    
 		    end
 		  end
@@ -90,9 +95,10 @@ class AdminController < ApplicationController
 			empty_providers.push("#{prov.given_name} " + "#{prov.family_name}")
 		end
 		
-		unique = empty_providers.uniq.sort.join("\n")
-		missing_info.write("#{unique}")
-
+		unique = empty_providers.uniq.sort # * "\n"
+		$missing_info_text = unique #"#{unique}.join()"
+#		missing_info.write("#{unique}")
+		missing_info.write(unique * "\n")
 		# the following gets rid of empty providers 
 		provs=[]
 		Provider.where(:npi => nil).each do |prov|
