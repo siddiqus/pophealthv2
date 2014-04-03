@@ -99,7 +99,7 @@
 						<td><%= record.first %></td>
 						<td> <%= Time.at(record.birthdate).strftime('%m/%d/%Y') %> </td>		
 						<td> <%= Time.now.year - Time.at(record.birthdate).year %></td>
-						<td> <%= record.practice %></td>
+						<td> <%= record.practice if record.practice != nil%></td>
 						<% rec=record.medical_record_number %>
 						<% id = Record.where(medical_record_number: "#{rec}").first._id %>
 						<td> <%= rec %> </td>

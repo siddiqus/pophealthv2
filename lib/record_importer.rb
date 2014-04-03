@@ -71,10 +71,11 @@ class RecordImporter
       
      	begin
       	if doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.3.88.11.32.1']")
-        	patient_data = HealthDataStandards::Import::C32::ProviderImporter.instance.parse_c32(doc)
+        	providers = HealthDataStandards::Import::C32::ProviderImporter.instance.extract_providers(doc)
       	elsif doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2']")
         	providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
       	end
+#      	providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
       rescue Exception => e
         STDERR.puts "error extracting providers"
       end

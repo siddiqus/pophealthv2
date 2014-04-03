@@ -2,7 +2,7 @@
 	<div data-measure="<%=measure['id']%>" data-measure-sub="<%= sub['sub_id']%>" style="<%=display_row(measure['id'], current_user.selected_measures)%>" class="measure row-fluid">
 
 		<div class="measure-subtitle span1">
-			NQF# <%=measure['nqf_id'] %><%#= MONGO_DB['measures'].find(:id => measure['id']).first['nqf_id'] %> <%= sub['sub_id']%>
+			NQF# <%=measure['nqf_id'] unless (measure['nqf_id'].to_i == 0)%> <%= sub['sub_id']%>
 		</div>
 
 		<div class="span3 measure-name">

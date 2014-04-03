@@ -6,6 +6,7 @@ class Record
   # ===========================================================
   
   field :measures, type: Hash
+	field :practice, type: String
 
   scope :alphabetical, order_by([:last, :asc], [:first, :asc])
   scope :with_provider, where(:provider_performances.ne => nil).or(:provider_proformances.ne => [])
