@@ -1,3 +1,5 @@
+missing_provider_info.txt
+upload_errors.txt
 log/*.log
 *.log
 *.sqlite3
@@ -6,6 +8,7 @@ config/database.yml
 coverage.data
 coverage
 public/laika
+public/assets
 *.DS_Store
 tmp/*
 config/deploy_local.rb

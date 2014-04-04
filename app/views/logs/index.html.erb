@@ -19,30 +19,7 @@
     
 <div id="pageContent" style="margin-left:40px; margin-right:40px; margin-top:10px">    
     
-<!--    
-    <form accept-charset="UTF-8"  action="/logs/index">
-        <font><b> Date Range &nbsp&nbsp </b> </font>
-        
-     		<input type="text" id="logStartDate" size="6" value="<%= params[:log_start_date] %>" placeholder="Start Date" />
-      	<input type="text" id="logEndDate" size="6" value="<%= params[:log_end_date] %>" placeholder="End Date"/>
-      
-		    <select value="<%= params[:log_event] %>">
-					<option value="">Select Filter</option>
-				
-					<option value="patient record imported">Record Imports</option>
-					<option value="patient record viewed">Record Views</option>
-					<option value="login">Logins</option>
-					<option value="logout">Logouts</option>
-					<option value="failed login attempt">Failed Login Attempts</option>
-				</select> 
-
-				<input class="btn btn-small" type="submit" value="Refresh">               
-				  
-        </input> 
    
-    </form>
--->
-    
     <%= form_tag :controller=>"logs", :action=>"index" do%>
     	<%= text_field_tag "log_start_date", params[:log_start_date], :placeholder => "Start Date"  %> 
 	  	<%= text_field_tag "log_end_date", params[:log_end_date], :placeholder => "End Date" %>	
@@ -63,7 +40,7 @@
 		    </tr>
       </thead>
       <tbody>
-      	<% unless @logs.empty? %>
+      	<% if(@logs) %>
 		    	<% @logs.each do |log| %>
 						<tr>
 						  <td><%= log.created_at %></td>

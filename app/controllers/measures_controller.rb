@@ -33,7 +33,7 @@ class MeasuresController < ApplicationController
   
   def index
     @categories = HealthDataStandards::CQM::Measure.categories    
-    @last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if (@last_upload_date) #comment 123
+    @last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if (Log.where(:event => 'patient record imported').count() > 0)
   end
 
   def show
