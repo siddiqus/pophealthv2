@@ -23,21 +23,23 @@
 <div id="pageContent" style="margin-left:40px; margin-right:40px">
 		
   	<div class='errorBox'>
-			<u> LAST UPLOAD DETAILS </u>			
+			<u> LAST UPLOAD DETAILS </u>
 			<br/>
-			<b> Last Upload Date: </b> <%= @last_upload_date %>
-			<b> Providers with missing/invalid NPI: &nbsp;</b>
-				<% if $missing_info_text %>
-					<% $missing_info_text.each do |pv| %>
-						<%= pv %> &nbsp; <br/>
-					<% end %>
-				<% end %>
+			<b> Last Upload Date: </b> <%= @last_upload_date %> <br/>
+			
 			<b> Files Causing Parse Error: &nbsp;</b> <br/>
 				<% if $upload_errors %>
 					<% $upload_errors.each do |er| %>
 						<%= er %> &nbsp; <br/>
 					<% end %>
 				<% end %>			
+				
+			<b> Providers with missing/invalid NPI: &nbsp;</b>
+				<% if $missing_info_text %>
+					<% $missing_info_text.each do |pv| %>
+						<%= pv %> &nbsp; <br/>
+					<% end %>
+				<% end %>	
   	</div>
 
   <table class="table-hover" style="width:60%; margin-top:-20px" >  
