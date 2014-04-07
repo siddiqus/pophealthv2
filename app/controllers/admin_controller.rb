@@ -54,8 +54,9 @@ class AdminController < ApplicationController
 	end
 
   def upload_patients
-		up_log = File.open("upload_errors.txt",'w')
-		$upload_errors = []
+		error_files = File.open("error_files.txt",'w')
+		up_log = File.open("upload_errors.txt", 'w')
+		$error_files = []
 		
     file = params[:file]
     practice = params[:practice]
@@ -79,8 +80,10 @@ class AdminController < ApplicationController
 				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
 						end
 		      rescue
-		      	up_log.write("error in file: " + "#{entry}" + "\n")
-		      	$upload_errors << "#{entry}"
+		      	up_log.write( $!, "\n")
+		      	up_log.write ( $@, "\n" )
+		      	error_files.write("error in file: " + "#{entry}" + "\n")
+		      	$error_files << "#{entry}"
 		      end    
 		    end
 		  end

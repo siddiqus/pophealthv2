@@ -18,11 +18,47 @@ class Record
     any_in("provider_performances.provider_id" => provider_list)
   end
 
+  def update_section(section)	
+		@data.send(section).each do |nex|
+			exists = false
+			@existing.send(section).each do |ex|
+				if section == :allergies # type.code, start_time 
+					if nex.type.code==ex.type.code && nex.start_time == ex.start_time
+						exists = true
+					end
+					break if exists				
+				elsif (section == :immunizations) || (section == :results) || (section == :vital_signs) # time, cda...
+					if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && nex.time == ex.time
+					end
+					break if exists			
+				else 
+					if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && nex.start_time == ex.start_time
+						exists = true
+					end
+					break if exists
+				end
+			end  		
+			if !exists
+				@existing.send(section).push(nex)
+			end
+		end		
+	end
+
   def self.update_or_create(data)
-    existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
-    if existing
+  	@data = data
+    @existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
+    if @existing
     	#update
-      existing.update_attributes!(data.attributes.except('_id', 'practice'))
+      @existing.update_attributes!(@data.attributes.except('_id', 'practice'))
+			
+			update_section(:allergies)
+			update_section(:conditions)
+			update_section(:encounters)
+			update_section(:immunizations)
+			update_section(:medications)
+			update_section(:procedures)			
+			update_section(:vital_signs)
+			update_section(:results)
 			
 #			Record::Sections.each do |section|				
 #			data.send(section).each do |nex|
@@ -175,6 +211,5 @@ class Record
     lang_codes = (languages.nil?) ? [] : languages.map { |l| l.gsub(/\-[A-Z]*$/, "") }
     Language.ordered.by_code(lang_codes).map(&:name)
   end
-  
-  
+    
 end
