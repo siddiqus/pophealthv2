@@ -132,9 +132,11 @@ class MeasuresController < ApplicationController
 		sheet.row(0).default_format = format
 		r = 1
 		
-		providers_for_filter = @selected_provider? @selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
-		provider_count = @selected_provider? 1 : providers_for_filters.count
+		selected_provider = @selected_provider || Provider.by_npi(params[:npi])
+		providers_for_filter = (selected_provider)? selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
+		provider_count = (selected_provider)? 1 : providers_for_filter.count
 		
+		# populate rows
 		selected_measures.each do |measure|
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
@@ -145,8 +147,7 @@ class MeasuresController < ApplicationController
 				r = r + 1;
 			end
 		end
-		
-#		book.write 'measure-report.xls'
+	
 		today = Time.now.strftime("%D")
 		filename = "measure-report-" + "#{today}" + ".xls"
 		

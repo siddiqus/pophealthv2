@@ -63,7 +63,7 @@
 	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
       <div style="margin-top: 20px;" class="pull-right">
-      <%= button_to "Export Report", "measures/export_report", class: "btn btn-large btn-success" %>
+      <%= button_to "Export Report", measures_export_report_path(npi: params[:npi]), class: "btn btn-large btn-success" %>
       <!--
         <% if (@selected_provider || !can?(:manage, :providers)) %>   
           <button class="btn-large btn-success" href="#" id="btnExportReport"> <i class="icon-download-alt"></i> Export Report</button>
@@ -118,13 +118,13 @@
           <dd><%= @providers.count%></dd> <!-- added by ssiddiqui -->
         </dl>
       <% end %>    
-      <% if current_user.staff_role || current_user.admin & !@selected_provider %> 
+      <% if (current_user.staff_role || current_user.admin) & !@selected_provider %> 
       <dl>
       	<dt> LAST DATA UPLOAD: </dt>      	
       	<dd> <%= @last_upload_date %> </dd>
       </dl>
       <% end %>
-      
+
     </div> <!-- end of dashboard -->
 	
 		<!--added by ssiddiqui -->
