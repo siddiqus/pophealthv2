@@ -55,6 +55,7 @@ class RecordImporter
     
     if root_element_name == 'ClinicalDocument'
       doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+			doc.root.add_namespace_definition('sdtc', 'urn:hl7-org:sdtc')
 			
 			patient_id = doc.at_xpath("/cda:ClinicalDocument/cda:recordTarget/cda:patientRole/cda:id/@extension")
 			

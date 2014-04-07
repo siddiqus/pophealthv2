@@ -27,14 +27,14 @@
 			<br/>
 			<b> Last Upload Date: </b> <%= @last_upload_date %> <br/>
 			
-			<b> Files Causing Parse Error: &nbsp;</b> <br/>
+			<b> Files Causing Parse Error: </b> <br/>
 				<% if $upload_errors %>
 					<% $upload_errors.each do |er| %>
 						<%= er %> &nbsp; <br/>
 					<% end %>
 				<% end %>			
 				
-			<b> Providers with missing/invalid NPI: &nbsp;</b>
+			<b> Providers with missing/invalid NPI: </b> <br/>
 				<% if $missing_info_text %>
 					<% $missing_info_text.each do |pv| %>
 						<%= pv %> &nbsp; <br/>
