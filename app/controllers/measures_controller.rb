@@ -132,12 +132,13 @@ class MeasuresController < ApplicationController
 		sheet.row(0).default_format = format
 		r = 1
 		
-		providers_for_filter = @providers.map{|pv| pv._id.to_s}
-
+		providers_for_filter = @selected_provider? @selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
+		provider_count = @selected_provider? 1 : providers_for_filters.count
+		
 		selected_measures.each do |measure|
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
-				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => providers_for_filter.count}).first
+				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => provider_count}).first
 				percent =  percentage(cache['NUMER'].to_f, cache['DENOM'].to_f)
 				full_percent = percentage(cache['full_numer'].to_f, cache['full_denom'].to_f)
 				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent, full_percent
