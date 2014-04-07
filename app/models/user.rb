@@ -101,7 +101,6 @@ class User
     self.teams.each do |team|
       teamlist << MONGO_DB['teams'].find({:_id => team}).to_a[0]["name"]
     end
-
     return teamlist
   end
   

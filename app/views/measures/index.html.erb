@@ -117,11 +117,13 @@
           <dt># of Providers: </dt>
           <dd><%= @providers.count%></dd> <!-- added by ssiddiqui -->
         </dl>
-      <% end %>     
+      <% end %>    
+      <% if current_user.staff_role || current_user.admin & !@selected_provider %> 
       <dl>
       	<dt> LAST DATA UPLOAD: </dt>      	
       	<dd> <%= @last_upload_date %> </dd>
       </dl>
+      <% end %>
       
     </div> <!-- end of dashboard -->
 	
