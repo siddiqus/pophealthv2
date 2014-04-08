@@ -24,10 +24,11 @@ class Record
     	#update
       existing.update_attributes!(data.attributes.except('_id', 'practice'))
 			
-			Record::Sections.each do |section|				
+			Record::Valid_Sections.each do |section|				
 				# for each data entry in the section
 				# allergies - type.code, start_time
 				# imm, results, vitals - time, cda root and extension
+				# allergies, conditions, immunizations, encounters, procedures, medications, vital_signs
 				
 				if data.send(section) != nil && "#{section}" == 'allergies'								
 					# for each data entry in the section
