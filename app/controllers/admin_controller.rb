@@ -43,8 +43,8 @@ class AdminController < ApplicationController
 	end
 
 	def remove_practice_patients
-		Record.delete( :practice => params[:practice] )	
-		redirect_to 'patients'
+		Record.where( :practice => params[:practice] ).delete	
+		redirect_to action: 'patients'
 	end
 
 	def remove_end_dates

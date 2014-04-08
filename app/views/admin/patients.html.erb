@@ -44,10 +44,21 @@
 
   <table class="table-hover" style="width:60%; margin-top:-20px" >  
     <tr>
-    	<td class='span2'><h5>Patients Loaded: </h5></td>
-      <td class='span2'> <%= @patient_count %> Patients </td>
-      <td class='span2'> <%= button_to "Delete Patients", "/admin/remove_patients", 'method' => 'delete', 'class' => 'btn btn-danger', :confirm=>"Are you sure you want to delete all patient records?", :style=>'margin-top:20px'%> </td>
-    </tr>    
+    	<td><h5>Patients Loaded: </h5></td>
+      <td> <%= @patient_count %> Patients </td>
+      <td> <%= button_to "Delete All Patients", "/admin/remove_patients", 'method' => 'delete', 'class' => 'btn btn-danger', :confirm=>"Are you sure you want to delete all patient records?", :style=>'margin-top:20px'%> </td>
+    </tr>   
+    
+    <%= form_tag("/admin/remove_practice_patients") do %>
+    <tr>	
+			<div class='form-inline'>
+				<td> <%= label_tag "Choose practice" %> </td>
+				<td> <%= select_tag "practice", options_for_select(Practice.distinct(:name).sort), include_blank: true%></td>					
+		 		<td> <%= submit_tag "Delete Patients", class: 'btn btn-danger', data: {confirm: "Are you sure you want to delete all patients for this practice?"}%> </td>		 			 					 				 			
+		 	</div>			 
+	  </tr>
+    <% end %>
+     
     <tr> 
     	<td><h5>Cache Counts:</h5> </td>
       <td> Query Cache: <%= @query_cache_count%> <br> Patient Cache: <%= @patient_cache_count%> </td>

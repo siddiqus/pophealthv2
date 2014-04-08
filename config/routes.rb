@@ -25,6 +25,9 @@ PopHealth::Application.routes.draw do
 	post "measures/export_report"
 	post 'admin/remove_end_dates'
 	
+	delete 'admin/remove_practice_patients'
+	post 'admin/remove_practice_patients'
+	
 	post "admin/set_user_practice"
 	
 	delete "measures/remove_selections" #added for button, ssiddiqui
