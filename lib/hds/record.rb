@@ -18,20 +18,24 @@ class Record
     any_in("provider_performances.provider_id" => provider_list)
   end
 
-  def update_section(section)	
-		@data.send(section).each do |nex|
+  def update_section_old(data, existing, section)	
+		data[section].each do |nex|					
 			exists = false
-			@existing.send(section).each do |ex|
-				if section == :allergies # type.code, start_time 
+			if section == :allergies # type.code, start_time 				
+				existing[section].each do |ex|
 					if nex.type.code==ex.type.code && nex.start_time == ex.start_time
 						exists = true
 					end
 					break if exists				
-				elsif (section == :immunizations) || (section == :results) || (section == :vital_signs) # time, cda...
+				end
+			elsif (section == :immunizations) || (section == :results) || (section == :vital_signs) # time, cda...
+				existing[section].each do |ex|
 					if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && nex.time == ex.time
 					end
 					break if exists			
-				else 
+				end
+			else 
+				existing[section].each do |ex|
 					if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && nex.start_time == ex.start_time
 						exists = true
 					end
@@ -39,45 +43,63 @@ class Record
 				end
 			end  		
 			if !exists
-				@existing.send(section).push(nex)
+				existing[section].push(nex)
 			end
 		end		
 	end
 
-  def self.update_or_create(data)
-  	@data = data
-    @existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
-    if @existing
-    	#update
-      @existing.update_attributes!(@data.attributes.except('_id', 'practice'))
-			
-			update_section(:allergies)
-			update_section(:conditions)
-			update_section(:encounters)
-			update_section(:immunizations)
-			update_section(:medications)
-			update_section(:procedures)			
-			update_section(:vital_signs)
-			update_section(:results)
-			
-#			Record::Sections.each do |section|				
-#			data.send(section).each do |nex|
-#				exists = false
-#				existing.send(section).each do |ex|
-#					#will only work for cda_identifier holding sections
-#					
-#					# if results or vitals
-#					if nex.cda_identifier.root == ex.cda_identifier.root
-#						exists = true
-#					end
 
-#					break if exists
-#				end  		
-#				if !exists
-#					existing.send(section).push(nex)
-#				end
-#			end
-#		end
+	def update_section(data, existing, section)
+		data[section].each do |con|
+			#if start_date and cda_identifier.oid exist for any entry in existing
+			exists = false				
+			existing[section].each do |excon|
+				if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
+					exists = true
+				end
+				break if exists
+			end
+			#if doesn't exist, add to list of conditions				
+			if !exists
+				existing[section].push(con)		
+			end					
+		end			
+	end
+
+  def self.update_or_create(data)
+    existing = Record.where(medical_record_number: data.medical_record_number, practice: data.practice).first
+    if existing
+    	#update
+      existing.update_attributes!(data.attributes.except('_id', 'practice'))
+						
+#			update_section(data, existing, "encounters")				
+#			update_section(:allergies)
+#			update_section(:conditions)
+#			update_section(data, existing, 'encounters')
+#			update_section(:immunizations)
+#			update_section(:medications)
+#			update_section(:procedures)			
+#			update_section(:vital_signs)
+#			update_section(:results)
+			
+			Record::Sections.each do |section|				
+				# for each data entry in the section
+				# allergies - type.code, start_time
+				# imm, results, vitals - time, cda root and extension
+				if data.send(section) != nil && "#{section}" == 'encounters'								
+					# for each data entry in the section
+					data.send(section).each do |nex|
+						exists = false
+						existing.send(section).each do |ex|
+							if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && nex.start_time == ex.start_time
+								exists = true
+							end
+							break if exists
+						end
+						existing.send(section).push(nex) unless exists					
+					end			
+				end				
+			end
 			
 			
 #			# ALLERGIES --------------------------------------------------------------------			
@@ -99,10 +121,10 @@ class Record
 #			
 #			# CONDITIONS --------------------------------------------------------------------
 #			# for each new entry, check if entry exists with start_date and 			
-#			data.conditions.each do |con|
+#			data['conditions'].each do |con|
 #				#if start_date and cda_identifier.oid exist for any entry in existing
 #				exists = false				
-#				existing.conditions.each do |excon|
+#				existing['conditions'].each do |excon|
 #					if con.start_time==excon.start_time && con.cda_identifier.root==excon.cda_identifier.root
 #						exists = true
 #					end
@@ -110,7 +132,7 @@ class Record
 #				end
 #				#if doesn't exist, add to list of conditions				
 #				if !exists
-#					existing.conditions.push(con)		
+#					existing['conditions'].push(con)		
 #				end					
 #			end			
 #						

@@ -80,8 +80,9 @@ class AdminController < ApplicationController
 				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
 						end
 		      rescue
-		      	up_log.write( $!, "\n")
-		      	up_log.write ( $@, "\n" )
+		      	up_log.write( $! )
+		      	up_log.write("\n")
+		      	up_log.write ( $@ )
 		      	error_files.write("error in file: " + "#{entry}" + "\n")
 		      	$error_files << "#{entry}"
 		      end    

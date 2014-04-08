@@ -1,3 +1,4 @@
+error_files.txt
 missing_provider_info.txt
 upload_errors.txt
 log/*.log
