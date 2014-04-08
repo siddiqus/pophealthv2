@@ -23,7 +23,7 @@ class Ability
     if user.admin?
       can :manage, :all
     elsif user.staff_role?
-      can :read, HealthDataStandards::CQM::Measure #Measure
+      can :read, HealthDataStandards::CQM::Measure if user.practice != nil #Measure
       can :read, Record do |rec|
       	rec.practice == user.practice
       end
@@ -44,6 +44,5 @@ class Ability
       can :manage, User, id: user.id
       cannot :manage, User unless APP_CONFIG['allow_user_update']
     end
-
   end
 end

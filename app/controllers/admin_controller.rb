@@ -42,6 +42,11 @@ class AdminController < ApplicationController
 		redirect_to :action => :user_profile, :id => @user.id
 	end
 
+	def remove_practice_patients
+		Record.delete( :practice => params[:practice] )	
+		redirect_to 'patients'
+	end
+
 	def remove_end_dates
 		Record.all.each do |rec|
 			rec.provider_performances.each do |prov|
