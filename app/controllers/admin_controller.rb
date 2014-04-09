@@ -77,7 +77,7 @@ class AdminController < ApplicationController
 		      xml = zipfile.read(entry.name)		      
 					# if exists, import otherwise update
 		      begin
-		      	result = RecordImporter.import(xml, practice)		      
+		      	result = RecordImporter.import(xml, nil, practice)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
 				      QME::QualityReport.update_patient_results(@record.medical_record_number)
@@ -105,8 +105,7 @@ class AdminController < ApplicationController
 		end
 		
 		unique = empty_providers.uniq.sort # * "\n"
-		$missing_info_text = unique #"#{unique}.join()"
-#		missing_info.write("#{unique}")
+		$missing_info_text = unique
 		missing_info.write(unique * "\n")
 		# the following gets rid of empty providers 
 		provs=[]
@@ -117,9 +116,7 @@ class AdminController < ApplicationController
 			rec.provider_performances.any_in('provider_id' => provs).delete
 		end						
 		Provider.where(:npi => nil).delete
-		
-		flash[:notice] = "Upload Successfull"
-		
+			
   	redirect_to action: 'patients'
   end
 

@@ -47,9 +47,9 @@ class RecordImporter
     
   end
   
-  def self.import(xml_data, practice, provider_map = {})
+  def self.import(xml_data, provider_map = {}, practice='')
     doc = Nokogiri::XML(xml_data)
-    #doc.root.add_namespace_definition('cda', 'urn:hl7-org:v3')
+    
     providers = []
     root_element_name = doc.root.name
     
@@ -71,12 +71,7 @@ class RecordImporter
       end
       
      	begin
-      	if doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.3.88.11.32.1']")
-        	providers = HealthDataStandards::Import::C32::ProviderImporter.instance.extract_providers(doc)
-      	elsif doc.at_xpath("/cda:ClinicalDocument/cda:templateId[@root='2.16.840.1.113883.10.20.22.1.2']")
-        	providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
-      	end
-#      	providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
+      	providers = HealthDataStandards::Import::CDA::ProviderImporter.instance.extract_providers(doc)
       rescue Exception => e
         STDERR.puts "error extracting providers"
       end
