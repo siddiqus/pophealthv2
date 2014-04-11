@@ -10,14 +10,56 @@
   
 <div id="pageContent" class="row-fluid">
 	<div id="providerReports" class="span2" style="padding-right:5px">
-    <%#= @categories.to_a %>
-  <h5>
+	
+	<h5>	
   	<!--button added by ssiddiqui -->
 		<%= button_to "Clear Selections", "/measures/remove_selections", 'method' => 'delete', 'class' => 'btn btn-info' %>
-		Measures
-  </h5>	
+	</h5>
+		
 	
+	<h4> Filters </h4>
+
+  <h5>
+    Demographics
+  </h5>
+  <div id="filterSelectors" class="accordion">
+    <%= render partial: 'filters', locals: {filters: @races, type: "race"} %>
+    <%= render partial: 'filters', locals: {filters: @ethnicities, type: "ethnicity"} %>
+    <%= render partial: 'filters', locals: {filters: @genders, type: "gender"} %>
+    <%= render partial: 'filters', locals: {filters: @languages, type: "language"} %>
+  </div>
+
+	<% if can?(:manage, :providers)%>
+		<%= render partial: 'provider_filters' %>
+	<% end %>
+
 	<div id="measureSelectors" class="accordion">
+  	
+  	<h4> User Measures   </h4>
+
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a href="#category1" class="accordion-toggle" data-parent="#measureSelectors" data-toggle="collapse">
+            <i class="icon-chevron-right pull-left"></i>
+            <div>
+            	User Measures
+            </div> 
+          </a>
+        </div>
+        <div id="category1" class="accordion-body collapse">
+          <ul class="accordion-inner measureItemList">
+             <% Measure.all.first do |measure| %>
+               <li data-category="<%= measure['category'] %>">
+              <label class="checkbox">
+                <%= check_box_tag :measure_id, measure["id"], is_selected?(measure['id'], current_user.selected_measures), {id: nil, 'data-measure-id' => measure['id'], 'data-sub-measures' => measure['sub_ids']} %> NQF#<%=measure['nqf_id'] %>: <%= measure['name']%> 
+              </label>         
+              </li>
+             <% end %>
+          </ul>
+        </div>
+      </div>
+  	
+  	<h4> All Measures   </h4>
     <% @categories.each_with_index do |categorized, idx| %>
       <div class="accordion-group">
         <div class="accordion-heading">
@@ -43,44 +85,14 @@
     <% end %>
   </div>
   
-	<% if can?(:manage, :providers)%>
-		<%= render partial: 'provider_filters' %>
-	<% end %>
-
-  <h5>
-    Demographics
-  </h5>
-  <div id="filterSelectors" class="accordion">
-    <%= render partial: 'filters', locals: {filters: @races, type: "race"} %>
-    <%= render partial: 'filters', locals: {filters: @ethnicities, type: "ethnicity"} %>
-    <%= render partial: 'filters', locals: {filters: @genders, type: "gender"} %>
-    <%= render partial: 'filters', locals: {filters: @languages, type: "language"} %>
-  </div>
-
  </div><!-- end #providerReports --> 
  
  	<!-- beginning of dashboard -->
 	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
       <div style="margin-top: 20px;" class="pull-right">
-      <%= button_to "Export Report", measures_export_report_path(npi: params[:npi]), class: "btn btn-large btn-success" %>
-      <!--
-        <% if (@selected_provider || !can?(:manage, :providers)) %>   
-          <button class="btn-large btn-success" href="#" id="btnExportReport"> <i class="icon-download-alt"></i> Export Report</button>
-        <% else %>
-        
-        <div class="btn-group">
-            <a id="btnExportReport" class="btn btn-large btn-success dropdown-toggle" data-toggle="dropdown" href="#">
-            	<i class="icon-download-alt"></i>
-      				Export Report
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#" tabindex="-1">Provider Report</a></li>
-              <li><a href="#" tabindex="-1">Practice Report</a></li>
-            </ul>
-          </div> 
-        <%end %>
-      -->
+      <%= button_to "Export Report", measures_export_report_path(npi: params[:npi]), class: "btn btn-large btn-success" %> 
+      <%#= button_to "Manage Measures", "#", class: "btn btn-large btn-primary" %>      
       </div>
       <div style="margin-top:20px">
 	      <% if (@selected_provider)%>
