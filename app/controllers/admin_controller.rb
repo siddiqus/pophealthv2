@@ -24,6 +24,7 @@ class AdminController < ApplicationController
   def remove_caches
     QueryCache.all.delete
     PatientCache.all.delete
+    MONGO_DB['delayed_backend_mongoid_jobs'].drop()
     redirect_to action: 'patients'
   end
   def remove_providers
