@@ -77,7 +77,7 @@ class AdminController < ApplicationController
 		      xml = zipfile.read(entry.name)		      
 					# if exists, import otherwise update
 		      begin
-		      	result = RecordImporter.import(xml, nil, practice)		      
+		      	result = RecordImporter.import(xml, practice)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
 				      QME::QualityReport.update_patient_results(@record.medical_record_number)

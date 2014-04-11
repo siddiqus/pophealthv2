@@ -21,7 +21,7 @@ class RecordImporter
 
       begin
         
-        result = RecordImporter.import(File.new(file).read, provider_map)
+        result = RecordImporter.import(File.new(file).read, "Test", provider_map)
         
         if (result[:status] == 'success')
           record = result[:record]
@@ -47,7 +47,7 @@ class RecordImporter
     
   end
   
-  def self.import(xml_data, provider_map = {}, practice='')
+  def self.import(xml_data, practice, provider_map = {})
     doc = Nokogiri::XML(xml_data)
     
     providers = []
