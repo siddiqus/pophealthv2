@@ -77,8 +77,7 @@ class MeasuresController < ApplicationController
       wants.js do    
       #  @providers = Provider.page(params[:page]).per(20).userfilter(current_user).alphabetical
        	@providers = Provider.user_filter(current_user) # added by ssiddiqui
-        @providers = @providers.any_in(team_id: params[:team]) if params[:team]
-       	 
+        @providers = @providers.any_in(team_id: params[:team]) if params[:team]      	 
       end
       
       wants.json do
@@ -132,7 +131,7 @@ class MeasuresController < ApplicationController
 		sheet.row(0).default_format = format
 		r = 1
 		
-		selected_provider = @selected_provider || Provider.by_npi(params[:npi])
+		selected_provider = @selected_provider || Provider.where(:npi => params[:npi]).first
 		providers_for_filter = (selected_provider)? selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
 		provider_count = (selected_provider)? 1 : providers_for_filter.count
 		
