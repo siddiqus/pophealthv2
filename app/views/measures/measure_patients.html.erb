@@ -127,7 +127,6 @@ $(document).ready(function() {
          <td><%= age_from_time(patient['birthdate']) || 'UNK' %></td>
          <td><%= dob(patient['birthdate']) || 'UNK' %></td>
          <td><%= patient["gender"] || "UNK" %></td>
-
          <td>
            <% if (@type == 'exclusions' and not patient['manual_exclusion']) %>
              <div style="width: 10px; height: 30px;">&nbsp</div>

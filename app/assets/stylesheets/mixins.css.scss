@@ -75,8 +75,6 @@ $borderColor: #cccccc;
 $eligibilityParamGroup: #a4d9dd;
 $outcomeParamGroup: #cfe1a5;
 
-
-
 @mixin popPercentage($diameter, $font_size, $line_height, $border_radius, $margin) {
   display: inline-block;
   width: $diameter;
@@ -86,9 +84,9 @@ $outcomeParamGroup: #cfe1a5;
   vertical-align: middle;
   background-color: $numerator;
   color: white;
+ 	border-radius: $border_radius;
   -moz-border-radius: $border_radius;
   -webkit-border-radius: $border_radius;
-  border-radius: $border_radius;
   line-height: $line_height;
   margin-right: $margin;
 }

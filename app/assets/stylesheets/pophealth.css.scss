@@ -1194,20 +1194,28 @@ div.dashboardTabs {
 //     padding: 1px 0 3px;
 //     color: #33aace; } }
 
+
+
+
+#measurePopulationPercentage{
+		display: inline-block;
+		border-radius: 50%;
+		width: 100px;
+		height: 80px; 
+	  font-size:30px;
+	  color:#fff;
+	  line-height:60px;
+	  text-align:center;
+		background: $numerator;
+}
+
 #measureMetrics {
-  margin-top:20px;
-  padding-left: 20px;
-
-  h1 {
-
-  }
-  .measurePopulationPercentage{
-  	font-size: 22px;
-  
-  }
-
+  min-width: 250px;
+  padding-left: $top_heading-padding;
+	margin-top: 0px;
+	
   .paren {
-    font-size: 3.5em;
+    font-size: 2.5em;
     color: #999999;
     position: relative;
     top: 8px; 
@@ -1219,8 +1227,36 @@ div.dashboardTabs {
     .separator {
       padding-bottom: 3px; 
     } 
-  }
+  } 
 }
+
+//#measureMetrics {
+//  margin-top:20px;
+//  padding-left: 20px;
+
+//  h1 {
+
+//  }
+//  .measurePopulationPercentage{
+//  	font-size: 22px;
+//  
+//  }
+
+//  .paren {
+//    font-size: 3.5em;
+//    color: #999999;
+//    position: relative;
+//    top: 8px; 
+//  }
+//  .inline-fraction {
+//    vertical-align: middle;
+//    font-size: 1.6em;
+//    line-height: 1.2em;
+//    .separator {
+//      padding-bottom: 3px; 
+//    } 
+//  }
+//}
 
 div.barChart {
    padding: 0 10px;
