@@ -9,7 +9,6 @@ class PatientsController < ApplicationController
 	add_breadcrumb 'Patients', :root_path
   
   def show
-
     respond_to do |wants|
       wants.html {}
       wants.json do

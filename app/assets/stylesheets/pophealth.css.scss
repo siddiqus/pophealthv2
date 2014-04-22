@@ -150,10 +150,10 @@ a#brand {
   padding:5px;
 }
 
-#measurePopulationPercentage {
-  padding-top:18px;
-  font-size:3.5em;
-}
+//#measurePopulationPercentage {
+//  padding-top:18px;
+//  font-size:3.5em;
+//}
 
 #measures {
 
@@ -1201,10 +1201,10 @@ div.dashboardTabs {
 		display: inline-block;
 		border-radius: 50%;
 		width: 100px;
-		height: 80px; 
+		height: 100px; 
 	  font-size:30px;
 	  color:#fff;
-	  line-height:60px;
+	  line-height:100px;
 	  text-align:center;
 		background: $numerator;
 }

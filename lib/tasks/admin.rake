@@ -19,7 +19,7 @@ namespace :admin do
 #  	args = params
   	user = args[:user]
   	pass = args[:pass]
-  	fqhc = args[:practice]
+  	practice = args[:practice]
     user_account = User.new(
                      :first_name =>     "Administrator",
                      :last_name =>      "Administrator",
@@ -27,9 +27,9 @@ namespace :admin do
                      :password =>       pass,
                      :email =>          "provideadmin@providemycompanyname.com",
                      :agree_license =>  true,
-                     :admin =>          true,
+                     :staff_role =>			true,
                      :approved =>       true,
-                     :fqhc => fqhc)
+                     :practice => practice)
 		                
     admin_account.save!
   end
