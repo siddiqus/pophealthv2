@@ -465,9 +465,7 @@ class MeasuresController < ApplicationController
     genders = params[:gender] ? params[:gender] : nil
     
     @filters = {}
-#    @filters.merge!({'providers' => providers}) if providers
-		@filters.merge!('providers' => [Moped::BSON::ObjectId("53555e35f7d561a264000007")])
-
+    @filters.merge!({'providers' => providers}) if providers
     @filters.merge!({'races'=>(races.map {|race| race.codes}).flatten}) if races
     @filters.merge!({'ethnicities'=>(ethnicities.map {|ethnicity| ethnicity.codes}).flatten}) if ethnicities
     @filters.merge!({'languages'=>(languages.map {|language| language.codes}).flatten}) if languages
