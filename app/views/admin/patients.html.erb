@@ -14,6 +14,8 @@
 	<table class="table-condensed" style="width:100%">
 		<td> <h2><strong>Patients</strong></h2> </td>
 		<td colspan='2' align='right'>	
+			<%= link_to "Patient List", '/admin/patient_list', :style => 'bold', :class => "btn btn-large btn-info"%> 				
+
 			<%= link_to "Edit Practices", new_practice_path, :style => 'bold', :class => "btn btn-large btn-success"%> 	
 		</td>
 	</table>
@@ -99,37 +101,6 @@
     
   </table>
   
-  <hr>
-
-  <h3> Patient List: </h3>
-  
-		<table id="adminPatientTable" class="display table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>Last Name</th>
-					<th>First Name</th>
-					<th> Date of Birth </th>
-					<th> Age </th>
-					<th> Practice </th>
-					<th> Patient ID</th>
-					<th/>
-				</tr>
-			</thead>
-			
-			<tbody>
-				<% @records.each do |record| %>
-					<tr>
-						<td><%= record.last %></td>
-						<td><%= record.first %></td>
-						<td> <%= Time.at(record.birthdate).strftime('%m/%d/%Y') %> </td>		
-						<td> <%= Time.now.year - Time.at(record.birthdate).year %></td>
-						<td> <%= record.practice if record.practice != nil%></td>
-						<td> <%= record.medical_record_number %> </td>
-						<td> <%= link_to "View Patient Summary", :controller => "patients", :action => "show", :id => "#{record._id}"%> </td>
-					</tr>
-				<% end %>
-			</tbody>
-		</table>
  <br>
  <br>
 

@@ -12,10 +12,8 @@ class AdminController < ApplicationController
     @query_cache_count = QueryCache.all.count
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count
-  	@records = Record.all
   	time = Log.where(:event => 'patient record imported').count()
   	@last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if time > 0
- 
   end
   def remove_patients
     Record.all.delete
@@ -34,6 +32,10 @@ class AdminController < ApplicationController
 	
 	def user_profile
 		@user = User.by_id(params[:id])
+	end
+
+	def patient_list
+		@records = Record.all
 	end
 
 	def set_user_practice

@@ -354,11 +354,13 @@ class MeasuresController < ApplicationController
 		if @current_user.admin? && provider_npi
     	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count   
     elsif @current_user.admin?		
-			@patient_count = Record.provider_performance_between(@effective_date).count
+#			@patient_count = Record.provider_performance_between(@effective_date).count
+			@patient_count = Record.all.count
     elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     elsif @current_user.staff_role?
-			@patient_count = Record.valid_practice_patients(@effective_date, "#{current_user.practice}").count
+#			@patient_count = Record.valid_practice_patients(@effective_date, "#{current_user.practice}").count
+			@patient_count = Record.where(practice: "#{current_user.practice}").count
     	# for teams
 #      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
     end
