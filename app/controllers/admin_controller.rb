@@ -9,6 +9,7 @@ class AdminController < ApplicationController
 
   def patients
     @patient_count = Record.all.count
+    @unassigned_patient_count = Record.where(provider_performances: nil).count + Record.where(provider_performances: []).count
     @query_cache_count = QueryCache.all.count
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count

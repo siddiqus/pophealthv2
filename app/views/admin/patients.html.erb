@@ -51,6 +51,12 @@
       <td> <%= button_to "Delete All Patients", "/admin/remove_patients", 'method' => 'delete', 'class' => 'btn btn-danger', :confirm=>"Are you sure you want to delete all patient records?", :style=>'margin-top:20px'%> </td>
     </tr>   
     
+    <tr>
+    	<td/>
+      <td> <%= @unassigned_patient_count %> Unassigned Patients </td>
+      <td/>
+    </tr>   
+
     <%= form_tag("/admin/remove_practice_patients") do %>
     <tr>	
 			<div class='form-inline'>
