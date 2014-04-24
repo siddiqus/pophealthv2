@@ -106,8 +106,8 @@
   </script>
 <% end %>
 
-<div id="pageContent" class="row-fluid" style='margin-left:20px'>
-  <div style='align:left' class='span2'>  
+<div id="pageContent" class="row-fluid" style="margin-left:20px; margin-right:20px">
+  <div style="align:left;" class='span2' >  
 	  <div>
 	    <%= render :partial => 'shared/measure_metrics', locals: {numerator: (@result ? @result['numerator'] : 0), denominator: (@result ? @result['denominator'] : 0)} %>
 	  </div>  
@@ -129,16 +129,24 @@
 	   	</button>
 	  </div>
 	</div>
-   
-  <div id="dashboardPeriod"  class="span10 row-fluid" >
-	  <div id="btnExportExcel" class="exportReport btn btn-info pull-right" style="margin-right:20px" type="button">
+	
+	<!--
+	  <div id="btnExportExcel" class="exportReport btn btn-info" style="margin-right:40px; float:right" type="button">
       <i class="icon-download-alt"></i>
       Export Report
     </div>
-
+	 -->
+  <div id="dashboardPeriod"  class="span10 row-fluid" >
 		<div>
     	<%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
 		</div>
+  
+		<div class="btn-group" >
+          <%= link_to 'providers', "#{measure_path(@definition['id'], @definition['sub_id'])}/providers", method: 'get', :class => 'tableEdit btn btn-danger', :style =>'width:100px'%> 
+          <%= link_to 'parameters', measure_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-info', :style =>'width:100px'%> 
+    </div>			
+		
+  
   
     <br style="clear:left"/>
     <div id="patientTableContainer"> 

@@ -189,7 +189,7 @@
 
 <% end %>
 	<div style="margin-left:20px; margin-right:20px">
-    <div class="row-fluid" >
+    <div class="row-fluid" >								
       <div class="span2">
       <%= render :partial => 'shared/measure_metrics', locals: {numerator: (@result ? @result['numerator'] : 0), denominator: (@result ? @result['denominator'] : 0)} %>
       </div>
@@ -197,6 +197,13 @@
       	<%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
       </div>
     </div>
+    
+    <div class="btn-group">
+          <%= link_to 'providers', "#{measure_path(@definition['id'], @definition['sub_id'])}/providers", method: 'get', :class => 'tableEdit btn btn-danger', :style =>'width:100px'%> 
+          <%= link_to 'patients', patients_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-success', :style =>'width:100px'%>
+    </div>			
+		<br> </br>
+    
     <div class="row-fluid">
       <div id="exclusionPanel" style="display:none;" class="measureComponent span3">
         <h3>exclusions <em>(<span id="exclusionCount">0</span>)</em></h3>
