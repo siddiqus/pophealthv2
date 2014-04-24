@@ -54,8 +54,10 @@ class PatientsController < ApplicationController
       
       dates = params[:records][record.id.to_s]
       unless dates[:start_date].blank?
-        start_date = Time.parse(dates[:start_date]).to_i
-        end_date = end_date.blank? ? nil : Time.parse(dates[:end_date]).to_i
+        start_date = DateTime.strptime(dates[:start_date], "%m/%d/%Y").to_i + 43200 
+        #Time.parse(dates[:start_date]).to_i
+        end_date = dates[:end_date].blank? ? nil : (DateTime.strptime(dates[:end_date], "%m/%d/%Y").to_i + 43200) 
+        #Time.parse(dates[:end_date]).to_i
         attributes = {start_date: start_date, end_date: end_date}
         performance = record.provider_performances.detect { |perf| perf.provider_id == @provider.id }
 

@@ -20,12 +20,12 @@
 			<% perfs = record.provider_performances.select{|pp| pp.provider_id == @provider.id} %>
 			<td>
 			<% perfs.each do |perf| %>
-				<%= text_field_tag "records[#{record.id}][start_date]", Time.at(perf.start_date).strftime("%m/%d/%y") if perf.start_date %>
+				<%= text_field_tag "records[#{record.id}][start_date]", Time.at(perf.start_date).strftime("%m/%d/%Y") if perf.start_date %>
 			<% end %>
 		</td>
 		<td>
 			<% perfs.each do |perf| %>
-				<%= text_field_tag "records[#{record.id}][end_date]", (perf.end_date ? Time.at(perf.end_date).strftime("%m/%d/%y") : nil) %>
+				<%= text_field_tag "records[#{record.id}][end_date]", (perf.end_date ? Time.at(perf.end_date).strftime("%m/%d/%Y") : nil) %>
 			<% end %>
 			</td>
 			<td>
