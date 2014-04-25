@@ -15,6 +15,7 @@ class AdminController < ApplicationController
   	@provider_count = Provider.all.count
   	time = Log.where(:event => 'patient record imported').count()
   	@last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if time > 0
+  	@last_practice_upload = Record.where( :medical_record_number => Log.where(:event => 'patient record imported').first.medical_record_number).first.practice unless Record.all.count == 0
   end
   def remove_patients
     Record.all.delete
@@ -66,10 +67,11 @@ class AdminController < ApplicationController
 		error_files = File.open("error_files.txt",'w')
 		up_log = File.open("upload_errors.txt", 'w')
 		$error_files = []
-		
+	
     file = params[:file]
     practice = params[:practice]
-    
+		$last_filename = file.original_filename
+		
     if file!=nil && practice!=''
 		  temp_file = Tempfile.new("patient_upload")
 		

@@ -66,9 +66,9 @@
  	<!-- beginning of dashboard -->
 	<div id="dashboardPeriod" class="span10">	
     <div class="dashboard row-fluid">
-      <div style="margin-top: 20px;" class="pull-right">
-      <%= button_to "Export Report", measures_export_report_path(npi: params[:npi]), class: "btn btn-large btn-success" %> 
-      <%#= button_to "Manage Measures", "#", class: "btn btn-large btn-primary" %>      
+      <div style="margin-top: 20px;" >
+      <%= button_to "Export Report", measures_export_report_path(npi: params[:npi]), class: "btn btn-large btn-success", style: "float:right;" %> 
+          
       </div>
       <div style="margin-top:20px">
 	      <% if (@selected_provider)%>
@@ -96,6 +96,7 @@
           </form>
         </dd>
       </dl>
+      
       <dl>
         <dt># of Patients: </dt>
         <dd><%= @patient_count%></dd>
