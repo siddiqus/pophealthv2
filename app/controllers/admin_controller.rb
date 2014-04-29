@@ -14,10 +14,10 @@ class AdminController < ApplicationController
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count
 
-  	import_log = Log.where(:event => 'patient record imported')  	
-  	@last_upload_date = import_log.last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if import_log.count > 0
-  	rec = Record.where(:medical_record_number => import_log.last.medical_record_number).last
-  	@last_practice_upload = (rec)? rec.practice : nil
+  	import_log = Log.where(:event => 'patient record imported') 
+  	@last_upload_date = import_log.count > 0 ? import_log.last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime : nil
+  	rec = (@patient_count == 0) ? 0 : Record.where(:medical_record_number => import_log.last.medical_record_number).last 
+  	@last_practice_upload = (rec!=0)? rec.practice : nil
   end
   def remove_patients
     Record.all.delete
