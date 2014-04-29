@@ -36,6 +36,9 @@ class MeasuresController < ApplicationController
     @last_upload_date = Log.where(:event => 'patient record imported').last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime if (Log.where(:event => 'patient record imported').count() > 0)
   end
 
+	def measure_table 
+	end
+	
   def show
     respond_to do |wants|
       wants.html do

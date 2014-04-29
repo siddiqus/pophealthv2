@@ -35,7 +35,14 @@
 
 	<div id="measureSelectors" class="accordion">
  	
-  	<h4> All Measures   </h4>
+ 		<div class='display-inline'> 
+	  	<h4 style="float:left"> Measures </h4> 
+	  	<text style="float:right; margin-top:11px;"> 
+	  		&nbsp; (<%= link_to "info", "/measures/measure_table", style: 'color:blue' %>)    
+	  	</text> 
+  		<br> </br>
+  	</div>
+  	
     <% @categories.each_with_index do |categorized, idx| %>
       <div class="accordion-group">
         <div class="accordion-heading">
