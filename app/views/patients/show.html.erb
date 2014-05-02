@@ -64,7 +64,7 @@
           <dd>
             <ul class="unstyled">
               <% @patient.providers.each do |pv| %>
-                <li><%= pv.full_name%></li>
+                <li><%= pv.full_name unless !pv %></li>
               <% end %>
             </ul>
           </dd>
