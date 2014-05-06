@@ -88,7 +88,7 @@ class AdminController < ApplicationController
 		      	result = RecordImporter.import(xml, practice)		      
 				    if (result[:status] == 'success') 
 				      @record = result[:record]
-				      QME::QualityReport.update_patient_results(@record.medical_record_number)
+#				      QME::QualityReport.update_patient_results(@record.medical_record_number)
 				      Atna.log(current_user.username, :phi_import)
 				      Log.create(:username => current_user.username, :event => 'patient record imported', :medical_record_number => @record.medical_record_number)
 						end
@@ -115,13 +115,13 @@ class AdminController < ApplicationController
 		unique = empty_providers.uniq.sort # * "\n"
 		$missing_info_text = unique
 		missing_info.write(unique * "\n")
-		# the following gets rid of empty providers 
-		provs=[]
-		Provider.where(:npi => nil).each do |prov|
-			provs << prov._id
-		end				
+
 		Record.all.each do |rec|
-			rec.provider_performances.any_in('provider_id' => provs).delete
+			rec.provider_performances.each do |prov| #.any_in('provider_id' => provs).delete
+				if Provider.where(:_id => prov.provider_id).count == 0
+					prov.delete
+				end
+			end
 		end						
 		Provider.where(:npi => nil).delete
 			
