@@ -164,6 +164,48 @@ class MeasuresController < ApplicationController
 		})
   end 
   
+  def provider_report
+    book = Spreadsheet::Workbook.new
+		sheet = book.create_worksheet
+		measure_id = params[:measure_id]
+		sub_id = params[:sub_id]
+		format = Spreadsheet::Format.new :weight => :bold
+		    
+		# table headers
+		sheet.row(0).push 'First Name', 'Last Name', 'Numerator', 'Denominator', 'Exclusions', 'Percentage'
+		sheet.row(0).default_format = format
+		r = 1
+		
+		provider_list = Provider.user_filter(@current_user).map {|pv| pv._id}
+		
+		provider_list.each do |prov|
+		  provider = Provider.where(:_id => prov).first	  
+  		cache = MONGO_DB['query_cache'].find(
+  		  :measure_id => measure_id, 
+  		  :sub_id => sub_id, 
+  		  :effective_date => @effective_date, 
+  		  'filters.providers' => [prov.to_s]).first
+  		if (cache['NUMER'] != nil)
+  		  percent =  percentage(cache['NUMER'].to_f, cache['DENOM'].to_f)
+  		  sheet.row(r).push provider.family_name, provider.given_name, cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent
+				r = r + 1;
+  		end
+  	end
+		nqf = measure_info(measure_id, sub_id)[:nqf_id]	
+		today = Time.now.strftime("%D")
+		filename = "provider-report-" + "NQF" + "#{nqf}" + "-" + "#{today}" + ".xls"
+		
+		data = StringIO.new '';
+		book.write data;
+		send_data(data.string, {
+		  :disposition => 'attachment',
+		  :encoding => 'utf8',
+		  :stream => false,
+		  :type => 'application/excel',
+		  :filename => filename
+		})
+  end
+  
   # returns info on measure
   def measure_info(id, sub_id)
 		measure = MONGO_DB['measures'].find(:id => id, :sub_id => sub_id).first

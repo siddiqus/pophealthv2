@@ -14,7 +14,7 @@ class Provider
 	# added from bstrezze
   def self.user_filter(current_user)
     if current_user.admin?
-      Provider.all
+      Provider.order_by(:family_name.asc).all
     elsif current_user.staff_role?
     	by_practice(current_user.practice)
 		elsif current_user.provider?

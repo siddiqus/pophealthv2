@@ -11,11 +11,16 @@
   </div>
   
   <div id="providerMain" class="span10">
+    
+    
     <div id="aggregate" class="row-fluid">
+     <%= button_to "Export Report", measures_provider_report_path(measure_id: @definition['id'], sub_id: @definition['sub_id']), class: "btn btn-success", style: "float:right; margin-top:10px; margin-bottom:-50px" %> 
+     
       <div class="row-fluid">
         <div class="span2">
         <%= render :partial => 'shared/measure_metrics', locals: {numerator: nil, denominator: nil} %>
         </div>
+              
         <%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
       </div>
 
@@ -24,8 +29,6 @@
           <%= link_to 'patients', patients_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-success', :style =>'width:100px'%>
         </div>
     </div>
-		
-
 		
     <h3>INDIVIDUAL PROVIDER STATISTICS </h3>	
 		<table id='legend'>

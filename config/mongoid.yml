@@ -1,7 +1,7 @@
 development:
   sessions:
     default:
-      database: test_pop #ophealth-dev3
+      database: cornell_scott #test_pop #ophealth-dev3
       hosts:
         - localhost:27017
 test:

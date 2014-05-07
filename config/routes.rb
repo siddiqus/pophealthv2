@@ -23,6 +23,7 @@ PopHealth::Application.routes.draw do
 	delete "providers/remove"
 	get "admin/user_profile"
 	post "measures/export_report"
+	post "measures/provider_report"
 	post 'admin/remove_end_dates'
 	get "admin/patient_list"
 	get "measures/measure_table"
