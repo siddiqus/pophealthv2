@@ -15,8 +15,9 @@ class AdminController < ApplicationController
   	@provider_count = Provider.all.count
 
   	import_log = Log.where(:event => 'patient record imported')
+  	med_id = import_log.last.medical_record_number unless import_log.count == 0
     @last_upload_date = import_log.count > 0 ? import_log.last.created_at.in_time_zone('Eastern Time (US & Canada)').ctime : nil
-	  rec = (@patient_count == 0) ? 0 : Record.where(:medical_record_number => import_log.last.medical_record_number).last
+	  rec = (@patient_count == 0) ? 0 : Record.where(:medical_record_number => med_id).last
     @last_practice_upload = (rec != nil && rec != 0)? rec.practice : nil
   end
   def remove_patients
