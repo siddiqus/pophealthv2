@@ -29,7 +29,7 @@ class Provider
   # returns a list of provider ids that belong to a certain practice
   def self.by_practice(practice)
   	provs = []
-  	Provider.each do |prov|
+  	Provider.order_by(:family_name.asc).each do |prov|
   		if (prov.records.where(:practice => practice).count > 0)
 	  		provs << prov
 	  	end
