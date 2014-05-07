@@ -10,7 +10,7 @@ PATH
   remote: ../hds-v2
   specs:
     health-data-standards (3.2.11)
-      activesupport (~> 3.2.12)
+      activesupport (~> 3.2.14)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
       log4r (~> 1.1.10)
