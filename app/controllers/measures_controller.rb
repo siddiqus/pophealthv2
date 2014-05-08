@@ -331,7 +331,7 @@ class MeasuresController < ApplicationController
    
   def period
     month, day, year = params[:effective_date].split('/')
-    set_effective_date(Time.gm(year.to_i, month.to_i, day.to_i).to_i, params[:persist]=="true")
+    set_effective_date(Time.gm(year.to_i, month.to_i, day.to_i).to_i + 43200, params[:persist]=="true")
     render :period, :status=>200
   end
 
