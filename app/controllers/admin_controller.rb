@@ -34,7 +34,10 @@ class AdminController < ApplicationController
     Provider.destroy_all
     redirect_to action: 'patients'
   end
-	
+	def delete_provider
+  	Provider.where(:npi => params[:npi] ).first.delete
+  	redirect_to providers_path
+  end
 	def user_profile
 		@user = User.by_id(params[:id])
 	end
