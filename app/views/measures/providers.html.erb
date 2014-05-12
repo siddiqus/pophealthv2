@@ -14,7 +14,7 @@
     
     
     <div id="aggregate" class="row-fluid">
-     <%= button_to "Export Report", measures_provider_report_path(measure_id: @definition['id'], sub_id: @definition['sub_id']), class: "btn btn-success", style: "float:right; margin-top:10px; margin-bottom:-50px" %> 
+     <%= button_to "Export Report", measures_provider_report_path(measure_id: @definition['id'], sub_id: @definition['sub_id']), class: "btn btn-success", style: "float:right; margin-top:10px; margin-bottom:-50px; margin-right:20px;" %> 
      
       <div class="row-fluid">
         <div class="span2">
@@ -44,7 +44,7 @@
 		</table>					
 		<br>
  		
-    <div id="providers">
+    <div id="providers" style="height:400px; overflow-y:scroll;">
       <%= render :partial => "provider_row", :collection => @providers %>
    
     </div>
