@@ -592,6 +592,23 @@ input#measurementPeriodEndDate {
 
 }
 
+
+#exclusionMeasureItems {
+   padding: 5px 5px 5px 10px;
+   border: 1px solid orange;
+//   border-top: 0;
+   border-radius: $tab-radius;
+   background-color: white;
+   .paramGroup {
+     background-color: #fbd198;
+     .and {
+       background-color: #fbd198; 
+       } 
+   } 
+}
+
+
+
 #eligibilityMeasures {
 //   width: 500px;
 //   display: table-cell;
@@ -729,16 +746,6 @@ div.dashboardTabs {
 //     background-color: $exclusions;
 //     em {
 //       font-style: italic; } } }
-
-// #exclusionMeasureItems {
-//   padding: 5px 5px 5px 10px;
-//   border: 1px solid orange;
-//   border-top: 0;
-//   background-color: white;
-//   .paramGroup {
-//     background-color: #fbd198;
-//     .and {
-//       background-color: #fbd198; } } }
 
 // #parameterList {
 //   width: 260px;

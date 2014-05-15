@@ -7,7 +7,7 @@ namespace :admin do
                      :last_name =>      "Administrator",
                      :username =>       "pophealth",
                      :password =>       "pophealth",
-                     :email =>          "provideadmin@providemycompanyname.com",
+                     :email =>          "cipci@providemycompanyname.com",
                      :agree_license =>  true,
                      :admin =>          true,
                      :approved =>       true)
