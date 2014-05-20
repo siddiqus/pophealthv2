@@ -133,12 +133,24 @@ class MeasuresController < ApplicationController
 		# measure info
 		value_type = "value." + "#{type}";
 		query = { 'value.measure_id' => params[:measure_id], 'value.sub_id' => params[:sub_id], 'value.effective_date' => @effective_date, "#{value_type}" => 1} 
+			
+		practice = @current_user.practice	;
 				
-		PatientCache.where( query ).each do |pc|
-			sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
-			r = r+1;
-		end		
+		if (@current_user.admin) 		
+			PatientCache.where( query ).each do |pc|
+				sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
+				r = r+1;
+			end	
+		else
+			PatientCache.where( query ).each do |pc|
+				if Record.where( :medical_record_number => pc.value['medical_record_id'] ).first.practice == practice
+					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
+					r = r+1;
+				end
+			end		
+		end
 		
+		# if admin, then do all of them. else practice wise
 		filename = "patients_" + "#{type}" + "_" + "#{today}" + ".xls"
 		
 		data = StringIO.new '';
@@ -172,15 +184,15 @@ class MeasuresController < ApplicationController
 		sheet.row(0).default_format = format
 		r = 1
 		
-		selected_provider = @selected_provider || Provider.where(:npi => params[:npi]).first
-		providers_for_filter = (selected_provider)? selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
-		provider_count = (selected_provider)? 1 : providers_for_filter.count
+		selected_provider = @selected_provider  # || Provider.where(:npi => params[:npi]).first
+		providers_for_filter = (@selected_provider.npi)? @selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
+		provider_count = (@selected_provider.npi)? 1 : providers_for_filter.count
 		
 		# populate rows
 		selected_measures.each do |measure|
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
-				cache = MONGO_DB['query_cache'].find(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => provider_count}).first
+				cache = QueryCache.where(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => provider_count}).first
 				percent =  percentage(cache['NUMER'].to_f, cache['DENOM'].to_f)
 				full_percent = percentage(cache['full_numer'].to_f, cache['full_denom'].to_f)
 				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent, full_percent
@@ -189,8 +201,11 @@ class MeasuresController < ApplicationController
 		end
 	
 		today = Time.now.strftime("%D")
-		filename = "measure-report-" + "#{today}" + ".xls"
-		
+		if @selected_provider
+			filename = "measure-report-" + "#{@selected_provider.npi}-" + "#{today}" + ".xls"	
+		else	
+			filename = "measure-report-" + "#{today}" + ".xls"
+		end
 		data = StringIO.new '';
 		book.write data;
 		send_data(data.string, {
