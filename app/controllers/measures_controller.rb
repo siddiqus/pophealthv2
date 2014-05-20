@@ -117,29 +117,26 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
-	def export_patient
-		type = params['type'] || 'antinumerator'
+	def export_patients
+		type = params['type']
+		
 		book = Spreadsheet::Workbook.new
 		sheet = book.create_worksheet
 		format = Spreadsheet::Format.new :weight => :bold
 		today = Time.now.strftime("%D")
-		
+	
 		# table headers
 		sheet.row(0).push 'MRN', 'First Name', 'Last Name', 'Gender', 'Birthdate'
 		sheet.row(0).default_format = format
-		r = 1
+		r=1;
 		
 		# measure info
 		value_type = "value." + "#{type}";
-		query = {
-			'value.measure_id' => params[:id],
-			'value.sub_id' => params[:sub_id],
-			'value.effective_date' =>,
-			"#{value_type}" => 1
-		} 
+		query = { 'value.measure_id' => params[:measure_id], 'value.sub_id' => params[:sub_id], 'value.effective_date' => @effective_date, "#{value_type}" => 1} 
 				
 		PatientCache.where( query ).each do |pc|
-			sheet.row(r).push pc.value.medical_record_id, pc.value.first, pc.value.last, pc.value.gender, Time.new(pc.value.birthdate).strftime("%m/%d/%Y") 
+			sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
+			r = r+1;
 		end		
 		
 		filename = "patients_" + "#{type}" + "_" + "#{today}" + ".xls"
@@ -153,6 +150,8 @@ class MeasuresController < ApplicationController
 		  :type => 'application/excel',
 		  :filename => filename
 		})
+		
+#		redirect_to measures_patients_path( @definition => params['definition'])
 	end
 
 

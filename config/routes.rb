@@ -30,7 +30,7 @@ PopHealth::Application.routes.draw do
 	get "admin/delete_provider"
 	delete 'admin/remove_practice_patients'
 	post 'admin/remove_practice_patients'
-	
+	post 'measures/export_patients'
 	post "admin/set_user_practice"
 	
 	delete "measures/remove_selections" #added for button, ssiddiqui

@@ -141,11 +141,25 @@
     	<%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
 		</div>
   
-		<div class="btn-group" >
+  	<div class='row-inline' >
+			<div class="btn-group" >
           <%= link_to 'providers', "#{measure_path(@definition['id'], @definition['sub_id'])}/providers", method: 'get', :class => 'tableEdit btn btn-danger', :style =>'width:100px'%> 
           <%= link_to 'parameters', measure_url(@definition['id'], @definition['sub_id']), method: 'get', :class => 'tableEdit btn btn-info', :style =>'width:100px'%> 
-    </div>			
-		
+	    </div>
+	    
+	    <div class="form-inline" style="float:right; margin-right:20px" >
+	    	<%= form_tag measures_export_patients_path(measure_id: @definition['id'], sub_id: @definition['sub_id']) do %>
+					<%= select_tag "type", 
+						options_for_select([							
+							['Numerators', 'NUMER'],
+							['Denominators', 'DENOM'],
+							['Outliers', 'antinumerator']
+						])						
+					%>	
+		 			<%= submit_tag "Export", class: 'btn btn-success' %>
+		 			<% end %>
+		 	</div>			 
+		</div>		
   
   
     <br style="clear:left"/>
