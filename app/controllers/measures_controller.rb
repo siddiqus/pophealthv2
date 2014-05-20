@@ -117,6 +117,45 @@ class MeasuresController < ApplicationController
     generate_report
   end
 
+	def export_patient
+		type = params['type'] || 'antinumerator'
+		book = Spreadsheet::Workbook.new
+		sheet = book.create_worksheet
+		format = Spreadsheet::Format.new :weight => :bold
+		today = Time.now.strftime("%D")
+		
+		# table headers
+		sheet.row(0).push 'MRN', 'First Name', 'Last Name', 'Gender', 'Birthdate'
+		sheet.row(0).default_format = format
+		r = 1
+		
+		# measure info
+		value_type = "value." + "#{type}";
+		query = {
+			'value.measure_id' => params[:id],
+			'value.sub_id' => params[:sub_id],
+			'value.effective_date' =>,
+			"#{value_type}" => 1
+		} 
+				
+		PatientCache.where( query ).each do |pc|
+			sheet.row(r).push pc.value.medical_record_id, pc.value.first, pc.value.last, pc.value.gender, Time.new(pc.value.birthdate).strftime("%m/%d/%Y") 
+		end		
+		
+		filename = "patients_" + "#{type}" + "_" + "#{today}" + ".xls"
+		
+		data = StringIO.new '';
+		book.write data;
+		send_data(data.string, {
+		  :disposition => 'attachment',
+		  :encoding => 'utf8',
+		  :stream => false,
+		  :type => 'application/excel',
+		  :filename => filename
+		})
+	end
+
+
 	# creates spreadsheet of dashboard reports
  	def export_report
   	book = Spreadsheet::Workbook.new
