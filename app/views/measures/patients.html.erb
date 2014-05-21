@@ -130,12 +130,6 @@
 	  </div>
 	</div>
 	
-	<!--
-	  <div id="btnExportExcel" class="exportReport btn btn-info" style="margin-right:40px; float:right" type="button">
-      <i class="icon-download-alt"></i>
-      Export Report
-    </div>
-	 -->
   <div id="dashboardPeriod"  class="span10 row-fluid" >
 		<div>
     	<%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
@@ -148,14 +142,14 @@
 	    </div>
 	    
 	    <div class="form-inline" style="float:right; margin-right:20px" >
-	    	<%= form_tag measures_export_patients_path(measure_id: @definition['id'], sub_id: @definition['sub_id']) do %>
+	    	<%= form_tag measures_export_patients_path(npi: params[:npi], measure_id: @definition['id'], sub_id: @definition['sub_id']) do %>
 					<%= select_tag "type", 
-						options_for_select([							
+						options_for_select([				
 							['Numerators', 'NUMER'],
 							['Denominators', 'DENOM'],
 							['Outliers', 'antinumerator']
 						])						
-					%>	
+					%> 
 		 			<%= submit_tag "Export", class: 'btn btn-success' %>
 		 			<% end %>
 		 	</div>			 

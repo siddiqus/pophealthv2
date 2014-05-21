@@ -132,19 +132,24 @@ class MeasuresController < ApplicationController
 		
 		# measure info
 		value_type = "value." + "#{type}";
-		query = { 'value.measure_id' => params[:measure_id], 'value.sub_id' => params[:sub_id], 'value.effective_date' => @effective_date, "#{value_type}" => 1} 
-			
-		practice = @current_user.practice	;
-				
-		if (@current_user.admin) 		
-			PatientCache.where( query ).each do |pc|
+		query = { 'value.measure_id' => params[:measure_id], 'value.sub_id' => params[:sub_id], 'value.effective_date' => @effective_date, "#{value_type}" => 1} 				
+		cache = PatientCache.where( query )
+		practice = @current_user.practice	;		
+		selected_provider = Provider.where(:npi => params[:npi] ).first
+		
+		if @current_user.admin? 
+			cache.each do |pc|
 				sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
 				r = r+1;
 			end	
 		else
-			PatientCache.where( query ).each do |pc|
-				if Record.where( :medical_record_number => pc.value['medical_record_id'] ).first.practice == practice
-					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
+			cache.each do |pc|
+				pc_record = Record.where( :medical_record_number => pc.value['medical_record_id'] ).first
+				pc_practice = pc_record.practice == practice
+				pc_performer = (pc_record.provider_performances.any? {|perf| perf.provider_id == selected_provider._id});						
+								
+				if pc_practice #&& pc_performer 
+					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
 					r = r+1;
 				end
 			end		
@@ -184,18 +189,24 @@ class MeasuresController < ApplicationController
 		sheet.row(0).default_format = format
 		r = 1
 		
-		selected_provider = @selected_provider  # || Provider.where(:npi => params[:npi]).first
-		providers_for_filter = (@selected_provider.npi)? @selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
-		provider_count = (@selected_provider.npi)? 1 : providers_for_filter.count
+		selected_provider = @selected_provider || Provider.where(:npi => params[:npi]).first
+		providers_for_filter = (selected_provider)? selected_provider._id.to_s : @providers.map{|pv| pv._id.to_s}
 		
 		# populate rows
 		selected_measures.each do |measure|
 			subs_iterator(measure['subs']) do |sub_id|
 				info = measure_info(measure['id'], sub_id)
-				cache = QueryCache.where(:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => provider_count}).first
+
+				if selected_provider != nil
+					query = {:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => [selected_provider._id.to_s] }
+				else
+					query = {:measure_id => measure['id'], :sub_id => sub_id, :effective_date => @effective_date, 'filters.providers' => {'$all' => providers_for_filter}, 'filters.providers' => {'$size' => providers_for_filter.count} }
+				end
+				
+				cache = MONGO_DB['query_cache'].find(query).first
 				percent =  percentage(cache['NUMER'].to_f, cache['DENOM'].to_f)
 				full_percent = percentage(cache['full_numer'].to_f, cache['full_denom'].to_f)
-				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent, full_percent
+				sheet.row(r).push info[:nqf_id], sub_id, info[:name], info[:subtitle], cache['NUMER'], cache['DENOM'], cache['DENEX'] , percent, full_percent 
 				r = r + 1;
 			end
 		end
