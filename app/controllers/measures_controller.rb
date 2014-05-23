@@ -12,16 +12,6 @@ class MeasuresController < ApplicationController
   	setup_filters
   	set_up_environment 
   end
-  
-#  add_breadcrumb_dynamic([:selected_provider], only: %w{index show patients}) {|data| provider = data[:selected_provider]; {title: (provider ? provider.full_name : nil), url: "#{Rails.configuration.relative_url_root}/?npi=#{(provider) ? provider.npi : nil}"}}
-#  add_breadcrumb_dynamic([:definition], only: %w{providers}) do|data| 
-#    measure = data[:definition];
-#    if measure
-#      {title: "#{measure['endorser']}#{measure['id']}" + (measure['sub_id'] ? "#{measure['sub_id']}" : ''), url: "#{Rails.configuration.relative_url_root}/measure/#{measure['id']}"+(measure['subid'] ? "/#{measure['sub_id']}" : '')+"/providers"}
-#    else
-#      {}
-#    end
-#  end
 
   add_breadcrumb_dynamic([:definition, :selected_provider], only: %w{show patients})  do |data| 
     measure = data[:definition]; provider = data[:selected_provider]
@@ -458,17 +448,16 @@ class MeasuresController < ApplicationController
     }
   end
     
+    
   def set_up_environment
-    provider_npi = params[:npi]
+    provider_npi = params[:npi] || @current_user.npi
 		if @current_user.admin? && provider_npi
     	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count   
     elsif @current_user.admin?		
-#			@patient_count = Record.provider_performance_between(@effective_date).count
 			@patient_count = Record.all.count
     elsif @selected_provider
       @patient_count = @selected_provider.records(@effective_date).count
     elsif @current_user.staff_role?
-#			@patient_count = Record.valid_practice_patients(@effective_date, "#{current_user.practice}").count
 			@patient_count = Record.where(practice: "#{current_user.practice}").count
     	# for teams
 #      @patient_count = Record.provider_in(Provider.generate_user_provider_ids(current_user)).count
