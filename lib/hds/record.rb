@@ -38,7 +38,7 @@ class Record
 					data.send(section).each do |nex|
 						exists = false
 						existing.send(section).each do |ex|
-							if nex.type.code == ex.type.code && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time)) #nex.start_time == ex.start_time
+							if nex.type.code == ex.type.code && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time) || (nex.end_time && nex.end_time == ex.end_time)) #nex.start_time == ex.start_time
 								exists = true
 							end
 							break if exists
@@ -51,7 +51,7 @@ class Record
 					data.send(section).each do |nex|
 						exists = false
 						existing.send(section).each do |ex|
-							if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time)) #nex.time == ex.time
+							if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time) || (nex.end_time && nex.end_time == ex.end_time)) #nex.time == ex.time
 								exists = true
 							end
 							break if exists
@@ -64,7 +64,7 @@ class Record
 					data.send(section).each do |nex|
 						exists = false
 						existing.send(section).each do |ex|
-							if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time))
+							if nex.cda_identifier.root == ex.cda_identifier.root && nex.cda_identifier.extension == ex.cda_identifier.extension && ( (nex.start_time && nex.start_time==ex.start_time) || (nex.time && nex.time == ex.time) || (nex.end_time && nex.end_time == ex.end_time))
 								exists = true
 							end
 							break if exists
