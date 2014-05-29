@@ -127,22 +127,40 @@ class MeasuresController < ApplicationController
 		practice = @current_user.practice	;		
 		selected_provider = Provider.where(:npi => params[:npi] ).first
 		
-		if @current_user.admin? 
+		if @current_user.admin? && !(selected_provider) 
 			cache.each do |pc|
 				sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
 				r = r+1;
 			end	
-		else
+		elsif @current_user.provider? || selected_provider
+			cache.each do |pc|
+				npi = (selected_provider)? selected_provider.npi : @current_user.npi
+			  prov = Provider.where(:npi => npi).first
+			  if pc.value['provider_performances'].any?{ |perf| perf['provider_id'] == prov._id }
+			  	sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
+					r = r+1;
+			  end
+			end
+		elsif @current_user.staff_role? && (selected_provider) # if staff
 			cache.each do |pc|
 				pc_record = Record.where( :medical_record_number => pc.value['medical_record_id'] ).first
 				pc_practice = pc_record.practice == practice
 				pc_performer = (pc_record.provider_performances.any? {|perf| perf.provider_id == selected_provider._id});						
 								
-				if pc_practice #&& pc_performer 
+				if pc_practice && pc_performer 
 					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
 					r = r+1;
 				end
 			end		
+		elsif @current_user.staff_role? && !(selected_provider) # if staff
+			cache.each do |pc|
+				pc_record = Record.where( :medical_record_number => pc.value['medical_record_id'] ).first
+				pc_practice = pc_record.practice == practice												
+				if pc_practice 
+					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
+					r = r+1;
+				end
+			end
 		end
 		
 		# if admin, then do all of them. else practice wise
