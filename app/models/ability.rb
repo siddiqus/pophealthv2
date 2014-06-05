@@ -23,7 +23,7 @@ class Ability
     if user.admin?
       can :manage, :all
     elsif user.staff_role?
-      can :read, HealthDataStandards::CQM::Measure if user.practice != nil #Measure
+      can :read, HealthDataStandards::CQM::Measure if user.practice != nil && Provider.all.count != 0 #Measure
       can :read, Record do |rec|
       	rec.practice == user.practice
       end

@@ -119,14 +119,7 @@ class AdminController < ApplicationController
 		unique = empty_providers.uniq.sort # * "\n"
 		$missing_info_text = unique
 		missing_info.write(unique * "\n")
-
-#		Record.all.each do |rec|
-#			rec.provider_performances.each do |prov| #.any_in('provider_id' => provs).delete
-#				if Provider.where(:_id => prov.provider_id).count == 0
-#					prov.delete
-#				end
-#			end
-#		end						
+	
 		Provider.where(:npi => nil).delete
 			
   	redirect_to action: 'patients'
