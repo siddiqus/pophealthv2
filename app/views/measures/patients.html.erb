@@ -107,6 +107,8 @@
 <% end %>
 
 <div id="pageContent" class="row-fluid" style="margin-left:20px; margin-right:20px">
+	
+	
   <div style="align:left;" class='span2' >  
 	  <div>
 	    <%= render :partial => 'shared/measure_metrics', locals: {numerator: (@result ? @result['numerator'] : 0), denominator: (@result ? @result['denominator'] : 0)} %>
@@ -132,6 +134,10 @@
 	
   <div id="dashboardPeriod"  class="span10 row-fluid" >
 		<div>
+			<% if @selected_provider %>
+				<h3> Provider: <%= @selected_provider.full_name %> </h3>
+			<% end %>
+			
     	<%= render :partial => 'shared/measure_title', locals: {measure: @definition, start_date: @period_start, effective_date: @effective_date }%>
 		</div>
   
