@@ -132,15 +132,6 @@ class MeasuresController < ApplicationController
 				sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
 				r = r+1;
 			end	
-		elsif @current_user.provider? || selected_provider
-			cache.each do |pc|
-				npi = (selected_provider)? selected_provider.npi : @current_user.npi
-			  prov = Provider.where(:npi => npi).first
-			  if pc.value['provider_performances'].any?{ |perf| perf['provider_id'] == prov._id }
-			  	sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
-					r = r+1;
-			  end
-			end
 		elsif @current_user.staff_role? && (selected_provider) # if staff
 			cache.each do |pc|
 				pc_record = Record.where( :medical_record_number => pc.value['medical_record_id'] ).first
@@ -160,6 +151,15 @@ class MeasuresController < ApplicationController
 					sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
 					r = r+1;
 				end
+			end
+		elsif @current_user.provider? || selected_provider
+			cache.each do |pc|
+				npi = (selected_provider)? selected_provider.npi : @current_user.npi
+			  prov = Provider.where(:npi => npi).first
+			  if pc.value['provider_performances'].any?{ |perf| perf['provider_id'] == prov._id }
+			  	sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D")
+					r = r+1;
+			  end
 			end
 		end
 		
