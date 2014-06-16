@@ -1,8 +1,0 @@
-
-
-<%= render partial: 'team_list' %>
-
-$(".modal").modal({keyboard: true});
-
-
-

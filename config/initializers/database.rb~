@@ -1,1 +1,0 @@
-MongoMapper.database = "pophealth_#{Rails.env}"

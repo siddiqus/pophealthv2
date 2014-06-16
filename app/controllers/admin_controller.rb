@@ -165,6 +165,9 @@ class AdminController < ApplicationController
   def update_npi
     user = User.by_username(params[:username]);
     user.update_attribute(:npi, params[:npi]);
+    if Provider.valid_npi?(params[:npi]) 
+    	user.update_attribute(:provider, true)
+    end
     render :text => "true"
   end
   
