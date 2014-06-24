@@ -468,7 +468,8 @@ class MeasuresController < ApplicationController
     
     
   def set_up_environment
-    provider_npi = params[:npi] || @current_user.npi
+    user_npi = Provider.valid_npi?(@current_user.npi)? @current_user.npi : nil
+    provider_npi = params[:npi] || user_npi
 		if @current_user.admin? && provider_npi
     	@patient_count = Provider.where(:npi => "#{provider_npi}").first.records(@effective_date).count   
     elsif @current_user.admin?		
