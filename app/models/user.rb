@@ -8,9 +8,8 @@ class User
   
   DEFAULT_EFFECTIVE_DATE = Time.gm(2012, 7, 1)
   
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable, :timeoutable, :lockable
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
-
 
    ## Database authenticatable
    field :encrypted_password, :type => String
@@ -29,6 +28,10 @@ class User
    field :current_sign_in_ip, :type => String
    field :last_sign_in_ip,    :type => String
 
+	 ## Timeoutable
+	 field :failed_attempts, type: Integer, default: 0
+	 field :unlock_token, type: String
+	 field :locked_at, type: Time
 
   :remember_created_at
   :reset_password_token
