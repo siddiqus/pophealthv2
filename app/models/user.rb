@@ -8,7 +8,7 @@ class User
   
   DEFAULT_EFFECTIVE_DATE = Time.gm(2012, 7, 1)
   
-  devise :database_authenticatable, :registerable, :timeoutable, :lockable
+  devise :database_authenticatable, :registerable, :timeoutable, :lockable,
          :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:username]
 
    ## Database authenticatable
