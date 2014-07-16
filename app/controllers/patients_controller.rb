@@ -11,27 +11,27 @@ class PatientsController < ApplicationController
   def show
     respond_to do |wants|
       wants.html {}
-      wants.json do
-        @outliers = []
-        @measures = HealthDataStandards::CQM::Measure.all #Measure.list
-        @measures.each do |measure|
-          executor = QME::MapReduce::Executor.new(measure['id'], measure['sub_id'], {'effective_date' => @effective_date})
-          result = executor.get_patient_result(@patient.medical_record_number)
-          if result['antinumerator']
-            @outliers << measure
-          end
-        end
+#      wants.json do
+#        @outliers = []
+#        @measures = HealthDataStandards::CQM::Measure.all #Measure.list
+#        @measures.each do |measure|
+#          executor = QME::MapReduce::Executor.new(measure['id'], measure['sub_id'], {'effective_date' => @effective_date})
+#          result = executor.get_patient_result(@patient.medical_record_number)
+#          if result['antinumerator']
+#            @outliers << measure
+#          end
+#        end
 
-        @manual_exclusions = ManualExclusion.for_record(@patient).all.map do |exclusion|
-          Measure.get(exclusion.measure_id, exclusion.sub_id).first
-        end
+#        @manual_exclusions = ManualExclusion.for_record(@patient).all.map do |exclusion|
+#          Measure.get(exclusion.measure_id, exclusion.sub_id).first
+#        end
 
-        @outliers.delete_if do |outlier|
-          @manual_exclusions.find { |exclusion| exclusion['measure_id']==outlier['measure_id'] && exclusion['sub_id']==outlier['sub_id'] }
-        end
+#        @outliers.delete_if do |outlier|
+#          @manual_exclusions.find { |exclusion| exclusion['measure_id']==outlier['measure_id'] && exclusion['sub_id']==outlier['sub_id'] }
+#        end
 
-        render json: {exclusions: @manual_exclusions, outliers: @outliers}
-      end
+#        render json: {exclusions: @manual_exclusions, outliers: @outliers}
+#      end
     end
   end
   
@@ -80,6 +80,7 @@ class PatientsController < ApplicationController
     redirect_to manage_provider_patients_path(@provider)
   end
   
+ 
   private
   
   def load_patient
@@ -90,5 +91,7 @@ class PatientsController < ApplicationController
   def validate_authorization!
     authorize! :read, Record
   end
+
+	
 
 end

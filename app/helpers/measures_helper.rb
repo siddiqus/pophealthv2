@@ -63,7 +63,31 @@ module MeasuresHelper
       0
     end
   end
-    
+  
+  # get race name from code
+  def get_race_name(param)
+		rec = ""
+		Race.all.each do |race|
+			race["codes"].each do |code|
+		  	if code == param
+		  		rec = race.name
+		  	end
+		  end 
+		end
+		rec
+	end
+	
+	def get_ethnicity_name(param)
+		rec = ""
+		Ethnicity.all.each do |eth|
+			eth["codes"].each do |code|
+		  	if code == param
+		  		rec = eth.name
+		  	end
+		  end 
+		end
+		rec
+	end
   # def numerator_width(results)
   #     # raise results['numerator'].inspect
   #     if results['numerator']

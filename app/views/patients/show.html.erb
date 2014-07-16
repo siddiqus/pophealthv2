@@ -55,9 +55,9 @@
         <dt>sex</dt>
         <dd><%= @patient.gender %></dd>
         <dt>race</dt>
-        <dd><%= @patient.race["name"] if @patient.race %></dd>
+        <dd><%= @patient.race["code"] ? get_race_name(@patient.race["code"].to_s) : "N/A" %></dd>
         <dt>ethnicity</dt>
-        <dd><%= @patient.ethnicity["name"] if @patient.ethnicity %></dd>
+        <dd><%= @patient.ethnicity["code"] ? get_ethnicity_name(@patient.ethnicity["name"].to_s) : "N/A" %></dd>
         <dt>languages</dt>
         <dd><%= @patient.language_names.join%></dd>        
       </dl>
