@@ -129,7 +129,7 @@ class MeasuresController < ApplicationController
 		
 		if @current_user.admin? && !(selected_provider) 
 			cache.each do |pc|
-				sheet.row(r).push pc.value['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
+				sheet.row(r).push pc.vanolue['medical_record_id'], pc.value['first'], pc.value['last'], pc.value['gender'], Time.at(pc.value['birthdate']).strftime("%D") 
 				r = r+1;
 			end	
 		elsif @current_user.staff_role? && (selected_provider) # if staff
