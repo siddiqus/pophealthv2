@@ -80,7 +80,7 @@ class RecordImporter
     end
 		
 		patient_data[:practice] = "#{practice}"
-    record = Record.update_or_create(patient_data)
+    record = Record.create_or_replace(patient_data)
     record.provider_performances = providers
     record.save
     
