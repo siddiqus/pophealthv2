@@ -13,6 +13,7 @@ class AdminController < ApplicationController
     @query_cache_count = QueryCache.all.count
     @patient_cache_count = PatientCache.all.count
   	@provider_count = Provider.all.count
+  	@practices = Practice.asc(:name).map {|p| p.name }
 
   	import_log = Log.where(:event => 'patient record imported')
   	med_id = import_log.last.medical_record_number unless import_log.count == 0
