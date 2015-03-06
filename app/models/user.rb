@@ -76,7 +76,7 @@ class User
 
   validates :email, presence: true, length: {minimum: 3, maximum: 254}, format: {with: /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i}
   validates :username, :presence => true, length: {minimum: 3, maximum: 254}
-  validates :password_complexity
+  validate :password_complexity
   
   def password_complexity
     if password.present? and not password.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$/)

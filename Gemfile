@@ -8,8 +8,8 @@ gem 'rack', '1.4.5'
 gem 'macaddr', '1.6.1'
 gem 'hashdiff', '0.2.0'
 
-#gem 'quality-measure-engine', '~> 2.3.0'
-#gem "health-data-standards", '~> 3.0.2'
+#gem 'quality-measure-engine', '2.3.0'
+#gem "health-data-standards", '3.2.7'
 #gem 'quality-measure-engine', '2.1.0', :git => 'https://github.com/pophealth/quality-measure-engine.git', :branch => 'develop'
 #gem "health-data-standards", '3.2.7', :git => 'https://github.com/projectcypress/health-data-standards.git', :branch => 'develop'
 

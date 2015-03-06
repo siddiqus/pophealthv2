@@ -81,7 +81,32 @@ class RecordImporter
 		
 		patient_data[:practice] = "#{practice}"
     record = Record.create_or_replace(patient_data)
-    record.provider_performances = providers
+    npi_providers = providers.map {|perf| perf}
+    if practice   
+      providers.each do |perf|
+        prov = perf.provider       
+        if ! prov.practice
+          prov.practice = practice
+          prov.save
+        elsif prov.practice == practice
+          next
+        else
+          prov_check = Provider.where({'cda_identifiers.extension' => prov.npi, :practice => practice})         
+          if prov_check.count > 0
+            npi_providers.delete(perf)
+            npi_providers << ProviderPerformance.new(start_date: perf.start_date, end_date: perf.end_date, provider: prov_check.first)
+          else            
+            new_prov = prov.clone
+            new_prov.practice = practice
+            new_prov.save
+            npi_providers.delete(perf)
+            npi_providers << ProviderPerformance.new(start_date: perf.start_date, end_date: perf.end_date, provider: new_prov)
+          end
+        end 
+      end
+    end
+    
+    record.provider_performances = npi_providers
     record.save
     
     {status: 'success', message: 'patient imported', status_code: 201, record: record}
