@@ -30,7 +30,8 @@ class Ability
       	rec.practice == user.practice
       end
       can :manage, Provider do |prov|
-      	prov.records.where(:practice => user.practice).count > 0
+        prov.practice == user.practice      	
+#      	prov.records.where(:practice => user.practice).count > 0
       end
       can :manage, :providers
       can :manage, Team

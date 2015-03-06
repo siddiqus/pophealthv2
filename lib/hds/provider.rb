@@ -17,7 +17,8 @@ class Provider
     if current_user.admin?
       Provider.order_by(:family_name.asc).all
     elsif current_user.staff_role?
-    	by_practice(current_user.practice)
+#    	by_practice(current_user.practice)
+      Provider.where(:practice => current_user.practice)
 		elsif current_user.provider?
 			Provider.where(:npi => current_user.npi)
     else
