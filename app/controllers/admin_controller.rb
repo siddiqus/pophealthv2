@@ -122,7 +122,18 @@ class AdminController < ApplicationController
 		missing_info.write(unique * "\n")
 	
 		Provider.where(:npi => nil).delete
-			
+	
+    # insert medication status code
+    query = { '$or' => [{'conditions.codes.ICD-10-CM' => {'$in' => ["J45.30", "J45.31", "J45.32", "J45.40", "J45.41", "J45.42", "J45.50", "J45.51", "J45.52"]}},{'conditions.codes.ICD-9-CM' => {'$regex' => '493.*'}}]}
+    Record.where(query).each do |rec|
+      rec.medications.each do |med|
+        if med.status_code == nil || med.status_code["HL7 ActStatus"] != ["dispensed"]
+          med.status_code = {"HL7 ActStatus" => ["dispensed"]}
+        end
+      end
+      rec.save
+    end
+
   	redirect_to action: 'patients'
   end
 
