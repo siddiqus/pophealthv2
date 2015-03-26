@@ -130,6 +130,9 @@ class AdminController < ApplicationController
         if med.status_code == nil || med.status_code["HL7 ActStatus"] != ["dispensed"]
           med.status_code = {"HL7 ActStatus" => ["dispensed"]}
         end
+        if med.end_time == nil
+          med.end_time = med.start_time
+        end
       end
       rec.save
     end
